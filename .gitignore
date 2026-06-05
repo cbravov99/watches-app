@@ -1,0 +1,3 @@
+push.sh
+deploy-github.sh
+*.sql
