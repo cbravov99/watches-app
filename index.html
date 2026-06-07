@@ -15,60 +15,41 @@
       --bg:#0a0a0a; --bg2:#141414; --bg3:#1e1e1e; --border:#2a2a2a;
       --gold:#c9a84c; --gold2:#e8c97a; --text:#f0f0f0; --text2:#888;
       --green:#4ade80; --red:#f87171; --blue:#60a5fa; --purple:#c084fc;
+      --orange:#fb923c;
       --nav-h:68px; --safe-bot:env(safe-area-inset-bottom,0px);
     }
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden}
-
-    /* HEADER */
     header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 18px 10px;padding-top:calc(14px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between}
     header h1{font-size:19px;font-weight:700;letter-spacing:1.5px;color:var(--gold)}
     #header-sub{font-size:11px;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-top:1px}
     #sync-status{font-size:11px;color:var(--text2)}
-
-    /* MAIN */
     main{padding:16px 14px;padding-bottom:calc(var(--nav-h) + var(--safe-bot) + 20px);max-width:600px;margin:0 auto}
-
-    /* VIEWS */
     .view{display:none;animation:fadeIn .18s ease}
     .view.active{display:block}
     @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-
-    /* BOTTOM NAV */
     nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(12,12,12,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;height:calc(var(--nav-h) + var(--safe-bot));padding-bottom:var(--safe-bot)}
     nav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--text2);transition:color .15s;font-size:10px;letter-spacing:.4px;text-transform:uppercase;font-weight:600}
     nav button.active{color:var(--gold)}
     nav button svg{width:21px;height:21px}
-
-    /* CARDS */
     .card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px}
     .card-sm{padding:12px}
-
-    /* STATS GRID */
     .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
     .stat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px}
     .stat .lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
     .stat .val{font-size:21px;font-weight:700;color:var(--gold2)}
     .stat .sub{font-size:11px;color:var(--text2);margin-top:2px}
-
-    /* SECTION TITLE */
     .sec-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;margin-top:2px}
-
-    /* BADGES */
     .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.4px}
     .b-green{background:rgba(74,222,128,.15);color:var(--green)}
     .b-gold{background:rgba(201,168,76,.15);color:var(--gold2)}
     .b-blue{background:rgba(96,165,250,.15);color:var(--blue)}
     .b-red{background:rgba(248,113,113,.15);color:var(--red)}
     .b-purple{background:rgba(192,132,252,.15);color:var(--purple)}
-    .b-orange{background:rgba(251,146,60,.18);color:#fb923c}
-    /* Devuelto card highlight */
-    .watch-card.card-devuelto{border-left:4px solid #fb923c;opacity:.85}
-    /* Cuenta badges */
+    .b-orange{background:rgba(251,146,60,.18);color:var(--orange)}
+    .watch-card.card-devuelto{border-left:4px solid var(--orange) !important;opacity:.9}
     .c-carlos{background:rgba(96,165,250,.18);color:var(--blue);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
     .c-marta{background:rgba(192,132,252,.18);color:var(--purple);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
-
-    /* WATCH CARD */
     .watch-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px;cursor:pointer;transition:border-color .15s;border-left:4px solid var(--border)}
     .watch-card:active{border-color:var(--gold)}
     .watch-card.card-carlos{border-left:4px solid var(--blue)}
@@ -77,16 +58,11 @@
     .watch-card .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
     .watch-card .price{font-size:17px;font-weight:700;color:var(--gold2)}
     .watch-card .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:11px;color:var(--text2)}
-    /* Cuenta label prominent */
     .cuenta-label{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:6px}
     .cuenta-carlos{background:rgba(96,165,250,.2);color:var(--blue);border:1px solid rgba(96,165,250,.3)}
     .cuenta-marta{background:rgba(192,132,252,.2);color:var(--purple);border:1px solid rgba(192,132,252,.3)}
-
-    /* PROFIT */
     .p-pos{color:var(--green);font-weight:700}
     .p-neg{color:var(--red);font-weight:700}
-
-    /* FORM */
     .form-group{margin-bottom:12px}
     .form-group label{display:block;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
     .form-group input,.form-group select,.form-group textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-size:15px;outline:none;transition:border-color .15s;-webkit-appearance:none}
@@ -94,16 +70,14 @@
     .form-group select option{background:var(--bg3)}
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-
-    /* BUTTONS */
     .btn{width:100%;padding:14px;border-radius:12px;border:none;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .15s;-webkit-appearance:none}
     .btn:active{opacity:.7}
     .btn-gold{background:var(--gold);color:#000}
     .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
     .btn-green{background:rgba(74,222,128,.2);color:var(--green);border:1px solid rgba(74,222,128,.3)}
+    .btn-red{background:rgba(248,113,113,.2);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+    .btn-orange{background:rgba(251,146,60,.2);color:var(--orange);border:1px solid rgba(251,146,60,.3)}
     .btn-sm{width:auto;padding:7px 16px;font-size:13px;border-radius:9px}
-
-    /* SOCIO CARD */
     .socio-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:8px}
     .socio-card .name{font-size:16px;font-weight:700;margin-bottom:10px}
     .sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
@@ -112,54 +86,36 @@
     .sum-row .v{font-size:13px;font-weight:700}
     .progress-bar{height:5px;background:var(--bg3);border-radius:3px;margin-top:10px}
     .progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s}
-
-    /* LOADING */
     .loading{text-align:center;padding:40px;color:var(--text2);font-size:13px}
     .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px}
     @keyframes spin{to{transform:rotate(360deg)}}
-
-    /* EMPTY */
     .empty{text-align:center;padding:36px 16px;color:var(--text2)}
     .empty .icon{font-size:36px;margin-bottom:8px}
-
-    /* DIVIDER */
     .divider{height:1px;background:var(--border);margin:12px 0}
-
-    /* TOAST */
-    #toast{position:fixed;bottom:calc(var(--nav-h) + var(--safe-bot) + 14px);left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+    #toast{position:fixed;bottom:calc(var(--nav-h) + var(--safe-bot) + 14px);left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;max-width:90vw;text-overflow:ellipsis;overflow:hidden}
     #toast.show{opacity:1}
-
-    /* MODAL */
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
     .modal-overlay.open{opacity:1;pointer-events:all}
-    .modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:600px;padding:20px 16px;padding-bottom:calc(20px + var(--safe-bot));transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);max-height:88vh;overflow-y:auto}
+    .modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:600px;padding:20px 16px;padding-bottom:calc(20px + var(--safe-bot));transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);max-height:92vh;overflow-y:auto}
     .modal-overlay.open .modal{transform:translateY(0)}
     .modal h2{font-size:17px;font-weight:700;margin-bottom:14px;color:var(--gold2)}
     .modal-close{float:right;background:var(--bg3);border:none;color:var(--text2);border-radius:7px;padding:5px 12px;cursor:pointer;font-size:12px}
-
-    /* FILTER TABS */
     .filter-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
     .filter-tabs::-webkit-scrollbar{display:none}
     .ftab{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
     .ftab.active{background:var(--gold);border-color:var(--gold);color:#000}
-
-    /* SEARCH */
     .search-wrap{position:relative;margin-bottom:12px}
     .search-wrap input{padding-left:38px}
     .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text2)}
-
-    /* SELL / EDIT SELECT LIST */
     .sell-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:6px;cursor:pointer;transition:border-color .15s;border-left:3px solid var(--border)}
     .sell-item:active,.sell-item.selected{border-color:var(--gold);border-left-color:var(--gold)}
     .sell-item.si-carlos{border-left-color:var(--blue)}
     .sell-item.si-marta{border-left-color:var(--purple)}
     .sell-item .si-model{font-size:13px;font-weight:600;margin-bottom:4px}
     .sell-item .si-meta{font-size:11px;color:var(--text2)}
-    /* ADD/EDIT TABS */
     .view-tabs{display:flex;gap:0;margin-bottom:16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:4px}
     .view-tab{flex:1;padding:9px;border-radius:9px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
     .view-tab.active{background:var(--gold);color:#000}
-    /* COLLAPSIBLE STAT CARD */
     .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden}
     .stat-card-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;user-select:none}
     .stat-card-header:active{opacity:.8}
@@ -169,15 +125,35 @@
     .stat-card.open .stat-card-chevron{transform:rotate(180deg)}
     .stat-card-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border)}
     .stat-card.open .stat-card-body{display:block}
-    /* RANGE BAR */
     .range-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
     .range-label{font-size:11px;color:var(--text2);width:52px;flex-shrink:0}
     .range-bar-wrap{flex:1;background:var(--bg3);border-radius:3px;height:6px}
     .range-bar-fill{height:100%;border-radius:3px;background:var(--gold);transition:width .4s}
     .range-count{font-size:11px;color:var(--text2);width:24px;text-align:right;flex-shrink:0}
-    /* AGING DOT */
     .aging-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
-    .aging-green{background:var(--green)}.aging-yellow{background:#facc15}.aging-red{background:var(--red)}
+    .aging-green{background:var(--green)}.aging-yellow{background:#facc15}.aging-orange{background:var(--orange)}.aging-red{background:var(--red)}
+    /* Bar chart */
+    .bar-chart{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+    .bar-row{display:flex;align-items:center;gap:8px}
+    .bar-label{font-size:10px;color:var(--text2);width:38px;flex-shrink:0;text-align:right}
+    .bar-track{flex:1;background:var(--bg3);border-radius:3px;height:16px;position:relative;overflow:hidden}
+    .bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s}
+    .bar-val{font-size:10px;color:var(--text2);width:52px;flex-shrink:0;text-align:right}
+    /* Sort row */
+    .sort-row{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px}
+    .sort-row::-webkit-scrollbar{display:none}
+    .stab{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:11px;font-weight:600;cursor:pointer}
+    .stab.active{background:var(--bg3);border-color:var(--gold);color:var(--gold)}
+    /* Collapsible section in socios */
+    .toggle-section{cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+    .toggle-section-body{display:none}
+    .toggle-section-body.open{display:block}
+    /* Ventas filter row */
+    .vfrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+    .vfrow select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px;-webkit-appearance:none;cursor:pointer}
+    /* Delete btn in movimientos */
+    .mov-del{background:none;border:none;color:var(--text2);font-size:14px;cursor:pointer;padding:4px 8px;border-radius:6px}
+    .mov-del:active{color:var(--red)}
   </style>
 </head>
 <body>
@@ -198,34 +174,66 @@
 
   <!-- STOCK -->
   <div class="view" id="view-stock">
-    <div class="filter-tabs">
-      <button class="ftab active" onclick="setStockFilter('activo,listado,reservado',this)">En stock</button>
-      <button class="ftab" onclick="setStockFilter('activo',this)">Activo</button>
-      <button class="ftab" onclick="setStockFilter('listado',this)">Listado</button>
-      <button class="ftab" onclick="setStockFilter('reservado',this)">Reservado</button>
-      <button class="ftab" onclick="setStockFilter('devuelto',this)" style="color:#fb923c">Devueltos</button>
-      <button class="ftab" onclick="setStockFilter('todos',this)">Todos</button>
+    <div class="filter-tabs" id="stock-filter-tabs">
+      <button class="ftab active" data-filter="activo,listado,reservado,devuelto" onclick="setStockFilter('activo,listado,reservado,devuelto',this)">Todos stock</button>
+      <button class="ftab" data-filter="activo" onclick="setStockFilter('activo',this)">Activo</button>
+      <button class="ftab" data-filter="listado" onclick="setStockFilter('listado',this)">Listado</button>
+      <button class="ftab" data-filter="reservado" onclick="setStockFilter('reservado',this)">Reservado</button>
+      <button class="ftab" style="color:var(--orange)" data-filter="devuelto" onclick="setStockFilter('devuelto',this)">Devueltos</button>
+    </div>
+    <!-- Advanced filters -->
+    <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+      <select id="stock-cuenta-filter" onchange="renderStock()" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px;-webkit-appearance:none;flex:1">
+        <option value="">Cuenta: Todas</option>
+        <option value="Carlos">Carlos</option>
+        <option value="Marta">Marta</option>
+      </select>
+      <select id="stock-age-filter" onchange="renderStock()" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px;-webkit-appearance:none;flex:1">
+        <option value="">Antigüedad: Todas</option>
+        <option value="lt30">&lt;30 días</option>
+        <option value="30-60">30-60 días</option>
+        <option value="gt60">&gt;60 días</option>
+      </select>
+    </div>
+    <div class="sort-row">
+      <span style="font-size:11px;color:var(--text2);line-height:28px;flex-shrink:0">Ordenar:</span>
+      <button class="stab active" id="ss-fecha" onclick="setStockSort('fecha',this)">Fecha</button>
+      <button class="stab" id="ss-coste" onclick="setStockSort('coste',this)">Coste</button>
+      <button class="stab" id="ss-dias" onclick="setStockSort('dias',this)">Días</button>
     </div>
     <div class="search-wrap">
       <svg class="search-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" placeholder="Buscar modelo..." id="stock-search" oninput="renderStock()">
     </div>
+    <div id="stock-summary" style="margin-bottom:10px"></div>
     <div id="stock-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
   </div>
 
   <!-- VENTAS -->
   <div class="view" id="view-ventas">
-    <button class="btn btn-green" style="margin-bottom:14px" onclick="openSellModal()">
-      + Registrar nueva venta
-    </button>
+    <button class="btn btn-green" style="margin-bottom:14px" onclick="openSellModal()">+ Registrar nueva venta</button>
+    <!-- Filters -->
+    <div class="vfrow">
+      <select id="v-filter-mes" onchange="renderVentas()" style="flex:1">
+        <option value="">Todos los meses</option>
+      </select>
+      <select id="v-filter-plat" onchange="renderVentas()" style="flex:1">
+        <option value="">Todas las plataformas</option>
+      </select>
+    </div>
     <div id="ventas-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
+  </div>
+
+  <!-- ESTADÍSTICAS -->
+  <div class="view" id="view-stats">
+    <div id="stats-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
   </div>
 
   <!-- AÑADIR / EDITAR -->
   <div class="view" id="view-add">
     <div class="view-tabs">
-      <button class="view-tab active" id="tab-nuevo" onclick="switchAddTab('nuevo')">+ Nuevo reloj</button>
-      <button class="view-tab" id="tab-editar" onclick="switchAddTab('editar')">✏️ Editar reloj</button>
+      <button class="view-tab active" id="tab-nuevo" onclick="switchAddTab('nuevo')">+ Nuevo</button>
+      <button class="view-tab" id="tab-editar" onclick="switchAddTab('editar')">✏️ Editar</button>
     </div>
 
     <!-- TAB NUEVO -->
@@ -241,13 +249,8 @@
               <label>Plataforma compra</label>
               <select name="plataforma_compra">
                 <option value="">— Seleccionar —</option>
-                <option>Chrono24</option>
-                <option>eBay</option>
-                <option>Vinted</option>
-                <option>Catawiki</option>
-                <option>Reddit</option>
-                <option>Japón</option>
-                <option>Otro</option>
+                <option>Chrono24</option><option>eBay</option><option>Vinted</option>
+                <option>Catawiki</option><option>Reddit</option><option>Japón</option><option>Otro</option>
               </select>
             </div>
             <div class="form-group">
@@ -352,7 +355,7 @@
 <nav>
   <button class="active" onclick="showView('dashboard',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-    Dashboard
+    Inicio
   </button>
   <button onclick="showView('stock',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M12 5V3M12 21v-2M5 12H3M21 12h-2"/></svg>
@@ -361,6 +364,10 @@
   <button onclick="showView('ventas',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
     Ventas
+  </button>
+  <button onclick="showView('stats',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+    Stats
   </button>
   <button onclick="showView('add',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
@@ -384,46 +391,44 @@
   <div class="modal" id="sell-content"></div>
 </div>
 
+<!-- DEVUELTO MODAL -->
+<div class="modal-overlay" id="dev-overlay" onclick="closeOverlay('dev-overlay',event)">
+  <div class="modal" id="dev-content"></div>
+</div>
+
 <!-- APORTACIÓN MODAL -->
 <div class="modal-overlay" id="aport-overlay" onclick="closeOverlay('aport-overlay',event)">
   <div class="modal" id="aport-content"></div>
 </div>
 
 <script>
-const SURL = 'https://ocgzwbnuesjuagwbohtf.supabase.co';
-const SKEY = 'sb_publishable_H70ojBN_dEsaBzicie13Kg_2JzTDFJD';
-const H = {'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':'return=representation'};
+const SURL='https://ocgzwbnuesjuagwbohtf.supabase.co';
+const SKEY='sb_publishable_H70ojBN_dEsaBzicie13Kg_2JzTDFJD';
+const H={'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':'return=representation'};
 
 let ops=[], socios=[], movs=[];
-let stockFilter='activo,listado,reservado';
+let stockFilter='activo,listado,reservado,devuelto';
+let stockSort='fecha';
 
+/* ── HTTP helpers ── */
 async function q(ep,opt={}){
-  // Destructure headers from opt to prevent ...opt from overwriting merged headers
-  const {headers:optH={}, ...restOpt}=opt;
-  const hNoPref={...H,...optH};
-  // For DELETE and simple PATCH we don't need Prefer:return=representation
-  if(restOpt.method==='DELETE'||restOpt.method==='PATCH') delete hNoPref['Prefer'];
-  const r=await fetch(SURL+'/rest/v1/'+ep,{headers:hNoPref,...restOpt});
-  if(!r.ok){
-    const e=await r.text();
-    console.error('Supabase error',r.status,ep,e);
-    throw new Error(r.status+': '+e);
-  }
+  const {headers:optH={},...restOpt}=opt;
+  const hh={...H,...optH};
+  if(restOpt.method==='DELETE'||restOpt.method==='PATCH') delete hh['Prefer'];
+  const r=await fetch(SURL+'/rest/v1/'+ep,{headers:hh,...restOpt});
+  if(!r.ok){const e=await r.text();console.error('Supabase',r.status,ep,e);throw new Error(r.status+': '+e);}
   if(restOpt.method==='DELETE') return r;
   const txt=await r.text();
   return txt?JSON.parse(txt):null;
 }
-
-// POST always needs Prefer:return=representation to get back the created row
 async function qPost(ep,body){
-  const r=await fetch(SURL+'/rest/v1/'+ep,{
-    headers:H, method:'POST', body:JSON.stringify(body)
-  });
-  if(!r.ok){const e=await r.text();console.error('POST error',r.status,e);throw new Error(r.status+': '+e);}
+  const r=await fetch(SURL+'/rest/v1/'+ep,{headers:H,method:'POST',body:JSON.stringify(body)});
+  if(!r.ok){const e=await r.text();console.error('POST',r.status,e);throw new Error(r.status+': '+e);}
   const txt=await r.text();
   return txt?JSON.parse(txt):null;
 }
 
+/* ── Load all ── */
 async function loadAll(){
   try{
     [ops,socios,movs]=await Promise.all([
@@ -431,8 +436,9 @@ async function loadAll(){
       q('socios?order=capital_actual.desc'),
       q('movimientos?order=fecha.desc')
     ]);
-    document.getElementById('sync-status').textContent='✓';
-    renderDash(); renderStock(); renderVentas(); renderSocios();
+    document.getElementById('sync-status').textContent='✓ '+new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+    renderDash(); renderStock(); renderVentas(); renderStats(); renderSocios();
+    populateVentasFilters();
   }catch(e){
     document.getElementById('sync-status').textContent='Error';
     showToast('⚠️ Error Supabase');
@@ -440,42 +446,42 @@ async function loadAll(){
   }
 }
 
-/* ── NAVIGATION ── */
+/* ── Navigation ── */
 function showView(name,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
-  if(btn)btn.classList.add('active');
-  const t={dashboard:'Dashboard',stock:'Inventario',ventas:'Historial ventas',add:'Nuevo reloj',socios:'Socios & Capital'};
+  if(btn) btn.classList.add('active');
+  const t={dashboard:'Dashboard',stock:'Inventario',ventas:'Historial ventas',stats:'Estadísticas',add:'Nuevo reloj',socios:'Socios & Capital'};
   document.getElementById('header-sub').textContent=t[name]||'';
   if(name==='add') fillCurrentPcts();
 }
 
-/* Rellena los % del formulario con los porcentajes actuales calculados desde capital */
 function fillCurrentPcts(){
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   if(!capTotal||!socios.length) return;
-  const get=(n)=>socios.find(s=>s.nombre===n);
-  const pC=get('Carlos'), pM=get('Marta'), pD=get('Dom');
+  const get=n=>socios.find(s=>s.nombre===n);
+  const pC=get('Carlos'),pM=get('Marta'),pD=get('Dom');
   const pc=pC?Math.round(pC.capital_actual/capTotal*100):0;
   const pm=pM?Math.round(pM.capital_actual/capTotal*100):0;
   const pd=pD?Math.round(pD.capital_actual/capTotal*100):0;
   const f=document.getElementById('add-form');
   if(!f) return;
-  const pcE=f.querySelector('[name=pct_carlos]');
-  const pmE=f.querySelector('[name=pct_marta]');
-  const pdE=f.querySelector('[name=pct_dom]');
-  if(pcE) pcE.value=pc;
-  if(pmE) pmE.value=pm;
-  if(pdE) pdE.value=pd;
+  ['pct_carlos','pct_marta','pct_dom'].forEach((n,i)=>{
+    const el=f.querySelector('[name='+n+']');
+    if(el) el.value=[pc,pm,pd][i];
+  });
 }
 
-/* ── HELPERS ── */
+/* ── Helpers ── */
 const fmt=n=>(n||0).toLocaleString('en-GB',{minimumFractionDigits:0,maximumFractionDigits:0});
 const fmtD=n=>(n||0).toFixed(0);
 const pct=n=>((n||0)*100).toFixed(1)+'%';
 const pct2=n=>(n||0).toFixed(1)+'%';
 const profCls=n=>n>=0?'p-pos':'p-neg';
+const today=()=>new Date().toISOString().split('T')[0];
+const daysDiff=(d1,d2)=>Math.round((new Date(d2)-new Date(d1))/(864e5));
+const daysFromNow=d=>d?Math.round((new Date()-new Date(d))/(864e5)):0;
 
 function estadoBadge(e){
   const m={'vendido':'b-green','listado':'b-blue','reservado':'b-purple','activo':'b-gold','devuelto':'b-orange'};
@@ -490,29 +496,39 @@ function cuentaBadge(c){
 }
 function reparto(o){
   const p=[];
-  if(o.pct_carlos)p.push('C '+Math.round(o.pct_carlos*100)+'%');
-  if(o.pct_marta)p.push('M '+Math.round(o.pct_marta*100)+'%');
-  if(o.pct_dom)p.push('D '+Math.round(o.pct_dom*100)+'%');
+  if(o.pct_carlos) p.push('C '+Math.round(o.pct_carlos*100)+'%');
+  if(o.pct_marta)  p.push('M '+Math.round(o.pct_marta*100)+'%');
+  if(o.pct_dom)    p.push('D '+Math.round(o.pct_dom*100)+'%');
   return p.join(' / ');
+}
+function agingClass(days){
+  if(days<30) return 'aging-green';
+  if(days<60) return 'aging-yellow';
+  if(days<90) return 'aging-orange';
+  return 'aging-red';
 }
 
 /* ── DASHBOARD ── */
 function renderDash(){
-  const enstock=ops.filter(o=>o.estado!=='vendido');
+  const enstock=ops.filter(o=>['activo','listado','reservado','devuelto'].includes(o.estado));
+  const activos=ops.filter(o=>o.estado==='activo');
+  const listados=ops.filter(o=>o.estado==='listado');
+  const reservados=ops.filter(o=>o.estado==='reservado');
+  const devueltos=ops.filter(o=>o.estado==='devuelto');
   const vendidos=ops.filter(o=>o.estado==='vendido');
-  const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  // Solo vendidos con precio recibido registrado
   const vendidosConPrecio=vendidos.filter(o=>o.ingreso_neto_gbp!=null);
+  const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  const capitalRiesgo=ops.filter(o=>['activo','listado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const benTotal=vendidosConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
   const avgROI=vendidosConPrecio.length?vendidosConPrecio.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidosConPrecio.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
-  const recientes=ops.slice(0,6);
+  const recientes=ops.slice(0,5);
 
   document.getElementById('dash-content').innerHTML=`
     <div class="stats">
-      <div class="stat"><div class="lbl">En stock</div><div class="val">${enstock.length}</div><div class="sub">relojes activos</div></div>
-      <div class="stat"><div class="lbl">Vendidos</div><div class="val">${vendidos.length}</div><div class="sub">operaciones</div></div>
-      <div class="stat"><div class="lbl">Invertido</div><div class="val">£${fmt(totalInv)}</div><div class="sub">en stock actual</div></div>
+      <div class="stat"><div class="lbl">En stock</div><div class="val">${enstock.length}</div><div class="sub">${activos.length} activo · ${listados.length} listado · ${reservados.length} reservado</div></div>
+      <div class="stat"><div class="lbl">Vendidos</div><div class="val">${vendidos.length}</div><div class="sub">${devueltos.length} devuelto${devueltos.length!==1?'s':''}</div></div>
+      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">£${fmt(capitalRiesgo)}</div><div class="sub">activos + listados</div></div>
       <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">£${fmt(benTotal)}</div><div class="sub">ROI medio ${pct(avgROI)}</div></div>
     </div>
     <div class="card" style="margin-bottom:14px">
@@ -522,46 +538,77 @@ function renderDash(){
     </div>
     <p class="sec-title">Actividad reciente</p>
     ${recientes.map(o=>`
-      <div class="watch-card" onclick="openDetail(${o.id})">
+      <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
         <div class="row">
           <div class="model">${o.modelo}</div>
           <span class="badge ${estadoBadge(o.estado)}">${o.estado}</span>
         </div>
         <div class="meta">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
-          <span>Coste £${fmt(o.coste_total_gbp)}</span>
-          ${o.estado==='vendido'?`<span class="${profCls(o.beneficio_neto_gbp)}">£${fmt(o.beneficio_neto_gbp)}</span>`:''}
+          <span>£${fmt(o.coste_total_gbp)}</span>
+          ${o.estado==='vendido'?`<span class="${profCls(o.beneficio_neto_gbp)}">+£${fmt(o.beneficio_neto_gbp)}</span>`:''}
           <span>${o.fecha_compra||''}</span>
         </div>
-      </div>`).join('')}
-    ${renderStatsSection()}`;
+      </div>`).join('')}`;
 }
 
 /* ── STOCK ── */
 function setStockFilter(f,btn){
   stockFilter=f;
-  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
+  document.querySelectorAll('#stock-filter-tabs .ftab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
   renderStock();
 }
+function setStockSort(s,btn){
+  stockSort=s;
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderStock();
+}
+
 function renderStock(){
-  const q=(document.getElementById('stock-search')?.value||'').toLowerCase();
-  const filters=stockFilter==='todos'?null:stockFilter.split(',');
-  let list=filters?ops.filter(o=>filters.includes(o.estado)):ops;
-  if(q)list=list.filter(o=>(o.modelo||'').toLowerCase().includes(q));
+  const sq=(document.getElementById('stock-search')?.value||'').toLowerCase();
+  const cuentaF=document.getElementById('stock-cuenta-filter')?.value||'';
+  const ageF=document.getElementById('stock-age-filter')?.value||'';
+  const filters=stockFilter.split(',');
+  let list=ops.filter(o=>filters.includes(o.estado));
+  if(sq) list=list.filter(o=>(o.modelo||'').toLowerCase().includes(sq));
+  if(cuentaF) list=list.filter(o=>o.cuenta===cuentaF);
+  if(ageF){
+    list=list.filter(o=>{
+      const d=daysFromNow(o.fecha_compra);
+      if(ageF==='lt30') return d<30;
+      if(ageF==='30-60') return d>=30&&d<=60;
+      if(ageF==='gt60') return d>60;
+      return true;
+    });
+  }
+  // Sort
+  if(stockSort==='coste') list=[...list].sort((a,b)=>(b.coste_total_gbp||0)-(a.coste_total_gbp||0));
+  else if(stockSort==='dias') list=[...list].sort((a,b)=>daysFromNow(a.fecha_compra)-daysFromNow(b.fecha_compra));
+  else list=[...list].sort((a,b)=>(b.fecha_compra||'').localeCompare(a.fecha_compra||''));
+
+  // Summary
+  const totalCoste=list.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  document.getElementById('stock-summary').innerHTML=list.length?`
+    <div style="font-size:12px;color:var(--text2);margin-bottom:6px">
+      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> · Invertido: <span style="color:var(--gold2)">£${fmt(totalCoste)}</span>
+    </div>`:''
+
   if(!list.length){
     document.getElementById('stock-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes en esta categoría</p></div>`;
     return;
   }
-  document.getElementById('stock-content').innerHTML=list.map(o=>`
+  document.getElementById('stock-content').innerHTML=list.map(o=>{
+    const dias=daysFromNow(o.fecha_compra);
+    const aCls=agingClass(dias);
+    return `
     <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
-      <div style="margin-bottom:4px">
-        <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}">
-          ${o.cuenta==='Marta'?'●':'●'} ${o.cuenta||'Carlos'}
-        </span>
-        <span class="badge ${estadoBadge(o.estado)}" style="float:right;margin-top:2px">${o.estado}</span>
+      <div style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center">
+        <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}">● ${o.cuenta||'Carlos'}</span>
+        <span class="badge ${estadoBadge(o.estado)}">${o.estado}</span>
       </div>
-      <div class="model" style="clear:both">${o.modelo}</div>
+      <div class="model">${o.modelo}</div>
       <div style="margin:6px 0;display:flex;align-items:center;gap:8px">
         <span class="price">£${fmt(o.coste_total_gbp)}</span>
         ${o.precio_listado_gbp?`<span style="font-size:12px;color:var(--text2)">→ £${fmt(o.precio_listado_gbp)}</span>`:''}
@@ -569,26 +616,56 @@ function renderStock(){
       <div class="meta">
         <span>${o.plataforma_compra||'—'}</span>
         <span>${o.fecha_compra||''}</span>
+        <span style="display:flex;align-items:center;gap:3px"><span class="aging-dot ${aCls}" style="display:inline-block"></span>${dias}d</span>
         <span>${reparto(o)}</span>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 /* ── VENTAS ── */
+function populateVentasFilters(){
+  const v=ops.filter(o=>o.estado==='vendido');
+  // Meses
+  const meses=[...new Set(v.filter(o=>o.fecha_venta).map(o=>o.fecha_venta.substring(0,7)))].sort().reverse();
+  const mSel=document.getElementById('v-filter-mes');
+  if(mSel){
+    const cur=mSel.value;
+    mSel.innerHTML='<option value="">Todos los meses</option>'+meses.map(m=>`<option value="${m}"${m===cur?' selected':''}>${m}</option>`).join('');
+  }
+  // Plataformas
+  const plats=[...new Set(v.filter(o=>o.plataforma_venta).map(o=>o.plataforma_venta))].sort();
+  const pSel=document.getElementById('v-filter-plat');
+  if(pSel){
+    const cur=pSel.value;
+    pSel.innerHTML='<option value="">Todas las plataformas</option>'+plats.map(p=>`<option value="${p}"${p===cur?' selected':''}>${p}</option>`).join('');
+  }
+}
+
 function renderVentas(){
-  const v=ops.filter(o=>o.estado==='vendido').sort((a,b)=>(b.fecha_venta||'').localeCompare(a.fecha_venta||''));
+  const mesF=document.getElementById('v-filter-mes')?.value||'';
+  const platF=document.getElementById('v-filter-plat')?.value||'';
+  let v=ops.filter(o=>o.estado==='vendido').sort((a,b)=>(b.fecha_venta||'').localeCompare(a.fecha_venta||''));
+  if(mesF) v=v.filter(o=>(o.fecha_venta||'').startsWith(mesF));
+  if(platF) v=v.filter(o=>o.plataforma_venta===platF);
   const vConPrecio=v.filter(o=>o.ingreso_neto_gbp!=null);
   const totBen=vConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
   const totIng=vConPrecio.reduce((s,o)=>s+(o.ingreso_neto_gbp||0),0);
+  const avgRoi=vConPrecio.length?vConPrecio.reduce((s,o)=>s+(o.roi_pct||0),0)/vConPrecio.length:0;
+  const avgDias=vConPrecio.filter(o=>o.dias_posesion!=null).length
+    ?vConPrecio.filter(o=>o.dias_posesion!=null).reduce((s,o)=>s+(o.dias_posesion||0),0)/vConPrecio.filter(o=>o.dias_posesion!=null).length:0;
+
   document.getElementById('ventas-content').innerHTML=`
     <div class="card" style="margin-bottom:14px">
-      <div class="sum-row"><span class="k">Operaciones cerradas</span><span class="v">${v.length}</span></div>
+      <div class="sum-row"><span class="k">Operaciones</span><span class="v">${v.length}</span></div>
       <div class="sum-row"><span class="k">Ingresos totales</span><span class="v">£${fmt(totIng)}</span></div>
       <div class="sum-row"><span class="k">Beneficio total</span><span class="v ${profCls(totBen)}">£${fmt(totBen)}</span></div>
+      <div class="sum-row"><span class="k">ROI medio</span><span class="v">${pct(avgRoi)}</span></div>
+      <div class="sum-row"><span class="k">Días medio posesión</span><span class="v">${avgDias.toFixed(0)}d</span></div>
     </div>
-    <p class="sec-title">Historial</p>
+    <p class="sec-title">Historial (${v.length})</p>
     ${v.map(o=>`
-      <div class="watch-card" onclick="openDetail(${o.id})">
+      <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
         <div class="row">
           <div class="model">${o.modelo}</div>
           <span class="${profCls(o.beneficio_neto_gbp)}" style="font-size:15px">£${fmt(o.beneficio_neto_gbp)}</span>
@@ -598,20 +675,229 @@ function renderVentas(){
           <span>${o.fecha_venta||'—'}</span>
           <span>${o.plataforma_venta||'—'}</span>
           <span>ROI ${pct(o.roi_pct)}</span>
-          <span>${o.dias_posesion||'?'}d</span>
+          <span>${o.dias_posesion!=null?o.dias_posesion+'d':'?d'}</span>
         </div>
       </div>`).join('')}`;
+}
+
+/* ── ESTADÍSTICAS ── */
+function renderStats(){
+  const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
+  const enstock=ops.filter(o=>['activo','listado','reservado','devuelto'].includes(o.estado));
+  const todayD=new Date();
+
+  if(!ops.length){
+    document.getElementById('stats-content').innerHTML='<div class="empty"><div class="icon">📊</div><p>Sin datos todavía</p></div>';
+    return;
+  }
+
+  // 1. Días por tramos
+  const vendConDias=vendidos.filter(o=>o.dias_posesion!=null);
+  const avgDias=vendConDias.length?vendConDias.reduce((s,o)=>s+(o.dias_posesion||0),0)/vendConDias.length:0;
+  const ranges=[{l:'<15d',min:0,max:15},{l:'15-30d',min:15,max:30},{l:'30-60d',min:30,max:60},{l:'>60d',min:60,max:9999}];
+  const rangeData=ranges.map(r=>{
+    const grp=vendConDias.filter(o=>o.dias_posesion>=r.min&&o.dias_posesion<r.max);
+    const avgBen=grp.length?grp.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0)/grp.length:0;
+    return{...r,count:grp.length,avgBen};
+  });
+  const maxRange=Math.max(...rangeData.map(r=>r.count),1);
+
+  // 2. ROI por plataforma compra
+  const platCompraMap={};
+  vendidos.forEach(o=>{
+    const p=(o.plataforma_compra||'Otro').split(' ')[0];
+    if(!platCompraMap[p]) platCompraMap[p]={n:0,roi:0,ben:0};
+    platCompraMap[p].n++;
+    platCompraMap[p].roi+=(o.roi_pct||0);
+    platCompraMap[p].ben+=(o.beneficio_neto_gbp||0);
+  });
+  const platCompraRows=Object.entries(platCompraMap).sort((a,b)=>b[1].ben-a[1].ben);
+
+  // 3. Beneficio por mes
+  const benMes={};
+  vendidos.filter(o=>o.fecha_venta).forEach(o=>{
+    const m=o.fecha_venta.substring(0,7);
+    if(!benMes[m]) benMes[m]=0;
+    benMes[m]+=(o.beneficio_neto_gbp||0);
+  });
+  const benMesRows=Object.entries(benMes).sort((a,b)=>a[0].localeCompare(b[0])).slice(-12);
+  const maxBen=Math.max(...benMesRows.map(([,v])=>Math.abs(v)),1);
+
+  // 4. Top 5 modelos rentables
+  const modelMap={};
+  vendidos.forEach(o=>{
+    const m=o.modelo||'Desconocido';
+    if(!modelMap[m]) modelMap[m]={n:0,ben:0,roi:0};
+    modelMap[m].n++;
+    modelMap[m].ben+=(o.beneficio_neto_gbp||0);
+    modelMap[m].roi+=(o.roi_pct||0);
+  });
+  const top5=Object.entries(modelMap).sort((a,b)=>b[1].ben-a[1].ben).slice(0,5);
+  const maxTop=Math.max(...top5.map(([,v])=>v.ben),1);
+
+  // 5. Velocidad venta por plataforma venta
+  const platVentaMap={};
+  vendidos.filter(o=>o.dias_posesion!=null).forEach(o=>{
+    const p=o.plataforma_venta||'Otro';
+    if(!platVentaMap[p]) platVentaMap[p]={n:0,dias:0,ben:0};
+    platVentaMap[p].n++;
+    platVentaMap[p].dias+=(o.dias_posesion||0);
+    platVentaMap[p].ben+=(o.beneficio_neto_gbp||0);
+  });
+  const platVentaRows=Object.entries(platVentaMap).sort((a,b)=>b[1].n-a[1].n);
+
+  // 6. Devoluciones
+  const totalOps=ops.length;
+  const numDev=ops.filter(o=>o.estado==='devuelto').length;
+  const tasaDev=totalOps>0?numDev/totalOps*100:0;
+
+  // 7. Capital en riesgo
+  const capitalRiesgo=ops.filter(o=>['activo','listado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+
+  // 8. Stock aging
+  const aging=enstock.filter(o=>o.fecha_compra).map(o=>({...o,days:daysFromNow(o.fecha_compra)})).sort((a,b)=>b.days-a.days);
+
+  document.getElementById('stats-content').innerHTML=`
+    <p class="sec-title">Resumen global</p>
+    <div class="stats" style="margin-bottom:14px">
+      <div class="stat"><div class="lbl">Total ops</div><div class="val">${totalOps}</div><div class="sub">${vendidos.length} vendidas</div></div>
+      <div class="stat"><div class="lbl">Capital riesgo</div><div class="val">£${fmt(capitalRiesgo)}</div><div class="sub">activo+listado</div></div>
+      <div class="stat"><div class="lbl">Tasa devolución</div><div class="val">${tasaDev.toFixed(1)}%</div><div class="sub">${numDev} devueltos</div></div>
+      <div class="stat"><div class="lbl">Días medio venta</div><div class="val">${avgDias.toFixed(0)}d</div><div class="sub">${vendConDias.length} ops</div></div>
+    </div>
+
+    <!-- Días por tramos -->
+    <div class="stat-card" id="sc-dias">
+      <div class="stat-card-header" onclick="toggleStat('sc-dias')">
+        <div><div class="stat-card-title">Días compra → venta (tramos)</div><div class="stat-card-value">${avgDias.toFixed(0)}d media</div></div>
+        <span class="stat-card-chevron">▾</span>
+      </div>
+      <div class="stat-card-body">
+        ${rangeData.map(r=>`
+          <div class="range-row">
+            <span class="range-label">${r.l}</span>
+            <div class="range-bar-wrap"><div class="range-bar-fill" style="width:${Math.round(r.count/maxRange*100)}%"></div></div>
+            <span class="range-count">${r.count}</span>
+            <span style="font-size:11px;color:var(--text2);width:60px;text-align:right;flex-shrink:0">ø£${fmt(r.avgBen)}</span>
+          </div>`).join('')}
+        <div style="font-size:11px;color:var(--text2);margin-top:6px">${vendConDias.length} relojes vendidos con fecha</div>
+      </div>
+    </div>
+
+    <!-- ROI por plataforma compra -->
+    <div class="stat-card" id="sc-platcompra">
+      <div class="stat-card-header" onclick="toggleStat('sc-platcompra')">
+        <div><div class="stat-card-title">ROI por plataforma de compra</div><div class="stat-card-value">${platCompraRows.length} plat.</div></div>
+        <span class="stat-card-chevron">▾</span>
+      </div>
+      <div class="stat-card-body">
+        <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
+          <span style="color:var(--text2);font-weight:700">Plataforma</span>
+          <span style="color:var(--text2);font-weight:700;text-align:center">Ops</span>
+          <span style="color:var(--text2);font-weight:700;text-align:right">ROI ø</span>
+          <span style="color:var(--text2);font-weight:700;text-align:right">Ben.</span>
+          ${platCompraRows.map(([p,v])=>`
+            <span>${p}</span>
+            <span style="text-align:center;color:var(--gold2)">${v.n}</span>
+            <span style="text-align:right;color:var(--green)">${pct(v.roi/v.n)}</span>
+            <span style="text-align:right;color:var(--text)">£${fmt(v.ben)}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Beneficio por mes -->
+    <div class="stat-card" id="sc-mesben">
+      <div class="stat-card-header" onclick="toggleStat('sc-mesben')">
+        <div><div class="stat-card-title">Beneficio por mes</div><div class="stat-card-value">${benMesRows.length} meses</div></div>
+        <span class="stat-card-chevron">▾</span>
+      </div>
+      <div class="stat-card-body">
+        <div class="bar-chart">
+          ${benMesRows.map(([m,v])=>`
+            <div class="bar-row">
+              <span class="bar-label">${m.substring(5)}'${m.substring(2,4)}</span>
+              <div class="bar-track"><div class="bar-fill" style="width:${Math.round(Math.abs(v)/maxBen*100)}%;background:${v>=0?'linear-gradient(90deg,var(--gold),var(--gold2))':'linear-gradient(90deg,var(--red),#fca5a5)'}"></div></div>
+              <span class="bar-val ${profCls(v)}">£${fmt(v)}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Top 5 modelos -->
+    <div class="stat-card" id="sc-top5">
+      <div class="stat-card-header" onclick="toggleStat('sc-top5')">
+        <div><div class="stat-card-title">Top 5 modelos rentables</div><div class="stat-card-value">${top5.length>0?top5[0][0].substring(0,18):'—'}</div></div>
+        <span class="stat-card-chevron">▾</span>
+      </div>
+      <div class="stat-card-body">
+        ${top5.map(([m,v],i)=>`
+          <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span style="font-size:12px;font-weight:600">${i+1}. ${m.substring(0,32)}</span>
+              <span class="p-pos" style="font-size:12px">£${fmt(v.ben)}</span>
+            </div>
+            <div class="bar-track" style="height:8px"><div class="bar-fill" style="width:${Math.round(v.ben/maxTop*100)}%"></div></div>
+            <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} · ROI ø ${pct(v.roi/v.n)}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Velocidad por plataforma venta -->
+    <div class="stat-card" id="sc-platventa">
+      <div class="stat-card-header" onclick="toggleStat('sc-platventa')">
+        <div><div class="stat-card-title">Velocidad por plataforma venta</div><div class="stat-card-value">${platVentaRows.length} plat.</div></div>
+        <span class="stat-card-chevron">▾</span>
+      </div>
+      <div class="stat-card-body">
+        <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
+          <span style="color:var(--text2);font-weight:700">Plataforma</span>
+          <span style="color:var(--text2);font-weight:700;text-align:center">Ventas</span>
+          <span style="color:var(--text2);font-weight:700;text-align:right">ø días</span>
+          <span style="color:var(--text2);font-weight:700;text-align:right">Beneficio</span>
+          ${platVentaRows.map(([p,v])=>`
+            <span>${p}</span>
+            <span style="text-align:center;color:var(--gold2)">${v.n}</span>
+            <span style="text-align:right;color:var(--text2)">${(v.dias/v.n).toFixed(0)}d</span>
+            <span style="text-align:right" class="${profCls(v.ben)}">£${fmt(v.ben)}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock por antigüedad -->
+    <div class="stat-card" id="sc-aging">
+      <div class="stat-card-header" onclick="toggleStat('sc-aging')">
+        <div><div class="stat-card-title">Stock por antigüedad</div><div class="stat-card-value">${aging.length} relojes</div></div>
+        <span class="stat-card-chevron">▾</span>
+      </div>
+      <div class="stat-card-body">
+        ${aging.map(o=>`
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+            <span class="aging-dot ${agingClass(o.days)}"></span>
+            <span style="flex:1;font-size:12px">${o.modelo.substring(0,28)}</span>
+            <span class="badge ${estadoBadge(o.estado)}" style="font-size:9px">${o.estado}</span>
+            <span style="font-size:12px;color:var(--text2)">${o.days}d</span>
+          </div>`).join('')}
+        <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--text2)">
+          <span><span class="aging-dot aging-green" style="display:inline-block;margin-right:3px"></span>&lt;30d</span>
+          <span><span class="aging-dot aging-yellow" style="display:inline-block;margin-right:3px"></span>30-60d</span>
+          <span><span class="aging-dot aging-orange" style="display:inline-block;margin-right:3px"></span>60-90d</span>
+          <span><span class="aging-dot aging-red" style="display:inline-block;margin-right:3px"></span>&gt;90d</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function toggleStat(id){
+  document.getElementById(id)?.classList.toggle('open');
 }
 
 /* ── SOCIOS ── */
 function renderSocios(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
+  const enstock=ops.filter(o=>['activo','listado','reservado'].includes(o.estado));
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
+  const dynPct=s=>capTotal>0?s.capital_actual/capTotal*100:0;
 
-  // Porcentajes dinámicos calculados desde capital actual
-  const dynPct=(s)=>capTotal>0?s.capital_actual/capTotal*100:0;
-
-  // Beneficio acumulado desde operaciones vendidas
   const benOps={Carlos:0,Marta:0,Dom:0};
   vendidos.forEach(o=>{
     benOps.Carlos+=(o.beneficio_carlos||0);
@@ -619,7 +905,14 @@ function renderSocios(){
     benOps.Dom+=(o.beneficio_dom||0);
   });
 
-  // Aportaciones netas (aportaciones - retiradas)
+  // Beneficio no realizado (en stock, usando valor negativo guardado vs coste)
+  const benNoReal={Carlos:0,Marta:0,Dom:0};
+  enstock.forEach(o=>{
+    benNoReal.Carlos-=(o.coste_total_gbp||0)*(o.pct_carlos||0);
+    benNoReal.Marta-=(o.coste_total_gbp||0)*(o.pct_marta||0);
+    benNoReal.Dom-=(o.coste_total_gbp||0)*(o.pct_dom||0);
+  });
+
   const aport={Carlos:0,Marta:0,Dom:0};
   movs.forEach(m=>{
     if(aport.hasOwnProperty(m.socio)){
@@ -628,18 +921,20 @@ function renderSocios(){
     }
   });
 
-  const recentMovs=movs.slice(0,20);
-
   document.getElementById('socios-content').innerHTML=`
     <div class="card" style="margin-bottom:14px">
       <div class="sum-row"><span class="k">Capital total</span><span class="v">£${fmt(capTotal)}</span></div>
-      <div class="sum-row"><span class="k">Operaciones con beneficio</span><span class="v">${vendidos.length}</span></div>
+      <div class="sum-row"><span class="k">Operaciones vendidas</span><span class="v">${vendidos.length}</span></div>
     </div>
     ${socios.map(s=>{
       const pctDyn=dynPct(s);
       const ben=s.beneficio_total||benOps[s.nombre]||0;
       const ap=aport[s.nombre]||0;
       const roi=ap>0?ben/ap:0;
+      const noReal=benNoReal[s.nombre]||0;
+      // Movimientos de este socio
+      const misMovs=movs.filter(m=>m.socio===s.nombre).slice(0,8);
+      const socioMovsId='sm-'+s.nombre;
       return `
       <div class="socio-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -648,32 +943,50 @@ function renderSocios(){
         </div>
         <div class="sum-row"><span class="k">Capital actual</span><span class="v">£${fmt(s.capital_actual)}</span></div>
         <div class="sum-row"><span class="k">Aportaciones netas</span><span class="v">£${fmt(ap)}</span></div>
-        <div class="sum-row"><span class="k">Beneficio acumulado</span><span class="v ${profCls(ben)}">£${fmt(ben)}</span></div>
-        <div class="sum-row"><span class="k">ROI</span><span class="v ${profCls(roi)}">${(roi*100).toFixed(1)}%</span></div>
+        <div class="sum-row"><span class="k">Beneficio realizado</span><span class="v ${profCls(ben)}">£${fmt(ben)}</span></div>
+        <div class="sum-row"><span class="k">Capital en stock</span><span class="v" style="color:var(--text2)">£${fmt(Math.abs(noReal))}</span></div>
+        <div class="sum-row"><span class="k">ROI realizado</span><span class="v ${profCls(roi)}">${(roi*100).toFixed(1)}%</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:${Math.min(Math.max(pctDyn,0),100)}%"></div></div>
-      </div>`}).join('')}
-    <div style="margin:16px 0 10px">
-      <button class="btn btn-gold" onclick="openAportacionModal()">+ Nueva aportación</button>
-    </div>
-    <p class="sec-title" style="margin-top:4px">Movimientos recientes</p>
-    ${recentMovs.map(m=>`
-      <div class="card card-sm" style="margin-bottom:6px">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-weight:600;font-size:13px">${m.tipo} — ${m.socio}</div>
-            <div style="font-size:11px;color:var(--text2)">${m.fecha}${m.notas?' · '+m.notas:''}</div>
-          </div>
-          <div class="${m.tipo==='Retirada'||m.tipo==='Pérdida'?'p-neg':'p-pos'}" style="font-size:14px">
-            ${m.tipo==='Retirada'||m.tipo==='Pérdida'?'-':'+'}£${fmt(Math.abs(m.importe))}
-          </div>
+        ${misMovs.length?`
+        <div class="toggle-section" onclick="toggleMovs('${socioMovsId}')">
+          <span style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.7px">Movimientos (${misMovs.length})</span>
+          <span style="color:var(--text2);font-size:14px" id="${socioMovsId}-chev">▾</span>
         </div>
-      </div>`).join('')}`;
+        <div class="toggle-section-body" id="${socioMovsId}">
+          ${misMovs.map(m=>`
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)">
+              <div>
+                <div style="font-size:12px;font-weight:600">${m.tipo}</div>
+                <div style="font-size:10px;color:var(--text2)">${m.fecha}${m.notas?' · '+m.notas:''}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span class="${m.tipo==='Retirada'||m.tipo==='Pérdida'?'p-neg':'p-pos'}" style="font-size:13px">
+                  ${m.tipo==='Retirada'||m.tipo==='Pérdida'?'-':'+'}£${fmt(Math.abs(m.importe))}
+                </span>
+                <button class="mov-del" onclick="deleteMov(${m.id},event)" title="Eliminar">✕</button>
+              </div>
+            </div>`).join('')}
+        </div>`:''}
+      </div>`;
+    }).join('')}
+    <div style="margin:16px 0 10px">
+      <button class="btn btn-gold" onclick="openAportacionModal()">+ Nueva aportación / retirada</button>
+    </div>`;
+}
+
+function toggleMovs(id){
+  const body=document.getElementById(id);
+  const chev=document.getElementById(id+'-chev');
+  if(!body) return;
+  const open=body.classList.toggle('open');
+  if(chev) chev.textContent=open?'▴':'▾';
 }
 
 /* ── DETAIL MODAL ── */
 function openDetail(id){
   const o=ops.find(x=>x.id===id);
-  if(!o)return;
+  if(!o) return;
+  const dias=o.fecha_compra?daysFromNow(o.fecha_compra):null;
   document.getElementById('detail-content').innerHTML=`
     <button class="modal-close" onclick="document.getElementById('detail-overlay').classList.remove('open')">✕</button>
     <h2>${o.modelo}</h2>
@@ -689,26 +1002,42 @@ function openDetail(id){
     <div class="sum-row"><span class="k">Reparación</span><span class="v">£${fmt(o.reparacion_gbp)}</span></div>
     <div class="sum-row"><span class="k">Forwarder</span><span class="v">£${fmt(o.gastos_forwarder_gbp)}</span></div>
     <div class="sum-row"><span class="k" style="font-weight:700;color:var(--text)">Coste total</span><span class="v" style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</span></div>
+    ${o.estado!=='vendido'&&dias!=null?`<div class="sum-row"><span class="k">En posesión</span><span class="v"><span class="aging-dot ${agingClass(dias)}" style="display:inline-block;margin-right:4px"></span>${dias} días</span></div>`:''}
     <p class="sec-title" style="margin-top:12px">Venta</p>
-    <div class="sum-row"><span class="k">Precio listado</span><span class="v">£${fmt(o.precio_listado_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Precio listado</span><span class="v">${o.precio_listado_gbp?'£'+fmt(o.precio_listado_gbp):'—'}</span></div>
     <div class="sum-row"><span class="k">Plataforma venta</span><span class="v">${o.plataforma_venta||'—'}</span></div>
     <div class="sum-row"><span class="k">Precio recibido</span><span class="v">${o.ingreso_neto_gbp!=null?'£'+fmt(o.ingreso_neto_gbp):'—'}</span></div>
     <div class="sum-row"><span class="k">Fecha venta</span><span class="v">${o.fecha_venta||'—'}</span></div>
     <div class="sum-row"><span class="k">Días en posesión</span><span class="v">${o.dias_posesion!=null?o.dias_posesion+'d':'—'}</span></div>
+    ${o.estado==='devuelto'?`
+    <p class="sec-title" style="margin-top:12px">Devolución</p>
+    <div class="sum-row"><span class="k">Reembolso recibido</span><span class="v">${o.importe_reembolso!=null?'£'+fmt(o.importe_reembolso):'—'}</span></div>
+    <div class="sum-row"><span class="k">Gastos retorno</span><span class="v">${o.gastos_retorno!=null?'£'+fmt(o.gastos_retorno):'—'}</span></div>
+    <div class="sum-row"><span class="k">Resultado devolución</span><span class="v ${profCls(o.beneficio_neto_gbp)}">£${fmt(o.beneficio_neto_gbp)}</span></div>`:''}
     ${o.estado==='vendido'?`
     <p class="sec-title" style="margin-top:12px">Resultado</p>
     <div class="sum-row"><span class="k">Beneficio neto</span><span class="v ${profCls(o.beneficio_neto_gbp)}">£${fmt(o.beneficio_neto_gbp)}</span></div>
     <div class="sum-row"><span class="k">ROI</span><span class="v ${profCls(o.roi_pct)}">${pct(o.roi_pct)}</span></div>
-    <div class="sum-row"><span class="k">Carlos</span><span class="v">£${fmt(o.beneficio_carlos)} (${Math.round((o.pct_carlos||0)*100)}%)</span></div>
-    <div class="sum-row"><span class="k">Marta</span><span class="v">£${fmt(o.beneficio_marta)} (${Math.round((o.pct_marta||0)*100)}%)</span></div>
-    <div class="sum-row"><span class="k">Dom</span><span class="v">£${fmt(o.beneficio_dom||0)} (${Math.round((o.pct_dom||0)*100)}%)</span></div>`:''}
-    ${o.notas?`<div class="divider"></div><div style="font-size:12px;color:var(--text2)">${o.notas}</div>`:''}
+    <div class="sum-row"><span class="k">Carlos (${Math.round((o.pct_carlos||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_carlos)}</span></div>
+    <div class="sum-row"><span class="k">Marta (${Math.round((o.pct_marta||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_marta)}</span></div>
+    <div class="sum-row"><span class="k">Dom (${Math.round((o.pct_dom||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_dom||0)}</span></div>`:''}
+    ${o.notas?`<div class="divider"></div><div style="font-size:12px;color:var(--text2);padding:4px 0">${o.notas}</div>`:''}
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-      ${o.estado!=='vendido'&&o.estado!=='devuelto'?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
-      ${o.estado!=='vendido'&&o.estado!=='devuelto'?`<button class="btn btn-sm" style="background:rgba(251,146,60,.2);color:#fb923c;border:1px solid rgba(251,146,60,.3)" onclick="markDevuelto(${o.id})">Marcar devuelto</button>`:''}
-      <button class="btn btn-outline btn-sm" onclick="deleteWatch(${o.id})">Eliminar</button>
+      ${o.estado!=='vendido'?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
+      ${o.estado!=='vendido'&&o.estado!=='devuelto'?`<button class="btn btn-orange btn-sm" onclick="openDevueltoModal(${o.id})">Marcar devuelto</button>`:''}
+      <button class="btn btn-outline btn-sm" onclick="openEditFromDetail(${o.id})">Editar</button>
+      <button class="btn btn-red btn-sm" onclick="deleteWatch(${o.id})">Eliminar</button>
     </div>`;
   document.getElementById('detail-overlay').classList.add('open');
+}
+
+function openEditFromDetail(id){
+  document.getElementById('detail-overlay').classList.remove('open');
+  setTimeout(()=>{
+    showView('add', document.querySelectorAll('nav button')[4]);
+    switchAddTab('editar');
+    setTimeout(()=>loadEditForm(id),100);
+  },200);
 }
 
 /* ── SELL MODAL ── */
@@ -716,8 +1045,7 @@ let sellSelectedId=null;
 
 function openSellModal(preselectedId){
   sellSelectedId=preselectedId||null;
-  const available=ops.filter(o=>o.estado!=='vendido');
-
+  const available=ops.filter(o=>o.estado!=='vendido'&&o.estado!=='devuelto');
   document.getElementById('sell-content').innerHTML=`
     <button class="modal-close" onclick="document.getElementById('sell-overlay').classList.remove('open')">✕</button>
     <h2>Registrar venta</h2>
@@ -725,19 +1053,15 @@ function openSellModal(preselectedId){
     <p class="sec-title">Selecciona el reloj</p>
     <div id="sell-list">
       ${available.map(o=>`
-        <div class="sell-item${preselectedId===o.id?' selected':''}" id="si-${o.id}" onclick="selectSellItem(${o.id})">
+        <div class="sell-item si-${(o.cuenta||'carlos').toLowerCase()}" id="si-${o.id}" onclick="selectSellItem(${o.id})">
           <div class="si-model">${o.modelo}</div>
-          <div class="si-meta">
-            <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta}</span>
-            Coste £${fmt(o.coste_total_gbp)} · ${o.estado}
-          </div>
+          <div class="si-meta"><span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta}</span> £${fmt(o.coste_total_gbp)} · ${o.estado}</div>
         </div>`).join('')}
     </div>
     <div class="divider"></div>`:''}
     <div id="sell-form-wrap" style="${preselectedId?'':'display:none'}">
       ${preselectedId?renderSellForm(preselectedId):''}
     </div>`;
-
   if(preselectedId) sellSelectedId=preselectedId;
   document.getElementById('sell-overlay').classList.add('open');
 }
@@ -751,20 +1075,18 @@ function selectSellItem(id){
   document.querySelectorAll('.sell-item').forEach(el=>el.classList.remove('selected'));
   document.getElementById('si-'+id)?.classList.add('selected');
   sellSelectedId=id;
-  document.getElementById('sell-form-wrap').style.display='block';
-  document.getElementById('sell-form-wrap').innerHTML=renderSellForm(id);
-  document.getElementById('sell-form-wrap').scrollIntoView({behavior:'smooth'});
+  const w=document.getElementById('sell-form-wrap');
+  w.style.display='block';
+  w.innerHTML=renderSellForm(id);
+  w.scrollIntoView({behavior:'smooth'});
 }
 
 function renderSellForm(id){
   const o=ops.find(x=>x.id===id);
-  if(!o)return '';
-  const today=new Date().toISOString().split('T')[0];
+  if(!o) return '';
   return `
     <p class="sec-title">${o.modelo}</p>
-    <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">
-      Coste total: <strong style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong>
-    </div>
+    <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong></div>
     <div class="form-row">
       <div class="form-group">
         <label>Precio recibido (£) *</label>
@@ -772,19 +1094,15 @@ function renderSellForm(id){
       </div>
       <div class="form-group">
         <label>Fecha venta</label>
-        <input type="date" id="sell-fecha" value="${today}">
+        <input type="date" id="sell-fecha" value="${today()}">
       </div>
     </div>
     <div class="form-group">
       <label>Plataforma venta</label>
       <select id="sell-plataforma">
         <option value="">— Seleccionar —</option>
-        <option>Chrono24</option>
-        <option>eBay</option>
-        <option>Vinted</option>
-        <option>Catawiki</option>
-        <option>Reddit</option>
-        <option>Otro</option>
+        <option>Chrono24</option><option>eBay</option><option>Vinted</option>
+        <option>Catawiki</option><option>Reddit</option><option>Otro</option>
       </select>
     </div>
     <div id="ben-preview" style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:14px;display:none">
@@ -799,8 +1117,7 @@ function previewBen(id){
   if(!precio||!o){document.getElementById('ben-preview').style.display='none';return;}
   const ben=precio-(o.coste_total_gbp||0);
   const roi=o.coste_total_gbp?ben/o.coste_total_gbp:0;
-  const bp=document.getElementById('ben-preview');
-  bp.style.display='block';
+  document.getElementById('ben-preview').style.display='block';
   document.getElementById('ben-val').innerHTML=`<span class="${profCls(ben)}">£${fmt(ben)}</span>`;
   document.getElementById('roi-val').innerHTML=`<span class="${profCls(roi)}">${(roi*100).toFixed(1)}%</span>`;
 }
@@ -809,82 +1126,134 @@ async function confirmSell(id){
   const o=ops.find(x=>x.id===id);
   const precio=parseFloat(document.getElementById('sell-precio')?.value)||0;
   if(!precio){showToast('⚠️ Introduce el precio recibido');return;}
-  const fecha=document.getElementById('sell-fecha')?.value||new Date().toISOString().split('T')[0];
+  const fecha=document.getElementById('sell-fecha')?.value||today();
   const plataforma=document.getElementById('sell-plataforma')?.value||null;
   const coste=o.coste_total_gbp||0;
   const beneficio=precio-coste;
   const roi=coste?beneficio/coste:0;
-  const diasPos=o.fecha_compra?Math.round((new Date(fecha)-new Date(o.fecha_compra))/(864e5)):null;
-
+  const diasPos=o.fecha_compra?daysDiff(o.fecha_compra,fecha):null;
   const body={
-    estado:'vendido', fecha_venta:fecha, ingreso_neto_gbp:precio,
+    estado:'vendido',fecha_venta:fecha,ingreso_neto_gbp:precio,
     beneficio_neto_gbp:parseFloat(beneficio.toFixed(2)),
     roi_pct:parseFloat(roi.toFixed(4)),
-    dias_posesion:diasPos, plataforma_venta:plataforma,
+    dias_posesion:diasPos,plataforma_venta:plataforma,
     beneficio_carlos:parseFloat((beneficio*(o.pct_carlos||1)).toFixed(2)),
     beneficio_marta:parseFloat((beneficio*(o.pct_marta||0)).toFixed(2)),
     beneficio_dom:parseFloat((beneficio*(o.pct_dom||0)).toFixed(2))
   };
-
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
-    // Actualizar capital de cada socio
-    await updateSociosCapital({
-      Carlos: body.beneficio_carlos||0,
-      Marta:  body.beneficio_marta||0,
-      Dom:    body.beneficio_dom||0
-    });
+    await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
     document.getElementById('sell-overlay').classList.remove('open');
     await loadAll();
-    showToast('✅ Venta registrada — Beneficio £'+fmt(beneficio));
-  }catch(e){
-    console.error('confirmSell error:',e);
-    showToast('❌ '+e.message.substring(0,60));
-  }
+    showToast('✅ Venta registrada — £'+fmt(beneficio));
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
-/* Suma beneficios a socios y recalcula porcentajes */
+/* ── DEVUELTO MODAL ── */
+function openDevueltoModal(id){
+  const o=ops.find(x=>x.id===id);
+  if(!o) return;
+  document.getElementById('detail-overlay').classList.remove('open');
+  setTimeout(()=>{
+    document.getElementById('dev-content').innerHTML=`
+      <button class="modal-close" onclick="document.getElementById('dev-overlay').classList.remove('open')">✕</button>
+      <h2>Registrar devolución</h2>
+      <p class="sec-title">${o.modelo}</p>
+      <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Reembolso recibido (£)</label>
+          <input type="number" id="dev-reembolso" step="0.01" placeholder="0.00" oninput="previewDevuelto(${id})">
+        </div>
+        <div class="form-group">
+          <label>Gastos retorno (£)</label>
+          <input type="number" id="dev-gastos" step="0.01" placeholder="0.00" oninput="previewDevuelto(${id})">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Fecha devolución</label>
+        <input type="date" id="dev-fecha" value="${today()}">
+      </div>
+      <div id="dev-preview" style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:14px;display:none"></div>
+      <button class="btn btn-orange" onclick="confirmDevuelto(${id})">Confirmar devolución</button>`;
+    document.getElementById('dev-overlay').classList.add('open');
+  },200);
+}
+
+function previewDevuelto(id){
+  const o=ops.find(x=>x.id===id);
+  const reembolso=parseFloat(document.getElementById('dev-reembolso')?.value)||0;
+  const gastos=parseFloat(document.getElementById('dev-gastos')?.value)||0;
+  const coste=o.coste_total_gbp||0;
+  const resultado=reembolso-coste-gastos;
+  const dp=document.getElementById('dev-preview');
+  dp.style.display='block';
+  dp.innerHTML=`Resultado: <strong class="${profCls(resultado)}">£${fmt(resultado)}</strong> · Reembolso-Coste-Gastos`;
+}
+
+async function confirmDevuelto(id){
+  const o=ops.find(x=>x.id===id);
+  const reembolso=parseFloat(document.getElementById('dev-reembolso')?.value)||0;
+  const gastos=parseFloat(document.getElementById('dev-gastos')?.value)||0;
+  const fecha=document.getElementById('dev-fecha')?.value||today();
+  const coste=o.coste_total_gbp||0;
+  const resultado=reembolso-coste-gastos;
+  const diasPos=o.fecha_compra?daysDiff(o.fecha_compra,fecha):null;
+  const pC=o.pct_carlos||1, pM=o.pct_marta||0, pD=o.pct_dom||0;
+  const body={
+    estado:'devuelto',
+    importe_reembolso:reembolso,
+    gastos_retorno:gastos,
+    beneficio_neto_gbp:parseFloat(resultado.toFixed(2)),
+    roi_pct:coste?parseFloat((resultado/coste).toFixed(4)):0,
+    dias_posesion:diasPos,
+    fecha_venta:fecha,
+    beneficio_carlos:parseFloat((resultado*pC).toFixed(2)),
+    beneficio_marta:parseFloat((resultado*pM).toFixed(2)),
+    beneficio_dom:parseFloat((resultado*pD).toFixed(2))
+  };
+  try{
+    await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
+    document.getElementById('dev-overlay').classList.remove('open');
+    await loadAll();
+    showToast('↩️ Devolución registrada — £'+fmt(resultado));
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+}
+
+/* ── updateSociosCapital ── */
 async function updateSociosCapital(benMap){
-  // Leer socios frescos
   const fresh=await q('socios?order=nombre');
   const newCaps={};
   fresh.forEach(s=>{
     const b=benMap[s.nombre]||0;
-    newCaps[s.nombre]={
-      capital_actual:+(s.capital_actual+b).toFixed(2),
-      beneficio_total:+(s.beneficio_total+b).toFixed(2)
-    };
+    newCaps[s.nombre]={capital_actual:+(s.capital_actual+b).toFixed(2),beneficio_total:+(s.beneficio_total+b).toFixed(2)};
   });
   const total=Object.values(newCaps).reduce((s,v)=>s+v.capital_actual,0);
   await Promise.all(fresh.map(s=>{
-    const vals={...newCaps[s.nombre], porcentaje_actual:total>0?+(newCaps[s.nombre].capital_actual/total*100).toFixed(4):0};
+    const vals={...newCaps[s.nombre],porcentaje_actual:total>0?+(newCaps[s.nombre].capital_actual/total*100).toFixed(4):0};
     return q('socios?nombre=eq.'+encodeURIComponent(s.nombre),{method:'PATCH',body:JSON.stringify(vals)});
   }));
 }
 
-/* Modal nueva aportación */
+/* ── Aportación modal ── */
 function openAportacionModal(){
-  const today=new Date().toISOString().split('T')[0];
   document.getElementById('aport-content').innerHTML=`
     <button class="modal-close" onclick="document.getElementById('aport-overlay').classList.remove('open')">✕</button>
-    <h2>Nueva aportación</h2>
+    <h2>Nueva aportación / retirada</h2>
     <div class="form-group"><label>Socio</label>
-      <select id="ap-socio">
-        <option>Carlos</option><option>Marta</option><option>Dom</option>
-      </select>
+      <select id="ap-socio"><option>Carlos</option><option>Marta</option><option>Dom</option></select>
     </div>
     <div class="form-row">
       <div class="form-group"><label>Importe (£)</label>
         <input type="number" id="ap-importe" step="0.01" placeholder="0.00">
       </div>
       <div class="form-group"><label>Fecha</label>
-        <input type="date" id="ap-fecha" value="${today}">
+        <input type="date" id="ap-fecha" value="${today()}">
       </div>
     </div>
     <div class="form-group"><label>Tipo</label>
-      <select id="ap-tipo">
-        <option>Aportación</option><option>Retirada</option><option>Beneficio</option>
-      </select>
+      <select id="ap-tipo"><option>Aportación</option><option>Retirada</option><option>Beneficio</option></select>
     </div>
     <div class="form-group">
       <input type="text" id="ap-notas" placeholder="Notas (opcional)">
@@ -900,35 +1269,23 @@ async function saveAportacion(){
   const tipo=document.getElementById('ap-tipo')?.value||'Aportación';
   const notas=document.getElementById('ap-notas')?.value||null;
   if(!importe||!fecha){showToast('⚠️ Rellena importe y fecha');return;}
-
   const importeSigno=tipo==='Retirada'?-Math.abs(importe):Math.abs(importe);
-
   try{
-    // INSERT movimiento
     await qPost('movimientos',{fecha,tipo,socio,importe:importeSigno,notas});
-    // PATCH socio capital (solo para aportaciones y retiradas, no beneficios manuales)
     if(tipo==='Aportación'||tipo==='Retirada'){
       const s=socios.find(x=>x.nombre===socio);
       if(s){
         const newCap=+(s.capital_actual+importeSigno).toFixed(2);
         await q('socios?nombre=eq.'+encodeURIComponent(socio),{method:'PATCH',body:JSON.stringify({capital_actual:newCap})});
-        // Recalcular porcentajes
         const fresh=await q('socios?order=nombre');
         const total=fresh.reduce((s,x)=>s+(x.capital_actual||0),0);
-        await Promise.all(fresh.map(x=>
-          q('socios?nombre=eq.'+encodeURIComponent(x.nombre),{method:'PATCH',body:JSON.stringify({
-            porcentaje_actual:total>0?+(x.capital_actual/total*100).toFixed(4):0
-          })})
-        ));
+        await Promise.all(fresh.map(x=>q('socios?nombre=eq.'+encodeURIComponent(x.nombre),{method:'PATCH',body:JSON.stringify({porcentaje_actual:total>0?+(x.capital_actual/total*100).toFixed(4):0})})));
       }
     }
     document.getElementById('aport-overlay').classList.remove('open');
     await loadAll();
-    showToast('✅ '+tipo+' registrada — £'+fmt(Math.abs(importe)));
-  }catch(e){
-    console.error('saveAportacion error:',e);
-    showToast('❌ '+e.message.substring(0,60));
-  }
+    showToast('✅ '+tipo+' — £'+fmt(Math.abs(importe)));
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
 /* ── ADD WATCH ── */
@@ -940,8 +1297,7 @@ function calcCoste(){
 }
 function checkPct(){
   const f=document.getElementById('add-form');
-  const s=['pct_carlos','pct_marta','pct_dom']
-    .reduce((t,n)=>t+(parseFloat(f.querySelector('[name='+n+']')?.value)||0),0);
+  const s=['pct_carlos','pct_marta','pct_dom'].reduce((t,n)=>t+(parseFloat(f.querySelector('[name='+n+']')?.value)||0),0);
   document.getElementById('pct-warn').style.display=Math.abs(s-100)>0.5?'block':'none';
 }
 
@@ -959,22 +1315,15 @@ async function addWatch(e){
   const pC=(parseFloat(d.pct_carlos)||0)/100;
   const pM=(parseFloat(d.pct_marta)||0)/100;
   const pD=(parseFloat(d.pct_dom)||0)/100;
-  const plat=d.plataforma_compra
-    ? d.plataforma_compra+' '+(d.cuenta||'Carlos')
-    : (d.cuenta||'Carlos');
   const body={
     modelo:d.modelo.trim(),
-    plataforma_compra:plat.trim(),
+    plataforma_compra:d.plataforma_compra||null,
     fecha_compra:d.fecha_compra||null,
-    precio_gbp:precio,
-    gastos_envio_gbp:envio,
-    reparacion_gbp:rep,
-    gastos_forwarder_gbp:fwd,
+    precio_gbp:precio,gastos_envio_gbp:envio,reparacion_gbp:rep,gastos_forwarder_gbp:fwd,
     coste_total_gbp:coste,
     precio_listado_gbp:parseFloat(d.precio_listado_gbp)||0,
-    pct_carlos:pC, pct_marta:pM, pct_dom:pD,
-    beneficio_neto_gbp:-coste,
-    roi_pct:-1,
+    pct_carlos:pC,pct_marta:pM,pct_dom:pD,
+    beneficio_neto_gbp:-coste,roi_pct:-1,
     beneficio_carlos:+(-coste*pC).toFixed(2),
     beneficio_marta:+(-coste*pM).toFixed(2),
     beneficio_dom:+(-coste*pD).toFixed(2),
@@ -983,74 +1332,50 @@ async function addWatch(e){
     notas:d.notas||null
   };
   try{
-    const res=await qPost('operaciones',body);
-    // Reload fresh from DB to confirm save
+    await qPost('operaciones',body);
     await loadAll();
-    showToast('✅ Reloj añadido correctamente');
+    showToast('✅ Reloj añadido');
     e.target.reset();
-    e.target.querySelector('[name=pct_carlos]').value='100';
-    e.target.querySelector('[name=pct_marta]').value='0';
-    e.target.querySelector('[name=pct_dom]').value='0';
+    ['pct_carlos','pct_marta','pct_dom'].forEach((n,i)=>{
+      const el=e.target.querySelector('[name='+n+']');
+      if(el) el.value=i===0?100:0;
+    });
     document.getElementById('coste-preview').textContent='£0';
-    // Switch to stock to show the new watch
-    showView('stock', document.querySelectorAll('nav button')[1]);
-  }catch(er){
-    console.error('addWatch error:',er);
-    showToast('❌ '+er.message.substring(0,60));
-  }
+    showView('stock',document.querySelectorAll('nav button')[1]);
+  }catch(er){showToast('❌ '+er.message.substring(0,60));}
   btn.textContent='Añadir reloj';btn.disabled=false;
 }
 
-/* ── MARCAR DEVUELTO ── */
-async function markDevuelto(id){
-  if(!confirm('¿Marcar este reloj como devuelto?')) return;
-  try{
-    await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify({estado:'devuelto'})});
-    document.getElementById('detail-overlay').classList.remove('open');
-    await loadAll();
-    showToast('↩️ Marcado como devuelto');
-  }catch(e){showToast('❌ '+e.message.substring(0,60));}
-}
-
-/* ── ADD/EDIT TABS ── */
+/* ── EDIT TABS ── */
 function switchAddTab(tab){
-  document.getElementById('tab-nuevo').classList.toggle('active', tab==='nuevo');
-  document.getElementById('tab-editar').classList.toggle('active', tab==='editar');
-  document.getElementById('panel-nuevo').style.display = tab==='nuevo'?'block':'none';
-  document.getElementById('panel-editar').style.display = tab==='editar'?'block':'none';
+  document.getElementById('tab-nuevo').classList.toggle('active',tab==='nuevo');
+  document.getElementById('tab-editar').classList.toggle('active',tab==='editar');
+  document.getElementById('panel-nuevo').style.display=tab==='nuevo'?'block':'none';
+  document.getElementById('panel-editar').style.display=tab==='editar'?'block':'none';
   if(tab==='editar') renderEditList();
 }
 
 function renderEditList(){
-  const q=(document.getElementById('edit-search')?.value||'').toLowerCase();
-  const list=ops.filter(o=>o.estado!=='vendido'&&(o.modelo||'').toLowerCase().includes(q));
-  document.getElementById('edit-list').innerHTML = list.length
-    ? list.map(o=>`
+  const sq=(document.getElementById('edit-search')?.value||'').toLowerCase();
+  // Show ALL watches (including vendido/devuelto) for editing
+  const list=ops.filter(o=>(o.modelo||'').toLowerCase().includes(sq));
+  document.getElementById('edit-list').innerHTML=list.length
+    ?list.map(o=>`
       <div class="sell-item si-${(o.cuenta||'carlos').toLowerCase()}" onclick="loadEditForm(${o.id})">
         <div class="si-model">${o.modelo}</div>
         <div class="si-meta">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
-          Coste £${fmt(o.coste_total_gbp)} · ${o.estado} · ${o.fecha_compra||''}
+          <span class="badge ${estadoBadge(o.estado)}">${o.estado}</span>
+          £${fmt(o.coste_total_gbp)} · ${o.fecha_compra||''}
         </div>
       </div>`).join('')
-    : '<div class="empty"><p>Sin relojes en stock</p></div>';
+    :'<div class="empty"><p>Sin relojes</p></div>';
   document.getElementById('edit-form-wrap').style.display='none';
 }
 
 function loadEditForm(id){
   const o=ops.find(x=>x.id===id);
   if(!o) return;
-  document.querySelectorAll('#edit-list .sell-item').forEach(el=>el.classList.remove('selected'));
-  document.getElementById(`si-edit-${id}`)?.classList.add('selected');
-  // Re-render list with selection highlight
-  const q=(document.getElementById('edit-search')?.value||'').toLowerCase();
-  const list=ops.filter(x=>x.estado!=='vendido'&&(x.modelo||'').toLowerCase().includes(q));
-  document.getElementById('edit-list').innerHTML=list.map(x=>`
-    <div class="sell-item si-${(x.cuenta||'carlos').toLowerCase()}${x.id===id?' selected':''}" id="si-edit-${x.id}" onclick="loadEditForm(${x.id})">
-      <div class="si-model">${x.modelo}</div>
-      <div class="si-meta"><span class="badge ${cuentaBadge(x.cuenta)}">${x.cuenta||'—'}</span> Coste £${fmt(x.coste_total_gbp)} · ${x.estado}</div>
-    </div>`).join('');
-
   const wrap=document.getElementById('edit-form-wrap');
   wrap.style.display='block';
   wrap.innerHTML=`
@@ -1063,7 +1388,7 @@ function loadEditForm(id){
       <div class="form-row">
         <div class="form-group"><label>Plataforma compra</label>
           <select id="ef-plataforma">
-            ${['','Chrono24','eBay','Vinted','Catawiki','Reddit','Japón','Otro'].map(p=>`<option${o.plataforma_compra===p?' selected':''}>${p}</option>`).join('')}
+            ${['','Chrono24','eBay','Vinted','Catawiki','Reddit','Japón','Otro'].map(p=>`<option${(o.plataforma_compra||'')===(p)||o.plataforma_compra===p?' selected':''}>${p}</option>`).join('')}
           </select>
         </div>
         <div class="form-group"><label>Cuenta</label>
@@ -1081,38 +1406,65 @@ function loadEditForm(id){
     <div class="card">
       <div class="form-row">
         <div class="form-group"><label>Precio compra</label>
-          <input type="number" id="ef-precio" step="0.01" value="${o.precio_gbp||0}" oninput="calcEditCoste(${id})">
+          <input type="number" id="ef-precio" step="0.01" value="${o.precio_gbp||0}" oninput="calcEditCoste()">
         </div>
         <div class="form-group"><label>Gastos envío</label>
-          <input type="number" id="ef-envio" step="0.01" value="${o.gastos_envio_gbp||0}" oninput="calcEditCoste(${id})">
+          <input type="number" id="ef-envio" step="0.01" value="${o.gastos_envio_gbp||0}" oninput="calcEditCoste()">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group"><label>Reparación</label>
-          <input type="number" id="ef-rep" step="0.01" value="${o.reparacion_gbp||0}" oninput="calcEditCoste(${id})">
+          <input type="number" id="ef-rep" step="0.01" value="${o.reparacion_gbp||0}" oninput="calcEditCoste()">
         </div>
         <div class="form-group"><label>Forwarder</label>
-          <input type="number" id="ef-fwd" step="0.01" value="${o.gastos_forwarder_gbp||0}" oninput="calcEditCoste(${id})">
+          <input type="number" id="ef-fwd" step="0.01" value="${o.gastos_forwarder_gbp||0}" oninput="calcEditCoste()">
         </div>
       </div>
       <div style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2)">
         Coste total: <strong id="ef-coste" style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong>
       </div>
     </div>
-    <p class="sec-title">Venta</p>
+    <p class="sec-title">Estado y venta</p>
     <div class="card">
       <div class="form-row">
         <div class="form-group"><label>Precio listado</label>
           <input type="number" id="ef-listado" step="0.01" value="${o.precio_listado_gbp||0}">
         </div>
         <div class="form-group"><label>Estado</label>
-          <select id="ef-estado" onchange="onEditEstadoChange()">
-            ${['activo','listado','reservado','devuelto'].map(e=>`<option${o.estado===e?' selected':''}>${e}</option>`).join('')}
+          <select id="ef-estado" onchange="onEditEstadoChange(${id})">
+            ${['activo','listado','reservado','devuelto','vendido'].map(e=>`<option${o.estado===e?' selected':''}>${e}</option>`).join('')}
           </select>
         </div>
       </div>
       <div class="form-group"><label>Fecha publicación</label>
         <input type="date" id="ef-fpub" value="${o.fecha_publicacion||''}">
+      </div>
+      <!-- Venta fields (shown when vendido) -->
+      <div id="ef-venta-fields" style="${o.estado==='vendido'?'':'display:none'}">
+        <div class="form-row">
+          <div class="form-group"><label>Ingreso neto (£)</label>
+            <input type="number" id="ef-ingreso" step="0.01" value="${o.ingreso_neto_gbp||0}">
+          </div>
+          <div class="form-group"><label>Fecha venta</label>
+            <input type="date" id="ef-fventa" value="${o.fecha_venta||''}">
+          </div>
+        </div>
+        <div class="form-group"><label>Plataforma venta</label>
+          <select id="ef-platventa">
+            ${['','Chrono24','eBay','Vinted','Catawiki','Reddit','Otro'].map(p=>`<option${(o.plataforma_venta||'')===p?' selected':''}>${p}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <!-- Devuelto fields -->
+      <div id="ef-dev-fields" style="${o.estado==='devuelto'?'':'display:none'}">
+        <div class="form-row">
+          <div class="form-group"><label>Reembolso (£)</label>
+            <input type="number" id="ef-reembolso" step="0.01" value="${o.importe_reembolso||0}">
+          </div>
+          <div class="form-group"><label>Gastos retorno (£)</label>
+            <input type="number" id="ef-gastos-ret" step="0.01" value="${o.gastos_retorno||0}">
+          </div>
+        </div>
       </div>
     </div>
     <p class="sec-title">Reparto (%)</p>
@@ -1133,20 +1485,23 @@ function loadEditForm(id){
       <textarea id="ef-notas" rows="2" style="resize:none;width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-size:15px;outline:none">${o.notas||''}</textarea>
     </div>
     <button class="btn btn-gold" onclick="saveEdit(${id})">Guardar cambios</button>
-    <div style="height:10px"></div>
-  `;
+    <div style="height:8px"></div>
+    <button class="btn btn-red" onclick="deleteWatch(${id})">Eliminar reloj</button>
+    <div style="height:10px"></div>`;
   wrap.scrollIntoView({behavior:'smooth'});
 }
 
-function onEditEstadoChange(){
+function onEditEstadoChange(id){
   const estado=document.getElementById('ef-estado')?.value;
   const fpub=document.getElementById('ef-fpub');
-  if(estado==='listado'&&fpub&&!fpub.value){
-    fpub.value=new Date().toISOString().split('T')[0];
-  }
+  if(estado==='listado'&&fpub&&!fpub.value) fpub.value=today();
+  const ventaFields=document.getElementById('ef-venta-fields');
+  const devFields=document.getElementById('ef-dev-fields');
+  if(ventaFields) ventaFields.style.display=estado==='vendido'?'block':'none';
+  if(devFields) devFields.style.display=estado==='devuelto'?'block':'none';
 }
 
-function calcEditCoste(id){
+function calcEditCoste(){
   const c=['ef-precio','ef-envio','ef-rep','ef-fwd']
     .reduce((s,i)=>s+(parseFloat(document.getElementById(i)?.value)||0),0);
   const el=document.getElementById('ef-coste');
@@ -1159,28 +1514,51 @@ async function saveEdit(id){
   const envio=parseFloat(document.getElementById('ef-envio')?.value)||0;
   const rep=parseFloat(document.getElementById('ef-rep')?.value)||0;
   const fwd=parseFloat(document.getElementById('ef-fwd')?.value)||0;
-  const coste=precio+envio+rep+fwd;
+  const coste=+(precio+envio+rep+fwd).toFixed(2);
   const pC=(parseFloat(document.getElementById('ef-pc')?.value)||0)/100;
   const pM=(parseFloat(document.getElementById('ef-pm')?.value)||0)/100;
   const pD=(parseFloat(document.getElementById('ef-pd')?.value)||0)/100;
   const cuenta=document.getElementById('ef-cuenta')?.value||'Carlos';
-  const plat=(document.getElementById('ef-plataforma')?.value||'')+' '+cuenta;
+  const plat=document.getElementById('ef-plataforma')?.value||null;
+  const estado=document.getElementById('ef-estado')?.value||o.estado;
 
-  const body={
-    modelo: document.getElementById('ef-modelo')?.value||o.modelo,
-    plataforma_compra: plat.trim(),
+  let body={
+    modelo:document.getElementById('ef-modelo')?.value||o.modelo,
+    plataforma_compra:plat||null,
     cuenta,
-    fecha_compra: document.getElementById('ef-fecha')?.value||null,
-    precio_gbp:precio, gastos_envio_gbp:envio, reparacion_gbp:rep,
-    gastos_forwarder_gbp:fwd, coste_total_gbp:coste,
+    fecha_compra:document.getElementById('ef-fecha')?.value||null,
+    precio_gbp:precio,gastos_envio_gbp:envio,reparacion_gbp:rep,
+    gastos_forwarder_gbp:fwd,coste_total_gbp:coste,
     precio_listado_gbp:parseFloat(document.getElementById('ef-listado')?.value)||0,
     fecha_publicacion:document.getElementById('ef-fpub')?.value||null,
-    estado:document.getElementById('ef-estado')?.value||o.estado,
-    pct_carlos:pC, pct_marta:pM, pct_dom:pD,
-    beneficio_neto_gbp:-coste,
-    beneficio_carlos:-coste*pC, beneficio_marta:-coste*pM, beneficio_dom:-coste*pD,
+    estado,pct_carlos:pC,pct_marta:pM,pct_dom:pD,
     notas:document.getElementById('ef-notas')?.value||null
   };
+
+  if(estado==='vendido'){
+    const ingreso=parseFloat(document.getElementById('ef-ingreso')?.value)||0;
+    const fventa=document.getElementById('ef-fventa')?.value||null;
+    const platventa=document.getElementById('ef-platventa')?.value||null;
+    const beneficio=ingreso-coste;
+    const roi=coste?beneficio/coste:0;
+    const diasPos=body.fecha_compra&&fventa?daysDiff(body.fecha_compra,fventa):null;
+    body={...body,ingreso_neto_gbp:ingreso,beneficio_neto_gbp:+beneficio.toFixed(2),
+      roi_pct:+roi.toFixed(4),dias_posesion:diasPos,fecha_venta:fventa,plataforma_venta:platventa,
+      beneficio_carlos:+(beneficio*pC).toFixed(2),beneficio_marta:+(beneficio*pM).toFixed(2),
+      beneficio_dom:+(beneficio*pD).toFixed(2)};
+  } else if(estado==='devuelto'){
+    const reembolso=parseFloat(document.getElementById('ef-reembolso')?.value)||0;
+    const gastosRet=parseFloat(document.getElementById('ef-gastos-ret')?.value)||0;
+    const resultado=reembolso-coste-gastosRet;
+    body={...body,importe_reembolso:reembolso,gastos_retorno:gastosRet,
+      beneficio_neto_gbp:+resultado.toFixed(2),roi_pct:coste?+(resultado/coste).toFixed(4):0,
+      beneficio_carlos:+(resultado*pC).toFixed(2),beneficio_marta:+(resultado*pM).toFixed(2),
+      beneficio_dom:+(resultado*pD).toFixed(2)};
+  } else {
+    body={...body,beneficio_neto_gbp:-coste,
+      beneficio_carlos:+(-coste*pC).toFixed(2),beneficio_marta:+(-coste*pM).toFixed(2),
+      beneficio_dom:+(-coste*pD).toFixed(2)};
+  }
 
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
@@ -1188,141 +1566,34 @@ async function saveEdit(id){
     showToast('✅ Reloj actualizado');
     document.getElementById('edit-form-wrap').style.display='none';
     renderEditList();
-  }catch(e){
-    console.error('saveEdit error:',e);
-    showToast('❌ '+e.message.substring(0,60));
-  }
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
-/* ── STATS SECTION ── */
-function renderStatsSection(){
-  const vendidos=ops.filter(o=>o.estado==='vendido'&&o.dias_posesion!=null&&o.ingreso_neto_gbp!=null);
-  const enstock=ops.filter(o=>o.estado!=='vendido'&&o.fecha_compra);
-  const today=new Date();
-
-  if(!vendidos.length&&!enstock.length) return '';
-
-  // 1. Tiempo medio compra→venta
-  const avgDias=vendidos.length?vendidos.reduce((s,o)=>s+(o.dias_posesion||0),0)/vendidos.length:0;
-  const ranges=[{l:'<15d',min:0,max:15},{l:'15-30d',min:15,max:30},{l:'30-60d',min:30,max:60},{l:'>60d',min:60,max:9999}];
-  const rangeCounts=ranges.map(r=>vendidos.filter(o=>o.dias_posesion>=r.min&&o.dias_posesion<r.max).length);
-  const maxRange=Math.max(...rangeCounts,1);
-
-  // 2. Velocidad por plataforma
-  const platMap={};
-  vendidos.forEach(o=>{
-    const p=o.plataforma_venta||'Otro';
-    if(!platMap[p]) platMap[p]={n:0,dias:0};
-    platMap[p].n++;platMap[p].dias+=(o.dias_posesion||0);
-  });
-  const platRows=Object.entries(platMap).sort((a,b)=>b[1].n-a[1].n);
-
-  // 3. Tiempo publicación→venta
-  const conPub=vendidos.filter(o=>o.fecha_publicacion&&o.fecha_venta);
-  const avgPub=conPub.length?conPub.reduce((s,o)=>{
-    const d=Math.round((new Date(o.fecha_venta)-new Date(o.fecha_publicacion))/(864e5));
-    return s+d;
-  },0)/conPub.length:0;
-
-  // 4. Stock aging
-  const aging=enstock.map(o=>{
-    const d=Math.round((today-new Date(o.fecha_compra))/(864e5));
-    return {...o,daysInStock:d};
-  }).sort((a,b)=>b.daysInStock-a.daysInStock);
-
-  return `
-  <p class="sec-title" style="margin-top:18px">Estadísticas de tiempo</p>
-
-  <div class="stat-card" id="sc-1">
-    <div class="stat-card-header" onclick="toggleStat('sc-1')">
-      <div><div class="stat-card-title">Tiempo compra → venta</div><div class="stat-card-value">${avgDias.toFixed(0)}d media</div></div>
-      <span class="stat-card-chevron">▾</span>
-    </div>
-    <div class="stat-card-body">
-      ${ranges.map((r,i)=>`
-        <div class="range-row">
-          <span class="range-label">${r.l}</span>
-          <div class="range-bar-wrap"><div class="range-bar-fill" style="width:${Math.round(rangeCounts[i]/maxRange*100)}%"></div></div>
-          <span class="range-count">${rangeCounts[i]}</span>
-        </div>`).join('')}
-      <div style="font-size:11px;color:var(--text2);margin-top:6px">${vendidos.length} relojes vendidos</div>
-    </div>
-  </div>
-
-  <div class="stat-card" id="sc-2">
-    <div class="stat-card-header" onclick="toggleStat('sc-2')">
-      <div><div class="stat-card-title">Velocidad por plataforma</div><div class="stat-card-value">${platRows.length} plataformas</div></div>
-      <span class="stat-card-chevron">▾</span>
-    </div>
-    <div class="stat-card-body">
-      <div style="display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;font-size:12px;margin-top:6px">
-        <span style="color:var(--text2);font-weight:700">Plataforma</span><span style="color:var(--text2);font-weight:700;text-align:center">Ventas</span><span style="color:var(--text2);font-weight:700;text-align:right">Media</span>
-        ${platRows.map(([p,v])=>`
-          <span>${p}</span>
-          <span style="text-align:center;color:var(--gold2)">${v.n}</span>
-          <span style="text-align:right;color:var(--text2)">${(v.dias/v.n).toFixed(0)}d</span>`).join('')}
-      </div>
-    </div>
-  </div>
-
-  <div class="stat-card" id="sc-3">
-    <div class="stat-card-header" onclick="toggleStat('sc-3')">
-      <div><div class="stat-card-title">Publicación → venta</div><div class="stat-card-value">${avgPub.toFixed(0)}d media</div></div>
-      <span class="stat-card-chevron">▾</span>
-    </div>
-    <div class="stat-card-body">
-      <div style="font-size:12px;color:var(--text2);margin-top:6px">${conPub.length} relojes con fecha de publicación registrada</div>
-      ${conPub.slice(0,5).map(o=>{
-        const d=Math.round((new Date(o.fecha_venta)-new Date(o.fecha_publicacion))/(864e5));
-        return `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text2)">${o.modelo.substring(0,28)}</span><span>${d}d</span></div>`;
-      }).join('')}
-    </div>
-  </div>
-
-  <div class="stat-card" id="sc-4">
-    <div class="stat-card-header" onclick="toggleStat('sc-4')">
-      <div><div class="stat-card-title">Stock por antigüedad</div><div class="stat-card-value">${aging.length} relojes</div></div>
-      <span class="stat-card-chevron">▾</span>
-    </div>
-    <div class="stat-card-body">
-      ${aging.map(o=>{
-        const cls=o.daysInStock<30?'aging-green':o.daysInStock<60?'aging-yellow':'aging-red';
-        return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
-          <span class="aging-dot ${cls}"></span>
-          <span style="flex:1;font-size:12px">${o.modelo.substring(0,30)}</span>
-          <span style="font-size:12px;color:var(--text2)">${o.daysInStock}d</span>
-        </div>`;
-      }).join('')}
-      <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--text2)">
-        <span><span class="aging-dot aging-green" style="display:inline-block;margin-right:3px"></span>&lt;30d</span>
-        <span><span class="aging-dot aging-yellow" style="display:inline-block;margin-right:3px"></span>30-60d</span>
-        <span><span class="aging-dot aging-red" style="display:inline-block;margin-right:3px"></span>&gt;60d</span>
-      </div>
-    </div>
-  </div>`;
-}
-
-function toggleStat(id){
-  document.getElementById(id)?.classList.toggle('open');
-}
-
-/* ── DELETE ── */
+/* ── DELETE WATCH ── */
 async function deleteWatch(id){
-  if(!confirm('¿Eliminar este reloj?'))return;
+  if(!confirm('¿Eliminar este reloj? Esta acción no se puede deshacer.')) return;
   try{
     await q('operaciones?id=eq.'+id,{method:'DELETE'});
     document.getElementById('detail-overlay').classList.remove('open');
     await loadAll();
-    showToast('🗑️ Eliminado');
-  }catch(e){
-    console.error('deleteWatch error:',e);
-    showToast('❌ '+e.message.substring(0,60));
-  }
+    showToast('🗑️ Reloj eliminado');
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+}
+
+/* ── DELETE MOVIMIENTO ── */
+async function deleteMov(id,evt){
+  evt.stopPropagation();
+  if(!confirm('¿Eliminar este movimiento?')) return;
+  try{
+    await q('movimientos?id=eq.'+id,{method:'DELETE'});
+    await loadAll();
+    showToast('🗑️ Movimiento eliminado');
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
 /* ── MODAL CLOSE ── */
 function closeOverlay(id,e){
-  if(e.target.id===id)document.getElementById(id).classList.remove('open');
+  if(e.target.id===id) document.getElementById(id).classList.remove('open');
 }
 
 /* ── TOAST ── */
@@ -1335,7 +1606,7 @@ function showToast(msg){
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
   loadAll();
-  if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 });
 </script>
 </body>
