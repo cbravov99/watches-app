@@ -160,10 +160,10 @@
 
 <header>
   <div>
-    <h1>Ã¢ÂÂ WATCHES</h1>
-    <span id="header-sub">GestiÃÂ³n de relojes</span>
+    <h1>⌚ WATCHES</h1>
+    <span id="header-sub">Gestión de relojes</span>
   </div>
-  <div style="text-align:right"><span id="sync-status">Ã¢ÂÂ</span></div>
+  <div style="text-align:right"><span id="sync-status">—</span></div>
 </header>
 
 <main>
@@ -175,8 +175,8 @@
   <!-- STOCK -->
   <div class="view" id="view-stock">
     <div class="filter-tabs" id="stock-filter-tabs">
-      <button class="ftab active" data-filter="activo,listado,devuelto" onclick="setStockFilter('activo,listado,devuelto',this)">En stock</button>
-      <button class="ftab" data-filter="activo" onclick="setStockFilter('comprado',this)">Comprado</button>
+      <button class="ftab active" data-filter="comprado,listado,devuelto" onclick="setStockFilter('comprado,listado,devuelto',this)">En stock</button>
+      <button class="ftab" data-filter="comprado" onclick="setStockFilter('comprado',this)">Comprado</button>
       <button class="ftab" data-filter="listado" onclick="setStockFilter('listado',this)">Listado</button>
       <button class="ftab" style="color:var(--orange)" data-filter="devuelto" onclick="setStockFilter('devuelto',this)">Devueltos</button>
     </div>
@@ -188,17 +188,17 @@
         <option value="Marta">Marta</option>
       </select>
       <select id="stock-age-filter" onchange="renderStock()" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px;-webkit-appearance:none;flex:1">
-        <option value="">AntigÃÂ¼edad: Todas</option>
-        <option value="lt30">&lt;30 dÃÂ­as</option>
-        <option value="30-60">30-60 dÃÂ­as</option>
-        <option value="gt60">&gt;60 dÃÂ­as</option>
+        <option value="">Antigüedad: Todas</option>
+        <option value="lt30">&lt;30 días</option>
+        <option value="30-60">30-60 días</option>
+        <option value="gt60">&gt;60 días</option>
       </select>
     </div>
     <div class="sort-row">
       <span style="font-size:11px;color:var(--text2);line-height:28px;flex-shrink:0">Ordenar:</span>
       <button class="stab active" id="ss-fecha" onclick="setStockSort('fecha',this)">Fecha</button>
       <button class="stab" id="ss-coste" onclick="setStockSort('coste',this)">Coste</button>
-      <button class="stab" id="ss-dias" onclick="setStockSort('dias',this)">DÃÂ­as</button>
+      <button class="stab" id="ss-dias" onclick="setStockSort('dias',this)">Días</button>
     </div>
     <div class="search-wrap">
       <svg class="search-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -223,16 +223,16 @@
     <div id="ventas-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
   </div>
 
-  <!-- ESTADÃÂSTICAS -->
+  <!-- ESTADÍSTICAS -->
   <div class="view" id="view-stats">
     <div id="stats-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
   </div>
 
-  <!-- AÃÂADIR / EDITAR -->
+  <!-- AÑADIR / EDITAR -->
   <div class="view" id="view-add">
     <div class="view-tabs">
       <button class="view-tab active" id="tab-nuevo" onclick="switchAddTab('nuevo')">+ Nuevo</button>
-      <button class="view-tab" id="tab-editar" onclick="switchAddTab('editar')">Ã¢ÂÂÃ¯Â¸Â Editar</button>
+      <button class="view-tab" id="tab-editar" onclick="switchAddTab('editar')">✏️ Editar</button>
     </div>
 
     <!-- TAB NUEVO -->
@@ -247,9 +247,9 @@
             <div class="form-group">
               <label>Plataforma compra</label>
               <select name="plataforma_compra">
-                <option value="">Ã¢ÂÂ Seleccionar Ã¢ÂÂ</option>
+                <option value="">— Seleccionar —</option>
                 <option>Chrono24</option><option>eBay</option><option>Vinted</option>
-                <option>Catawiki</option><option>Reddit</option><option>JapÃÂ³n</option><option>Otro</option>
+                <option>Catawiki</option><option>Reddit</option><option>Japón</option><option>Otro</option>
               </select>
             </div>
             <div class="form-group">
@@ -265,7 +265,7 @@
             <input type="date" name="fecha_compra">
           </div>
         </div>
-        <p class="sec-title">Costes (ÃÂ£)</p>
+        <p class="sec-title">Costes (£)</p>
         <div class="card">
           <div class="form-row">
             <div class="form-group">
@@ -273,13 +273,13 @@
               <input type="number" name="precio_gbp" step="0.01" placeholder="0.00" oninput="calcCoste()">
             </div>
             <div class="form-group">
-              <label>Gastos envÃÂ­o</label>
+              <label>Gastos envío</label>
               <input type="number" name="gastos_envio_gbp" step="0.01" placeholder="0.00" oninput="calcCoste()">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>ReparaciÃÂ³n</label>
+              <label>Reparación</label>
               <input type="number" name="reparacion_gbp" step="0.01" placeholder="0.00" oninput="calcCoste()">
             </div>
             <div class="form-group">
@@ -288,7 +288,7 @@
             </div>
           </div>
           <div style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2)">
-            Coste total: <strong id="coste-preview" style="color:var(--gold2)">ÃÂ£0</strong>
+            Coste total: <strong id="coste-preview" style="color:var(--gold2)">£0</strong>
           </div>
         </div>
         <p class="sec-title">Venta</p>
@@ -301,9 +301,8 @@
             <div class="form-group">
               <label>Estado</label>
               <select name="estado">
-                <option value="activo">Comprado</option>
+                <option value="comprado">Comprado</option>
                 <option value="listado">Listado</option>
-                <option value="reservado">Reservado</option>
               </select>
             </div>
           </div>
@@ -324,12 +323,12 @@
               <input type="number" name="pct_dom" step="1" min="0" max="100" value="0" oninput="checkPct()">
             </div>
           </div>
-          <div id="pct-warn" style="font-size:11px;color:var(--red);display:none">Ã¢ÂÂ  Los % deben sumar 100</div>
+          <div id="pct-warn" style="font-size:11px;color:var(--red);display:none">⚠ Los % deben sumar 100</div>
         </div>
         <div class="form-group">
           <textarea name="notas" placeholder="Notas..." rows="2" style="resize:none"></textarea>
         </div>
-        <button type="submit" class="btn btn-gold" id="add-btn">AÃÂ±adir reloj</button>
+        <button type="submit" class="btn btn-gold" id="add-btn">Añadir reloj</button>
       </form>
     </div>
 
@@ -370,7 +369,7 @@
   </button>
   <button onclick="showView('add',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
-    AÃÂ±adir
+    Añadir
   </button>
   <button onclick="showView('socios',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -395,7 +394,7 @@
   <div class="modal" id="dev-content"></div>
 </div>
 
-<!-- APORTACIÃÂN MODAL -->
+<!-- APORTACIÓN MODAL -->
 <div class="modal-overlay" id="aport-overlay" onclick="closeOverlay('aport-overlay',event)">
   <div class="modal" id="aport-content"></div>
 </div>
@@ -406,10 +405,10 @@ const SKEY='sb_publishable_H70ojBN_dEsaBzicie13Kg_2JzTDFJD';
 const H={'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':'return=representation'};
 
 let ops=[], socios=[], movs=[];
-let stockFilter='activo,listado,devuelto';
+let stockFilter='comprado,listado,devuelto';
 let stockSort='fecha';
 
-/* Ã¢ÂÂÃ¢ÂÂ HTTP helpers Ã¢ÂÂÃ¢ÂÂ */
+/* ── HTTP helpers ── */
 async function q(ep,opt={}){
   const {headers:optH={},...restOpt}=opt;
   const hh={...H,...optH};
@@ -427,7 +426,7 @@ async function qPost(ep,body){
   return txt?JSON.parse(txt):null;
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ Load all Ã¢ÂÂÃ¢ÂÂ */
+/* ── Load all ── */
 async function loadAll(){
   try{
     [ops,socios,movs]=await Promise.all([
@@ -435,23 +434,23 @@ async function loadAll(){
       q('socios?order=capital_actual.desc'),
       q('movimientos?order=fecha.desc')
     ]);
-    document.getElementById('sync-status').textContent='Ã¢ÂÂ '+new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('sync-status').textContent='✓ '+new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
     renderDash(); renderStock(); renderVentas(); renderStats(); renderSocios();
     populateVentasFilters();
   }catch(e){
     document.getElementById('sync-status').textContent='Error';
-    showToast('Ã¢ÂÂ Ã¯Â¸Â Error Supabase');
+    showToast('⚠️ Error Supabase');
     console.error(e);
   }
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ Navigation Ã¢ÂÂÃ¢ÂÂ */
+/* ── Navigation ── */
 function showView(name,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   if(btn) btn.classList.add('active');
-  const t={dashboard:'Dashboard',stock:'Inventario',ventas:'Historial ventas',stats:'EstadÃÂ­sticas',add:'Nuevo reloj',socios:'Socios & Capital'};
+  const t={dashboard:'Dashboard',stock:'Inventario',ventas:'Historial ventas',stats:'Estadísticas',add:'Nuevo reloj',socios:'Socios & Capital'};
   document.getElementById('header-sub').textContent=t[name]||'';
   if(name==='add') fillCurrentPcts();
 }
@@ -472,7 +471,7 @@ function fillCurrentPcts(){
   });
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ Helpers Ã¢ÂÂÃ¢ÂÂ */
+/* ── Helpers ── */
 const fmt=n=>(n||0).toLocaleString('en-GB',{minimumFractionDigits:0,maximumFractionDigits:0});
 const fmtD=n=>(n||0).toFixed(0);
 const pct=n=>((n||0)*100).toFixed(1)+'%';
@@ -483,7 +482,7 @@ const daysDiff=(d1,d2)=>Math.round((new Date(d2)-new Date(d1))/(864e5));
 const daysFromNow=d=>d?Math.round((new Date()-new Date(d))/(864e5)):0;
 
 function estadoBadge(e){
-  const m={'vendido':'b-green','listado':'b-blue','activo':'b-gold','devuelto':'b-orange'};
+  const m={'vendido':'b-green','listado':'b-blue','comprado':'b-gold','devuelto':'b-orange'};
   return m[e]||'b-gold';
 }
 function cardClass(o){
@@ -507,12 +506,12 @@ function agingClass(days){
   return 'aging-red';
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ DASHBOARD Ã¢ÂÂÃ¢ÂÂ */
+/* ── DASHBOARD ── */
 function renderDash(){
   const enstock=ops.filter(o=>['comprado','listado','devuelto'].includes(o.estado));
-  const activos=ops.filter(o=>o.estado==='comprado');
+  const comprados=ops.filter(o=>o.estado==='comprado');
   const listados=ops.filter(o=>o.estado==='listado');
-  const reservados=ops.filter(o=>o.estado==='reservado');
+  
   const devueltos=ops.filter(o=>o.estado==='devuelto');
   const vendidos=ops.filter(o=>o.estado==='vendido');
   const vendidosConPrecio=vendidos.filter(o=>o.ingreso_neto_gbp!=null);
@@ -525,15 +524,15 @@ function renderDash(){
 
   document.getElementById('dash-content').innerHTML=`
     <div class="stats">
-      <div class="stat"><div class="lbl">En stock</div><div class="val">${enstock.length}</div><div class="sub">${activos.length} activo ÃÂ· ${listados.length} listado ÃÂ· ${reservados.length} reservado</div></div>
+      <div class="stat"><div class="lbl">En stock</div><div class="val">${enstock.length}</div><div class="sub">${comprados.length} comprado · ${listados.length} listado</div></div>
       <div class="stat"><div class="lbl">Vendidos</div><div class="val">${vendidos.length}</div><div class="sub">${devueltos.length} devuelto${devueltos.length!==1?'s':''}</div></div>
-      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">ÃÂ£${fmt(capitalRiesgo)}</div><div class="sub">activos + listados</div></div>
-      <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">ÃÂ£${fmt(benTotal)}</div><div class="sub">ROI medio ${pct(avgROI)}</div></div>
+      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">£${fmt(capitalRiesgo)}</div><div class="sub">comprados + listados</div></div>
+      <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">£${fmt(benTotal)}</div><div class="sub">ROI medio ${pct(avgROI)}</div></div>
     </div>
     <div class="card" style="margin-bottom:14px">
       <div class="sec-title" style="margin-bottom:8px">Capital total</div>
-      <div style="font-size:26px;font-weight:800;color:var(--gold2)">ÃÂ£${fmt(capTotal)}</div>
-      <div style="font-size:11px;color:var(--text2);margin-top:3px">${socios.map(s=>`${s.nombre} ${pct2(s.porcentaje_actual)}`).join(' ÃÂ· ')}</div>
+      <div style="font-size:26px;font-weight:800;color:var(--gold2)">£${fmt(capTotal)}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:3px">${socios.map(s=>`${s.nombre} ${pct2(s.porcentaje_actual)}`).join(' · ')}</div>
     </div>
     <p class="sec-title">Actividad reciente</p>
     ${recientes.map(o=>`
@@ -543,15 +542,15 @@ function renderDash(){
           <span class="badge ${estadoBadge(o.estado)}">${o.estado}</span>
         </div>
         <div class="meta">
-          <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'Ã¢ÂÂ'}</span>
-          <span>ÃÂ£${fmt(o.coste_total_gbp)}</span>
-          ${o.estado==='vendido'?`<span class="${profCls(o.beneficio_neto_gbp)}">+ÃÂ£${fmt(o.beneficio_neto_gbp)}</span>`:''}
+          <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
+          <span>£${fmt(o.coste_total_gbp)}</span>
+          ${o.estado==='vendido'?`<span class="${profCls(o.beneficio_neto_gbp)}">+£${fmt(o.beneficio_neto_gbp)}</span>`:''}
           <span>${o.fecha_compra||''}</span>
         </div>
       </div>`).join('')}`;
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ STOCK Ã¢ÂÂÃ¢ÂÂ */
+/* ── STOCK ── */
 function setStockFilter(f,btn){
   stockFilter=f;
   document.querySelectorAll('#stock-filter-tabs .ftab').forEach(b=>b.classList.remove('active'));
@@ -591,11 +590,11 @@ function renderStock(){
   const totalCoste=list.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   document.getElementById('stock-summary').innerHTML=list.length?`
     <div style="font-size:12px;color:var(--text2);margin-bottom:6px">
-      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> ÃÂ· Invertido: <span style="color:var(--gold2)">ÃÂ£${fmt(totalCoste)}</span>
+      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> · Invertido: <span style="color:var(--gold2)">£${fmt(totalCoste)}</span>
     </div>`:''
 
   if(!list.length){
-    document.getElementById('stock-content').innerHTML=`<div class="empty"><div class="icon">Ã¢ÂÂ</div><p>Sin relojes en esta categorÃÂ­a</p></div>`;
+    document.getElementById('stock-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes en esta categoría</p></div>`;
     return;
   }
   document.getElementById('stock-content').innerHTML=list.map(o=>{
@@ -604,16 +603,16 @@ function renderStock(){
     return `
     <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
       <div style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center">
-        <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}">Ã¢ÂÂ ${o.cuenta||'Carlos'}</span>
+        <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}">● ${o.cuenta||'Carlos'}</span>
         <span class="badge ${estadoBadge(o.estado)}">${o.estado}</span>
       </div>
       <div class="model">${o.modelo}</div>
       <div style="margin:6px 0;display:flex;align-items:center;gap:8px">
-        <span class="price">ÃÂ£${fmt(o.coste_total_gbp)}</span>
-        ${o.precio_listado_gbp?`<span style="font-size:12px;color:var(--text2)">Ã¢ÂÂ ÃÂ£${fmt(o.precio_listado_gbp)}</span>`:''}
+        <span class="price">£${fmt(o.coste_total_gbp)}</span>
+        ${o.precio_listado_gbp?`<span style="font-size:12px;color:var(--text2)">→ £${fmt(o.precio_listado_gbp)}</span>`:''}
       </div>
       <div class="meta">
-        <span>${o.plataforma_compra||'Ã¢ÂÂ'}</span>
+        <span>${o.plataforma_compra||'—'}</span>
         <span>${o.fecha_compra||''}</span>
         <span style="display:flex;align-items:center;gap:3px"><span class="aging-dot ${aCls}" style="display:inline-block"></span>${dias}d</span>
         <span>${reparto(o)}</span>
@@ -622,7 +621,7 @@ function renderStock(){
   }).join('');
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ VENTAS Ã¢ÂÂÃ¢ÂÂ */
+/* ── VENTAS ── */
 function populateVentasFilters(){
   const v=ops.filter(o=>o.estado==='vendido');
   // Meses
@@ -657,40 +656,40 @@ function renderVentas(){
   document.getElementById('ventas-content').innerHTML=`
     <div class="card" style="margin-bottom:14px">
       <div class="sum-row"><span class="k">Operaciones</span><span class="v">${v.length}</span></div>
-      <div class="sum-row"><span class="k">Ingresos totales</span><span class="v">ÃÂ£${fmt(totIng)}</span></div>
-      <div class="sum-row"><span class="k">Beneficio total</span><span class="v ${profCls(totBen)}">ÃÂ£${fmt(totBen)}</span></div>
+      <div class="sum-row"><span class="k">Ingresos totales</span><span class="v">£${fmt(totIng)}</span></div>
+      <div class="sum-row"><span class="k">Beneficio total</span><span class="v ${profCls(totBen)}">£${fmt(totBen)}</span></div>
       <div class="sum-row"><span class="k">ROI medio</span><span class="v">${pct(avgRoi)}</span></div>
-      <div class="sum-row"><span class="k">DÃÂ­as medio posesiÃÂ³n</span><span class="v">${avgDias.toFixed(0)}d</span></div>
+      <div class="sum-row"><span class="k">Días medio posesión</span><span class="v">${avgDias.toFixed(0)}d</span></div>
     </div>
     <p class="sec-title">Historial (${v.length})</p>
     ${v.map(o=>`
       <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
         <div class="row">
           <div class="model">${o.modelo}</div>
-          <span class="${profCls(o.beneficio_neto_gbp)}" style="font-size:15px">ÃÂ£${fmt(o.beneficio_neto_gbp)}</span>
+          <span class="${profCls(o.beneficio_neto_gbp)}" style="font-size:15px">£${fmt(o.beneficio_neto_gbp)}</span>
         </div>
         <div class="meta">
-          <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'Ã¢ÂÂ'}</span>
-          <span>${o.fecha_venta||'Ã¢ÂÂ'}</span>
-          <span>${o.plataforma_venta||'Ã¢ÂÂ'}</span>
+          <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
+          <span>${o.fecha_venta||'—'}</span>
+          <span>${o.plataforma_venta||'—'}</span>
           <span>ROI ${pct(o.roi_pct)}</span>
           <span>${o.dias_posesion!=null?o.dias_posesion+'d':'?d'}</span>
         </div>
       </div>`).join('')}`;
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ ESTADÃÂSTICAS Ã¢ÂÂÃ¢ÂÂ */
+/* ── ESTADÍSTICAS ── */
 function renderStats(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
   const enstock=ops.filter(o=>['comprado','listado','devuelto'].includes(o.estado));
   const todayD=new Date();
 
   if(!ops.length){
-    document.getElementById('stats-content').innerHTML='<div class="empty"><div class="icon">Ã°ÂÂÂ</div><p>Sin datos todavÃÂ­a</p></div>';
+    document.getElementById('stats-content').innerHTML='<div class="empty"><div class="icon">📊</div><p>Sin datos todavía</p></div>';
     return;
   }
 
-  // 1. DÃÂ­as por tramos
+  // 1. Días por tramos
   const vendConDias=vendidos.filter(o=>o.dias_posesion!=null);
   const avgDias=vendConDias.length?vendConDias.reduce((s,o)=>s+(o.dias_posesion||0),0)/vendConDias.length:0;
   const ranges=[{l:'<15d',min:0,max:15},{l:'15-30d',min:15,max:30},{l:'30-60d',min:30,max:60},{l:'>60d',min:60,max:9999}];
@@ -760,16 +759,16 @@ function renderStats(){
     <p class="sec-title">Resumen global</p>
     <div class="stats" style="margin-bottom:14px">
       <div class="stat"><div class="lbl">Total ops</div><div class="val">${totalOps}</div><div class="sub">${vendidos.length} vendidas</div></div>
-      <div class="stat"><div class="lbl">Capital riesgo</div><div class="val">ÃÂ£${fmt(capitalRiesgo)}</div><div class="sub">activo+listado</div></div>
-      <div class="stat"><div class="lbl">Tasa devoluciÃÂ³n</div><div class="val">${tasaDev.toFixed(1)}%</div><div class="sub">${numDev} devueltos</div></div>
-      <div class="stat"><div class="lbl">DÃÂ­as medio venta</div><div class="val">${avgDias.toFixed(0)}d</div><div class="sub">${vendConDias.length} ops</div></div>
+      <div class="stat"><div class="lbl">Capital riesgo</div><div class="val">£${fmt(capitalRiesgo)}</div><div class="sub">comprado+listado</div></div>
+      <div class="stat"><div class="lbl">Tasa devolución</div><div class="val">${tasaDev.toFixed(1)}%</div><div class="sub">${numDev} devueltos</div></div>
+      <div class="stat"><div class="lbl">Días medio venta</div><div class="val">${avgDias.toFixed(0)}d</div><div class="sub">${vendConDias.length} ops</div></div>
     </div>
 
-    <!-- DÃÂ­as por tramos -->
+    <!-- Días por tramos -->
     <div class="stat-card" id="sc-dias">
       <div class="stat-card-header" onclick="toggleStat('sc-dias')">
-        <div><div class="stat-card-title">DÃÂ­as compra Ã¢ÂÂ venta (tramos)</div><div class="stat-card-value">${avgDias.toFixed(0)}d media</div></div>
-        <span class="stat-card-chevron">Ã¢ÂÂ¾</span>
+        <div><div class="stat-card-title">Días compra → venta (tramos)</div><div class="stat-card-value">${avgDias.toFixed(0)}d media</div></div>
+        <span class="stat-card-chevron">▾</span>
       </div>
       <div class="stat-card-body">
         ${rangeData.map(r=>`
@@ -777,7 +776,7 @@ function renderStats(){
             <span class="range-label">${r.l}</span>
             <div class="range-bar-wrap"><div class="range-bar-fill" style="width:${Math.round(r.count/maxRange*100)}%"></div></div>
             <span class="range-count">${r.count}</span>
-            <span style="font-size:11px;color:var(--text2);width:60px;text-align:right;flex-shrink:0">ÃÂ¸ÃÂ£${fmt(r.avgBen)}</span>
+            <span style="font-size:11px;color:var(--text2);width:60px;text-align:right;flex-shrink:0">ø£${fmt(r.avgBen)}</span>
           </div>`).join('')}
         <div style="font-size:11px;color:var(--text2);margin-top:6px">${vendConDias.length} relojes vendidos con fecha</div>
       </div>
@@ -787,19 +786,19 @@ function renderStats(){
     <div class="stat-card" id="sc-platcompra">
       <div class="stat-card-header" onclick="toggleStat('sc-platcompra')">
         <div><div class="stat-card-title">ROI por plataforma de compra</div><div class="stat-card-value">${platCompraRows.length} plat.</div></div>
-        <span class="stat-card-chevron">Ã¢ÂÂ¾</span>
+        <span class="stat-card-chevron">▾</span>
       </div>
       <div class="stat-card-body">
         <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
           <span style="color:var(--text2);font-weight:700">Plataforma</span>
           <span style="color:var(--text2);font-weight:700;text-align:center">Ops</span>
-          <span style="color:var(--text2);font-weight:700;text-align:right">ROI ÃÂ¸</span>
+          <span style="color:var(--text2);font-weight:700;text-align:right">ROI ø</span>
           <span style="color:var(--text2);font-weight:700;text-align:right">Ben.</span>
           ${platCompraRows.map(([p,v])=>`
             <span>${p}</span>
             <span style="text-align:center;color:var(--gold2)">${v.n}</span>
             <span style="text-align:right;color:var(--green)">${pct(v.roi/v.n)}</span>
-            <span style="text-align:right;color:var(--text)">ÃÂ£${fmt(v.ben)}</span>`).join('')}
+            <span style="text-align:right;color:var(--text)">£${fmt(v.ben)}</span>`).join('')}
         </div>
       </div>
     </div>
@@ -808,7 +807,7 @@ function renderStats(){
     <div class="stat-card" id="sc-mesben">
       <div class="stat-card-header" onclick="toggleStat('sc-mesben')">
         <div><div class="stat-card-title">Beneficio por mes</div><div class="stat-card-value">${benMesRows.length} meses</div></div>
-        <span class="stat-card-chevron">Ã¢ÂÂ¾</span>
+        <span class="stat-card-chevron">▾</span>
       </div>
       <div class="stat-card-body">
         <div class="bar-chart">
@@ -816,7 +815,7 @@ function renderStats(){
             <div class="bar-row">
               <span class="bar-label">${m.substring(5)}'${m.substring(2,4)}</span>
               <div class="bar-track"><div class="bar-fill" style="width:${Math.round(Math.abs(v)/maxBen*100)}%;background:${v>=0?'linear-gradient(90deg,var(--gold),var(--gold2))':'linear-gradient(90deg,var(--red),#fca5a5)'}"></div></div>
-              <span class="bar-val ${profCls(v)}">ÃÂ£${fmt(v)}</span>
+              <span class="bar-val ${profCls(v)}">£${fmt(v)}</span>
             </div>`).join('')}
         </div>
       </div>
@@ -825,18 +824,18 @@ function renderStats(){
     <!-- Top 5 modelos -->
     <div class="stat-card" id="sc-top5">
       <div class="stat-card-header" onclick="toggleStat('sc-top5')">
-        <div><div class="stat-card-title">Top 5 modelos rentables</div><div class="stat-card-value">${top5.length>0?top5[0][0].substring(0,18):'Ã¢ÂÂ'}</div></div>
-        <span class="stat-card-chevron">Ã¢ÂÂ¾</span>
+        <div><div class="stat-card-title">Top 5 modelos rentables</div><div class="stat-card-value">${top5.length>0?top5[0][0].substring(0,18):'—'}</div></div>
+        <span class="stat-card-chevron">▾</span>
       </div>
       <div class="stat-card-body">
         ${top5.map(([m,v],i)=>`
           <div style="padding:8px 0;border-bottom:1px solid var(--border)">
             <div style="display:flex;justify-content:space-between;margin-bottom:4px">
               <span style="font-size:12px;font-weight:600">${i+1}. ${m.substring(0,32)}</span>
-              <span class="p-pos" style="font-size:12px">ÃÂ£${fmt(v.ben)}</span>
+              <span class="p-pos" style="font-size:12px">£${fmt(v.ben)}</span>
             </div>
             <div class="bar-track" style="height:8px"><div class="bar-fill" style="width:${Math.round(v.ben/maxTop*100)}%"></div></div>
-            <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} ÃÂ· ROI ÃÂ¸ ${pct(v.roi/v.n)}</div>
+            <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} · ROI ø ${pct(v.roi/v.n)}</div>
           </div>`).join('')}
       </div>
     </div>
@@ -845,28 +844,28 @@ function renderStats(){
     <div class="stat-card" id="sc-platventa">
       <div class="stat-card-header" onclick="toggleStat('sc-platventa')">
         <div><div class="stat-card-title">Velocidad por plataforma venta</div><div class="stat-card-value">${platVentaRows.length} plat.</div></div>
-        <span class="stat-card-chevron">Ã¢ÂÂ¾</span>
+        <span class="stat-card-chevron">▾</span>
       </div>
       <div class="stat-card-body">
         <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
           <span style="color:var(--text2);font-weight:700">Plataforma</span>
           <span style="color:var(--text2);font-weight:700;text-align:center">Ventas</span>
-          <span style="color:var(--text2);font-weight:700;text-align:right">ÃÂ¸ dÃÂ­as</span>
+          <span style="color:var(--text2);font-weight:700;text-align:right">ø días</span>
           <span style="color:var(--text2);font-weight:700;text-align:right">Beneficio</span>
           ${platVentaRows.map(([p,v])=>`
             <span>${p}</span>
             <span style="text-align:center;color:var(--gold2)">${v.n}</span>
             <span style="text-align:right;color:var(--text2)">${(v.dias/v.n).toFixed(0)}d</span>
-            <span style="text-align:right" class="${profCls(v.ben)}">ÃÂ£${fmt(v.ben)}</span>`).join('')}
+            <span style="text-align:right" class="${profCls(v.ben)}">£${fmt(v.ben)}</span>`).join('')}
         </div>
       </div>
     </div>
 
-    <!-- Stock por antigÃÂ¼edad -->
+    <!-- Stock por antigüedad -->
     <div class="stat-card" id="sc-aging">
       <div class="stat-card-header" onclick="toggleStat('sc-aging')">
-        <div><div class="stat-card-title">Stock por antigÃÂ¼edad</div><div class="stat-card-value">${aging.length} relojes</div></div>
-        <span class="stat-card-chevron">Ã¢ÂÂ¾</span>
+        <div><div class="stat-card-title">Stock por antigüedad</div><div class="stat-card-value">${aging.length} relojes</div></div>
+        <span class="stat-card-chevron">▾</span>
       </div>
       <div class="stat-card-body">
         ${aging.map(o=>`
@@ -890,7 +889,7 @@ function toggleStat(id){
   document.getElementById(id)?.classList.toggle('open');
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ SOCIOS Ã¢ÂÂÃ¢ÂÂ */
+/* ── SOCIOS ── */
 function renderSocios(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
   const enstock=ops.filter(o=>['comprado','listado'].includes(o.estado));
@@ -915,14 +914,14 @@ function renderSocios(){
   const aport={Carlos:0,Marta:0,Dom:0};
   movs.forEach(m=>{
     if(aport.hasOwnProperty(m.socio)){
-      if(m.tipo==='AportaciÃÂ³n') aport[m.socio]+=(m.importe||0);
+      if(m.tipo==='Aportación') aport[m.socio]+=(m.importe||0);
       if(m.tipo==='Retirada') aport[m.socio]-=Math.abs(m.importe||0);
     }
   });
 
   document.getElementById('socios-content').innerHTML=`
     <div class="card" style="margin-bottom:14px">
-      <div class="sum-row"><span class="k">Capital total</span><span class="v">ÃÂ£${fmt(capTotal)}</span></div>
+      <div class="sum-row"><span class="k">Capital total</span><span class="v">£${fmt(capTotal)}</span></div>
       <div class="sum-row"><span class="k">Operaciones vendidas</span><span class="v">${vendidos.length}</span></div>
     </div>
     ${socios.map(s=>{
@@ -940,36 +939,36 @@ function renderSocios(){
           <div class="name">${s.nombre}</div>
           <span class="badge ${cuentaBadge(s.nombre)}">${pctDyn.toFixed(1)}%</span>
         </div>
-        <div class="sum-row"><span class="k">Capital actual</span><span class="v">ÃÂ£${fmt(s.capital_actual)}</span></div>
-        <div class="sum-row"><span class="k">Aportaciones netas</span><span class="v">ÃÂ£${fmt(ap)}</span></div>
-        <div class="sum-row"><span class="k">Beneficio realizado</span><span class="v ${profCls(ben)}">ÃÂ£${fmt(ben)}</span></div>
-        <div class="sum-row"><span class="k">Capital en stock</span><span class="v" style="color:var(--text2)">ÃÂ£${fmt(Math.abs(noReal))}</span></div>
+        <div class="sum-row"><span class="k">Capital actual</span><span class="v">£${fmt(s.capital_actual)}</span></div>
+        <div class="sum-row"><span class="k">Aportaciones netas</span><span class="v">£${fmt(ap)}</span></div>
+        <div class="sum-row"><span class="k">Beneficio realizado</span><span class="v ${profCls(ben)}">£${fmt(ben)}</span></div>
+        <div class="sum-row"><span class="k">Capital en stock</span><span class="v" style="color:var(--text2)">£${fmt(Math.abs(noReal))}</span></div>
         <div class="sum-row"><span class="k">ROI realizado</span><span class="v ${profCls(roi)}">${(roi*100).toFixed(1)}%</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:${Math.min(Math.max(pctDyn,0),100)}%"></div></div>
         ${misMovs.length?`
         <div class="toggle-section" onclick="toggleMovs('${socioMovsId}')">
           <span style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.7px">Movimientos (${misMovs.length})</span>
-          <span style="color:var(--text2);font-size:14px" id="${socioMovsId}-chev">Ã¢ÂÂ¾</span>
+          <span style="color:var(--text2);font-size:14px" id="${socioMovsId}-chev">▾</span>
         </div>
         <div class="toggle-section-body" id="${socioMovsId}">
           ${misMovs.map(m=>`
             <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)">
               <div>
                 <div style="font-size:12px;font-weight:600">${m.tipo}</div>
-                <div style="font-size:10px;color:var(--text2)">${m.fecha}${m.notas?' ÃÂ· '+m.notas:''}</div>
+                <div style="font-size:10px;color:var(--text2)">${m.fecha}${m.notas?' · '+m.notas:''}</div>
               </div>
               <div style="display:flex;align-items:center;gap:8px">
-                <span class="${m.tipo==='Retirada'||m.tipo==='PÃÂ©rdida'?'p-neg':'p-pos'}" style="font-size:13px">
-                  ${m.tipo==='Retirada'||m.tipo==='PÃÂ©rdida'?'-':'+'}ÃÂ£${fmt(Math.abs(m.importe))}
+                <span class="${m.tipo==='Retirada'||m.tipo==='Pérdida'?'p-neg':'p-pos'}" style="font-size:13px">
+                  ${m.tipo==='Retirada'||m.tipo==='Pérdida'?'-':'+'}£${fmt(Math.abs(m.importe))}
                 </span>
-                <button class="mov-del" onclick="deleteMov(${m.id},event)" title="Eliminar">Ã¢ÂÂ</button>
+                <button class="mov-del" onclick="deleteMov(${m.id},event)" title="Eliminar">✕</button>
               </div>
             </div>`).join('')}
         </div>`:''}
       </div>`;
     }).join('')}
     <div style="margin:16px 0 10px">
-      <button class="btn btn-gold" onclick="openAportacionModal()">+ Nueva aportaciÃÂ³n / retirada</button>
+      <button class="btn btn-gold" onclick="openAportacionModal()">+ Nueva aportación / retirada</button>
     </div>`;
 }
 
@@ -978,48 +977,48 @@ function toggleMovs(id){
   const chev=document.getElementById(id+'-chev');
   if(!body) return;
   const open=body.classList.toggle('open');
-  if(chev) chev.textContent=open?'Ã¢ÂÂ´':'Ã¢ÂÂ¾';
+  if(chev) chev.textContent=open?'▴':'▾';
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ DETAIL MODAL Ã¢ÂÂÃ¢ÂÂ */
+/* ── DETAIL MODAL ── */
 function openDetail(id){
   const o=ops.find(x=>x.id===id);
   if(!o) return;
   const dias=o.fecha_compra?daysFromNow(o.fecha_compra):null;
   document.getElementById('detail-content').innerHTML=`
-    <button class="modal-close" onclick="document.getElementById('detail-overlay').classList.remove('open')">Ã¢ÂÂ</button>
+    <button class="modal-close" onclick="document.getElementById('detail-overlay').classList.remove('open')">✕</button>
     <h2>${o.modelo}</h2>
     <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
       <span class="badge ${estadoBadge(o.estado)}">${o.estado}</span>
-      <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'Ã¢ÂÂ'}</span>
+      <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
     </div>
     <p class="sec-title">Compra</p>
-    <div class="sum-row"><span class="k">Plataforma</span><span class="v">${o.plataforma_compra||'Ã¢ÂÂ'}</span></div>
-    <div class="sum-row"><span class="k">Fecha</span><span class="v">${o.fecha_compra||'Ã¢ÂÂ'}</span></div>
-    <div class="sum-row"><span class="k">Precio</span><span class="v">ÃÂ£${fmt(o.precio_gbp)}</span></div>
-    <div class="sum-row"><span class="k">EnvÃÂ­o</span><span class="v">ÃÂ£${fmt(o.gastos_envio_gbp)}</span></div>
-    <div class="sum-row"><span class="k">ReparaciÃÂ³n</span><span class="v">ÃÂ£${fmt(o.reparacion_gbp)}</span></div>
-    <div class="sum-row"><span class="k">Forwarder</span><span class="v">ÃÂ£${fmt(o.gastos_forwarder_gbp)}</span></div>
-    <div class="sum-row"><span class="k" style="font-weight:700;color:var(--text)">Coste total</span><span class="v" style="color:var(--gold2)">ÃÂ£${fmt(o.coste_total_gbp)}</span></div>
-    ${o.estado!=='vendido'&&dias!=null?`<div class="sum-row"><span class="k">En posesiÃÂ³n</span><span class="v"><span class="aging-dot ${agingClass(dias)}" style="display:inline-block;margin-right:4px"></span>${dias} dÃÂ­as</span></div>`:''}
+    <div class="sum-row"><span class="k">Plataforma</span><span class="v">${o.plataforma_compra||'—'}</span></div>
+    <div class="sum-row"><span class="k">Fecha</span><span class="v">${o.fecha_compra||'—'}</span></div>
+    <div class="sum-row"><span class="k">Precio</span><span class="v">£${fmt(o.precio_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Envío</span><span class="v">£${fmt(o.gastos_envio_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Reparación</span><span class="v">£${fmt(o.reparacion_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Forwarder</span><span class="v">£${fmt(o.gastos_forwarder_gbp)}</span></div>
+    <div class="sum-row"><span class="k" style="font-weight:700;color:var(--text)">Coste total</span><span class="v" style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</span></div>
+    ${o.estado!=='vendido'&&dias!=null?`<div class="sum-row"><span class="k">En posesión</span><span class="v"><span class="aging-dot ${agingClass(dias)}" style="display:inline-block;margin-right:4px"></span>${dias} días</span></div>`:''}
     <p class="sec-title" style="margin-top:12px">Venta</p>
-    <div class="sum-row"><span class="k">Precio listado</span><span class="v">${o.precio_listado_gbp?'ÃÂ£'+fmt(o.precio_listado_gbp):'Ã¢ÂÂ'}</span></div>
-    <div class="sum-row"><span class="k">Plataforma venta</span><span class="v">${o.plataforma_venta||'Ã¢ÂÂ'}</span></div>
-    <div class="sum-row"><span class="k">Precio recibido</span><span class="v">${o.ingreso_neto_gbp!=null?'ÃÂ£'+fmt(o.ingreso_neto_gbp):'Ã¢ÂÂ'}</span></div>
-    <div class="sum-row"><span class="k">Fecha venta</span><span class="v">${o.fecha_venta||'Ã¢ÂÂ'}</span></div>
-    <div class="sum-row"><span class="k">DÃÂ­as en posesiÃÂ³n</span><span class="v">${o.dias_posesion!=null?o.dias_posesion+'d':'Ã¢ÂÂ'}</span></div>
+    <div class="sum-row"><span class="k">Precio listado</span><span class="v">${o.precio_listado_gbp?'£'+fmt(o.precio_listado_gbp):'—'}</span></div>
+    <div class="sum-row"><span class="k">Plataforma venta</span><span class="v">${o.plataforma_venta||'—'}</span></div>
+    <div class="sum-row"><span class="k">Precio recibido</span><span class="v">${o.ingreso_neto_gbp!=null?'£'+fmt(o.ingreso_neto_gbp):'—'}</span></div>
+    <div class="sum-row"><span class="k">Fecha venta</span><span class="v">${o.fecha_venta||'—'}</span></div>
+    <div class="sum-row"><span class="k">Días en posesión</span><span class="v">${o.dias_posesion!=null?o.dias_posesion+'d':'—'}</span></div>
     ${o.estado==='devuelto'?`
-    <p class="sec-title" style="margin-top:12px">DevoluciÃÂ³n</p>
-    <div class="sum-row"><span class="k">Reembolso recibido</span><span class="v">${o.importe_reembolso!=null?'ÃÂ£'+fmt(o.importe_reembolso):'Ã¢ÂÂ'}</span></div>
-    <div class="sum-row"><span class="k">Gastos retorno</span><span class="v">${o.gastos_retorno!=null?'ÃÂ£'+fmt(o.gastos_retorno):'Ã¢ÂÂ'}</span></div>
-    <div class="sum-row"><span class="k">Resultado devoluciÃÂ³n</span><span class="v ${profCls(o.beneficio_neto_gbp)}">ÃÂ£${fmt(o.beneficio_neto_gbp)}</span></div>`:''}
+    <p class="sec-title" style="margin-top:12px">Devolución</p>
+    <div class="sum-row"><span class="k">Reembolso recibido</span><span class="v">${o.importe_reembolso!=null?'£'+fmt(o.importe_reembolso):'—'}</span></div>
+    <div class="sum-row"><span class="k">Gastos retorno</span><span class="v">${o.gastos_retorno!=null?'£'+fmt(o.gastos_retorno):'—'}</span></div>
+    <div class="sum-row"><span class="k">Resultado devolución</span><span class="v ${profCls(o.beneficio_neto_gbp)}">£${fmt(o.beneficio_neto_gbp)}</span></div>`:''}
     ${o.estado==='vendido'?`
     <p class="sec-title" style="margin-top:12px">Resultado</p>
-    <div class="sum-row"><span class="k">Beneficio neto</span><span class="v ${profCls(o.beneficio_neto_gbp)}">ÃÂ£${fmt(o.beneficio_neto_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Beneficio neto</span><span class="v ${profCls(o.beneficio_neto_gbp)}">£${fmt(o.beneficio_neto_gbp)}</span></div>
     <div class="sum-row"><span class="k">ROI</span><span class="v ${profCls(o.roi_pct)}">${pct(o.roi_pct)}</span></div>
-    <div class="sum-row"><span class="k">Carlos (${Math.round((o.pct_carlos||0)*100)}%)</span><span class="v">ÃÂ£${fmt(o.beneficio_carlos)}</span></div>
-    <div class="sum-row"><span class="k">Marta (${Math.round((o.pct_marta||0)*100)}%)</span><span class="v">ÃÂ£${fmt(o.beneficio_marta)}</span></div>
-    <div class="sum-row"><span class="k">Dom (${Math.round((o.pct_dom||0)*100)}%)</span><span class="v">ÃÂ£${fmt(o.beneficio_dom||0)}</span></div>`:''}
+    <div class="sum-row"><span class="k">Carlos (${Math.round((o.pct_carlos||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_carlos)}</span></div>
+    <div class="sum-row"><span class="k">Marta (${Math.round((o.pct_marta||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_marta)}</span></div>
+    <div class="sum-row"><span class="k">Dom (${Math.round((o.pct_dom||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_dom||0)}</span></div>`:''}
     ${o.notas?`<div class="divider"></div><div style="font-size:12px;color:var(--text2);padding:4px 0">${o.notas}</div>`:''}
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
       ${o.estado!=='vendido'?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
@@ -1039,14 +1038,14 @@ function openEditFromDetail(id){
   },200);
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ SELL MODAL Ã¢ÂÂÃ¢ÂÂ */
+/* ── SELL MODAL ── */
 let sellSelectedId=null;
 
 function openSellModal(preselectedId){
   sellSelectedId=preselectedId||null;
   const available=ops.filter(o=>o.estado!=='vendido'&&o.estado!=='devuelto');
   document.getElementById('sell-content').innerHTML=`
-    <button class="modal-close" onclick="document.getElementById('sell-overlay').classList.remove('open')">Ã¢ÂÂ</button>
+    <button class="modal-close" onclick="document.getElementById('sell-overlay').classList.remove('open')">✕</button>
     <h2>Registrar venta</h2>
     ${!preselectedId?`
     <p class="sec-title">Selecciona el reloj</p>
@@ -1054,7 +1053,7 @@ function openSellModal(preselectedId){
       ${available.map(o=>`
         <div class="sell-item si-${(o.cuenta||'carlos').toLowerCase()}" id="si-${o.id}" onclick="selectSellItem(${o.id})">
           <div class="si-model">${o.modelo}</div>
-          <div class="si-meta"><span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta}</span> ÃÂ£${fmt(o.coste_total_gbp)} ÃÂ· ${o.estado}</div>
+          <div class="si-meta"><span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta}</span> £${fmt(o.coste_total_gbp)} · ${o.estado}</div>
         </div>`).join('')}
     </div>
     <div class="divider"></div>`:''}
@@ -1085,10 +1084,10 @@ function renderSellForm(id){
   if(!o) return '';
   return `
     <p class="sec-title">${o.modelo}</p>
-    <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">ÃÂ£${fmt(o.coste_total_gbp)}</strong></div>
+    <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong></div>
     <div class="form-row">
       <div class="form-group">
-        <label>Precio recibido (ÃÂ£) *</label>
+        <label>Precio recibido (£) *</label>
         <input type="number" id="sell-precio" step="0.01" placeholder="0.00" oninput="previewBen(${id})">
       </div>
       <div class="form-group">
@@ -1099,13 +1098,13 @@ function renderSellForm(id){
     <div class="form-group">
       <label>Plataforma venta</label>
       <select id="sell-plataforma">
-        <option value="">Ã¢ÂÂ Seleccionar Ã¢ÂÂ</option>
+        <option value="">— Seleccionar —</option>
         <option>Chrono24</option><option>eBay</option><option>Vinted</option>
         <option>Catawiki</option><option>Reddit</option><option>Otro</option>
       </select>
     </div>
     <div id="ben-preview" style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:14px;display:none">
-      Beneficio: <strong id="ben-val"></strong> ÃÂ· ROI: <strong id="roi-val"></strong>
+      Beneficio: <strong id="ben-val"></strong> · ROI: <strong id="roi-val"></strong>
     </div>
     <button class="btn btn-gold" onclick="confirmSell(${id})">Confirmar venta</button>`;
 }
@@ -1117,14 +1116,14 @@ function previewBen(id){
   const ben=precio-(o.coste_total_gbp||0);
   const roi=o.coste_total_gbp?ben/o.coste_total_gbp:0;
   document.getElementById('ben-preview').style.display='block';
-  document.getElementById('ben-val').innerHTML=`<span class="${profCls(ben)}">ÃÂ£${fmt(ben)}</span>`;
+  document.getElementById('ben-val').innerHTML=`<span class="${profCls(ben)}">£${fmt(ben)}</span>`;
   document.getElementById('roi-val').innerHTML=`<span class="${profCls(roi)}">${(roi*100).toFixed(1)}%</span>`;
 }
 
 async function confirmSell(id){
   const o=ops.find(x=>x.id===id);
   const precio=parseFloat(document.getElementById('sell-precio')?.value)||0;
-  if(!precio){showToast('Ã¢ÂÂ Ã¯Â¸Â Introduce el precio recibido');return;}
+  if(!precio){showToast('⚠️ Introduce el precio recibido');return;}
   const fecha=document.getElementById('sell-fecha')?.value||today();
   const plataforma=document.getElementById('sell-plataforma')?.value||null;
   const coste=o.coste_total_gbp||0;
@@ -1145,37 +1144,37 @@ async function confirmSell(id){
     await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
     document.getElementById('sell-overlay').classList.remove('open');
     await loadAll();
-    showToast('Ã¢ÂÂ Venta registrada Ã¢ÂÂ ÃÂ£'+fmt(beneficio));
-  }catch(e){showToast('Ã¢ÂÂ '+e.message.substring(0,60));}
+    showToast('✅ Venta registrada — £'+fmt(beneficio));
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ DEVUELTO MODAL Ã¢ÂÂÃ¢ÂÂ */
+/* ── DEVUELTO MODAL ── */
 function openDevueltoModal(id){
   const o=ops.find(x=>x.id===id);
   if(!o) return;
   document.getElementById('detail-overlay').classList.remove('open');
   setTimeout(()=>{
     document.getElementById('dev-content').innerHTML=`
-      <button class="modal-close" onclick="document.getElementById('dev-overlay').classList.remove('open')">Ã¢ÂÂ</button>
-      <h2>Registrar devoluciÃÂ³n</h2>
+      <button class="modal-close" onclick="document.getElementById('dev-overlay').classList.remove('open')">✕</button>
+      <h2>Registrar devolución</h2>
       <p class="sec-title">${o.modelo}</p>
-      <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">ÃÂ£${fmt(o.coste_total_gbp)}</strong></div>
+      <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong></div>
       <div class="form-row">
         <div class="form-group">
-          <label>Reembolso recibido (ÃÂ£)</label>
+          <label>Reembolso recibido (£)</label>
           <input type="number" id="dev-reembolso" step="0.01" placeholder="0.00" oninput="previewDevuelto(${id})">
         </div>
         <div class="form-group">
-          <label>Gastos retorno (ÃÂ£)</label>
+          <label>Gastos retorno (£)</label>
           <input type="number" id="dev-gastos" step="0.01" placeholder="0.00" oninput="previewDevuelto(${id})">
         </div>
       </div>
       <div class="form-group">
-        <label>Fecha devoluciÃÂ³n</label>
+        <label>Fecha devolución</label>
         <input type="date" id="dev-fecha" value="${today()}">
       </div>
       <div id="dev-preview" style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:14px;display:none"></div>
-      <button class="btn btn-orange" onclick="confirmDevuelto(${id})">Confirmar devoluciÃÂ³n</button>`;
+      <button class="btn btn-orange" onclick="confirmDevuelto(${id})">Confirmar devolución</button>`;
     document.getElementById('dev-overlay').classList.add('open');
   },200);
 }
@@ -1188,7 +1187,7 @@ function previewDevuelto(id){
   const resultado=reembolso-coste-gastos;
   const dp=document.getElementById('dev-preview');
   dp.style.display='block';
-  dp.innerHTML=`Resultado: <strong class="${profCls(resultado)}">ÃÂ£${fmt(resultado)}</strong> ÃÂ· Reembolso-Coste-Gastos`;
+  dp.innerHTML=`Resultado: <strong class="${profCls(resultado)}">£${fmt(resultado)}</strong> · Reembolso-Coste-Gastos`;
 }
 
 async function confirmDevuelto(id){
@@ -1216,11 +1215,11 @@ async function confirmDevuelto(id){
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     document.getElementById('dev-overlay').classList.remove('open');
     await loadAll();
-    showToast('Ã¢ÂÂ©Ã¯Â¸Â DevoluciÃÂ³n registrada Ã¢ÂÂ ÃÂ£'+fmt(resultado));
-  }catch(e){showToast('Ã¢ÂÂ '+e.message.substring(0,60));}
+    showToast('↩️ Devolución registrada — £'+fmt(resultado));
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ updateSociosCapital Ã¢ÂÂÃ¢ÂÂ */
+/* ── updateSociosCapital ── */
 async function updateSociosCapital(benMap){
   const fresh=await q('socios?order=nombre');
   const newCaps={};
@@ -1235,16 +1234,16 @@ async function updateSociosCapital(benMap){
   }));
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ AportaciÃÂ³n modal Ã¢ÂÂÃ¢ÂÂ */
+/* ── Aportación modal ── */
 function openAportacionModal(){
   document.getElementById('aport-content').innerHTML=`
-    <button class="modal-close" onclick="document.getElementById('aport-overlay').classList.remove('open')">Ã¢ÂÂ</button>
-    <h2>Nueva aportaciÃÂ³n / retirada</h2>
+    <button class="modal-close" onclick="document.getElementById('aport-overlay').classList.remove('open')">✕</button>
+    <h2>Nueva aportación / retirada</h2>
     <div class="form-group"><label>Socio</label>
       <select id="ap-socio"><option>Carlos</option><option>Marta</option><option>Dom</option></select>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>Importe (ÃÂ£)</label>
+      <div class="form-group"><label>Importe (£)</label>
         <input type="number" id="ap-importe" step="0.01" placeholder="0.00">
       </div>
       <div class="form-group"><label>Fecha</label>
@@ -1252,7 +1251,7 @@ function openAportacionModal(){
       </div>
     </div>
     <div class="form-group"><label>Tipo</label>
-      <select id="ap-tipo"><option>AportaciÃÂ³n</option><option>Retirada</option><option>Beneficio</option></select>
+      <select id="ap-tipo"><option>Aportación</option><option>Retirada</option><option>Beneficio</option></select>
     </div>
     <div class="form-group">
       <input type="text" id="ap-notas" placeholder="Notas (opcional)">
@@ -1265,13 +1264,13 @@ async function saveAportacion(){
   const socio=document.getElementById('ap-socio')?.value;
   const importe=parseFloat(document.getElementById('ap-importe')?.value)||0;
   const fecha=document.getElementById('ap-fecha')?.value;
-  const tipo=document.getElementById('ap-tipo')?.value||'AportaciÃÂ³n';
+  const tipo=document.getElementById('ap-tipo')?.value||'Aportación';
   const notas=document.getElementById('ap-notas')?.value||null;
-  if(!importe||!fecha){showToast('Ã¢ÂÂ Ã¯Â¸Â Rellena importe y fecha');return;}
+  if(!importe||!fecha){showToast('⚠️ Rellena importe y fecha');return;}
   const importeSigno=tipo==='Retirada'?-Math.abs(importe):Math.abs(importe);
   try{
     await qPost('movimientos',{fecha,tipo,socio,importe:importeSigno,notas});
-    if(tipo==='AportaciÃÂ³n'||tipo==='Retirada'){
+    if(tipo==='Aportación'||tipo==='Retirada'){
       const s=socios.find(x=>x.nombre===socio);
       if(s){
         const newCap=+(s.capital_actual+importeSigno).toFixed(2);
@@ -1283,16 +1282,16 @@ async function saveAportacion(){
     }
     document.getElementById('aport-overlay').classList.remove('open');
     await loadAll();
-    showToast('Ã¢ÂÂ '+tipo+' Ã¢ÂÂ ÃÂ£'+fmt(Math.abs(importe)));
-  }catch(e){showToast('Ã¢ÂÂ '+e.message.substring(0,60));}
+    showToast('✅ '+tipo+' — £'+fmt(Math.abs(importe)));
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ ADD WATCH Ã¢ÂÂÃ¢ÂÂ */
+/* ── ADD WATCH ── */
 function calcCoste(){
   const f=document.getElementById('add-form');
   const c=['precio_gbp','gastos_envio_gbp','reparacion_gbp','gastos_forwarder_gbp']
     .reduce((s,n)=>s+(parseFloat(f.querySelector('[name='+n+']')?.value)||0),0);
-  document.getElementById('coste-preview').textContent='ÃÂ£'+fmt(c);
+  document.getElementById('coste-preview').textContent='£'+fmt(c);
 }
 function checkPct(){
   const f=document.getElementById('add-form');
@@ -1333,19 +1332,19 @@ async function addWatch(e){
   try{
     await qPost('operaciones',body);
     await loadAll();
-    showToast('Ã¢ÂÂ Reloj aÃÂ±adido');
+    showToast('✅ Reloj añadido');
     e.target.reset();
     ['pct_carlos','pct_marta','pct_dom'].forEach((n,i)=>{
       const el=e.target.querySelector('[name='+n+']');
       if(el) el.value=i===0?100:0;
     });
-    document.getElementById('coste-preview').textContent='ÃÂ£0';
+    document.getElementById('coste-preview').textContent='£0';
     showView('stock',document.querySelectorAll('nav button')[1]);
-  }catch(er){showToast('Ã¢ÂÂ '+er.message.substring(0,60));}
-  btn.textContent='AÃÂ±adir reloj';btn.disabled=false;
+  }catch(er){showToast('❌ '+er.message.substring(0,60));}
+  btn.textContent='Añadir reloj';btn.disabled=false;
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ EDIT TABS Ã¢ÂÂÃ¢ÂÂ */
+/* ── EDIT TABS ── */
 function switchAddTab(tab){
   document.getElementById('tab-nuevo').classList.toggle('active',tab==='nuevo');
   document.getElementById('tab-editar').classList.toggle('active',tab==='editar');
@@ -1363,9 +1362,9 @@ function renderEditList(){
       <div class="sell-item si-${(o.cuenta||'carlos').toLowerCase()}" onclick="loadEditForm(${o.id})">
         <div class="si-model">${o.modelo}</div>
         <div class="si-meta">
-          <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'Ã¢ÂÂ'}</span>
+          <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
           <span class="badge ${estadoBadge(o.estado)}">${o.estado}</span>
-          ÃÂ£${fmt(o.coste_total_gbp)} ÃÂ· ${o.fecha_compra||''}
+          £${fmt(o.coste_total_gbp)} · ${o.fecha_compra||''}
         </div>
       </div>`).join('')
     :'<div class="empty"><p>Sin relojes</p></div>';
@@ -1387,7 +1386,7 @@ function loadEditForm(id){
       <div class="form-row">
         <div class="form-group"><label>Plataforma compra</label>
           <select id="ef-plataforma">
-            ${['','Chrono24','eBay','Vinted','Catawiki','Reddit','JapÃÂ³n','Otro'].map(p=>`<option${(o.plataforma_compra||'')===(p)||o.plataforma_compra===p?' selected':''}>${p}</option>`).join('')}
+            ${['','Chrono24','eBay','Vinted','Catawiki','Reddit','Japón','Otro'].map(p=>`<option${(o.plataforma_compra||'')===(p)||o.plataforma_compra===p?' selected':''}>${p}</option>`).join('')}
           </select>
         </div>
         <div class="form-group"><label>Cuenta</label>
@@ -1401,18 +1400,18 @@ function loadEditForm(id){
         <input type="date" id="ef-fecha" value="${o.fecha_compra||''}">
       </div>
     </div>
-    <p class="sec-title">Costes (ÃÂ£)</p>
+    <p class="sec-title">Costes (£)</p>
     <div class="card">
       <div class="form-row">
         <div class="form-group"><label>Precio compra</label>
           <input type="number" id="ef-precio" step="0.01" value="${o.precio_gbp||0}" oninput="calcEditCoste()">
         </div>
-        <div class="form-group"><label>Gastos envÃÂ­o</label>
+        <div class="form-group"><label>Gastos envío</label>
           <input type="number" id="ef-envio" step="0.01" value="${o.gastos_envio_gbp||0}" oninput="calcEditCoste()">
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>ReparaciÃÂ³n</label>
+        <div class="form-group"><label>Reparación</label>
           <input type="number" id="ef-rep" step="0.01" value="${o.reparacion_gbp||0}" oninput="calcEditCoste()">
         </div>
         <div class="form-group"><label>Forwarder</label>
@@ -1420,7 +1419,7 @@ function loadEditForm(id){
         </div>
       </div>
       <div style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2)">
-        Coste total: <strong id="ef-coste" style="color:var(--gold2)">ÃÂ£${fmt(o.coste_total_gbp)}</strong>
+        Coste total: <strong id="ef-coste" style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong>
       </div>
     </div>
     <p class="sec-title">Estado y venta</p>
@@ -1431,17 +1430,17 @@ function loadEditForm(id){
         </div>
         <div class="form-group"><label>Estado</label>
           <select id="ef-estado" onchange="onEditEstadoChange(${id})">
-            ${['activo','listado','devuelto','vendido'].map(e=>`<option${o.estado===e?' selected':''}>${e}</option>`).join('')}
+            ${['comprado','listado','devuelto','vendido'].map(e=>`<option${o.estado===e?' selected':''}>${e}</option>`).join('')}
           </select>
         </div>
       </div>
-      <div class="form-group"><label>Fecha publicaciÃÂ³n</label>
+      <div class="form-group"><label>Fecha publicación</label>
         <input type="date" id="ef-fpub" value="${o.fecha_publicacion||''}">
       </div>
       <!-- Venta fields (shown when vendido) -->
       <div id="ef-venta-fields" style="${o.estado==='vendido'?'':'display:none'}">
         <div class="form-row">
-          <div class="form-group"><label>Ingreso neto (ÃÂ£)</label>
+          <div class="form-group"><label>Ingreso neto (£)</label>
             <input type="number" id="ef-ingreso" step="0.01" value="${o.ingreso_neto_gbp||0}">
           </div>
           <div class="form-group"><label>Fecha venta</label>
@@ -1457,10 +1456,10 @@ function loadEditForm(id){
       <!-- Devuelto fields -->
       <div id="ef-dev-fields" style="${o.estado==='devuelto'?'':'display:none'}">
         <div class="form-row">
-          <div class="form-group"><label>Reembolso (ÃÂ£)</label>
+          <div class="form-group"><label>Reembolso (£)</label>
             <input type="number" id="ef-reembolso" step="0.01" value="${o.importe_reembolso||0}">
           </div>
-          <div class="form-group"><label>Gastos retorno (ÃÂ£)</label>
+          <div class="form-group"><label>Gastos retorno (£)</label>
             <input type="number" id="ef-gastos-ret" step="0.01" value="${o.gastos_retorno||0}">
           </div>
         </div>
@@ -1504,7 +1503,7 @@ function calcEditCoste(){
   const c=['ef-precio','ef-envio','ef-rep','ef-fwd']
     .reduce((s,i)=>s+(parseFloat(document.getElementById(i)?.value)||0),0);
   const el=document.getElementById('ef-coste');
-  if(el) el.textContent='ÃÂ£'+fmt(c);
+  if(el) el.textContent='£'+fmt(c);
 }
 
 async function saveEdit(id){
@@ -1562,47 +1561,47 @@ async function saveEdit(id){
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     await loadAll();
-    showToast('Ã¢ÂÂ Reloj actualizado');
+    showToast('✅ Reloj actualizado');
     document.getElementById('edit-form-wrap').style.display='none';
     renderEditList();
-  }catch(e){showToast('Ã¢ÂÂ '+e.message.substring(0,60));}
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ DELETE WATCH Ã¢ÂÂÃ¢ÂÂ */
+/* ── DELETE WATCH ── */
 async function deleteWatch(id){
-  if(!confirm('ÃÂ¿Eliminar este reloj? Esta acciÃÂ³n no se puede deshacer.')) return;
+  if(!confirm('¿Eliminar este reloj? Esta acción no se puede deshacer.')) return;
   try{
     await q('operaciones?id=eq.'+id,{method:'DELETE'});
     document.getElementById('detail-overlay').classList.remove('open');
     await loadAll();
-    showToast('Ã°ÂÂÂÃ¯Â¸Â Reloj eliminado');
-  }catch(e){showToast('Ã¢ÂÂ '+e.message.substring(0,60));}
+    showToast('🗑️ Reloj eliminado');
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ DELETE MOVIMIENTO Ã¢ÂÂÃ¢ÂÂ */
+/* ── DELETE MOVIMIENTO ── */
 async function deleteMov(id,evt){
   evt.stopPropagation();
-  if(!confirm('ÃÂ¿Eliminar este movimiento?')) return;
+  if(!confirm('¿Eliminar este movimiento?')) return;
   try{
     await q('movimientos?id=eq.'+id,{method:'DELETE'});
     await loadAll();
-    showToast('Ã°ÂÂÂÃ¯Â¸Â Movimiento eliminado');
-  }catch(e){showToast('Ã¢ÂÂ '+e.message.substring(0,60));}
+    showToast('🗑️ Movimiento eliminado');
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ MODAL CLOSE Ã¢ÂÂÃ¢ÂÂ */
+/* ── MODAL CLOSE ── */
 function closeOverlay(id,e){
   if(e.target.id===id) document.getElementById(id).classList.remove('open');
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ TOAST Ã¢ÂÂÃ¢ÂÂ */
+/* ── TOAST ── */
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ INIT Ã¢ÂÂÃ¢ÂÂ */
+/* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
   loadAll();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
