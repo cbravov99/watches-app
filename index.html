@@ -172,39 +172,16 @@
     <div id="dash-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
   </div>
 
-  <!-- COMPRADO -->
-  <div class="view" id="view-comprado">
+  <!-- STOCK -->
+  <div class="view" id="view-stock">
+    <div class="filter-tabs">
+      <button class="ftab active" onclick="setStockFilter('todos',this)">Todos</button>
+      <button class="ftab" onclick="setStockFilter('activo',this)">Comprado</button>
+      <button class="ftab" onclick="setStockFilter('publicado',this)">Publicado</button>
+      <button class="ftab" onclick="setStockFilter('devuelto',this)">Devuelto</button>
+    </div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-      <select id="comprado-cuenta-filter" onchange="renderComprado()" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px;-webkit-appearance:none;flex:1">
-        <option value="">Cuenta: Todas</option>
-        <option value="Carlos">Carlos</option>
-        <option value="Marta">Marta</option>
-      </select>
-      <select id="comprado-age-filter" onchange="renderComprado()" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px;-webkit-appearance:none;flex:1">
-        <option value="">Antigüedad: Todas</option>
-        <option value="lt30">&lt;30 días</option>
-        <option value="30-60">30-60 días</option>
-        <option value="gt60">&gt;60 días</option>
-      </select>
-    </div>
-    <div class="sort-row">
-      <span style="font-size:11px;color:var(--text2);line-height:28px;flex-shrink:0">Ordenar:</span>
-      <button class="stab active" id="cs-fecha" onclick="setCompradoSort('fecha',this)">Fecha</button>
-      <button class="stab" id="cs-coste" onclick="setCompradoSort('coste',this)">Coste</button>
-      <button class="stab" id="cs-dias" onclick="setCompradoSort('dias',this)">Días</button>
-    </div>
-    <div class="search-wrap">
-      <svg class="search-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Buscar modelo..." id="comprado-search" oninput="renderComprado()">
-    </div>
-    <div id="comprado-summary" style="margin-bottom:10px"></div>
-    <div id="comprado-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
-  </div>
-
-  <!-- LISTADO -->
-  <div class="view" id="view-listado">
-    <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-      <select id="listado-cuenta-filter" onchange="renderListado()" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px;-webkit-appearance:none;flex:1">
+      <select id="stock-cuenta-filter" onchange="renderStock()" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:12px;-webkit-appearance:none;flex:1">
         <option value="">Cuenta: Todas</option>
         <option value="Carlos">Carlos</option>
         <option value="Marta">Marta</option>
@@ -212,16 +189,16 @@
     </div>
     <div class="sort-row">
       <span style="font-size:11px;color:var(--text2);line-height:28px;flex-shrink:0">Ordenar:</span>
-      <button class="stab active" id="ls-fecha" onclick="setListadoSort('fecha',this)">Fecha</button>
-      <button class="stab" id="ls-coste" onclick="setListadoSort('coste',this)">Coste</button>
-      <button class="stab" id="ls-dias" onclick="setListadoSort('dias',this)">Días</button>
+      <button class="stab active" id="ss-fecha" onclick="setStockSort('fecha',this)">Fecha</button>
+      <button class="stab" id="ss-coste" onclick="setStockSort('coste',this)">Coste</button>
+      <button class="stab" id="ss-dias" onclick="setStockSort('dias',this)">Días</button>
     </div>
     <div class="search-wrap">
       <svg class="search-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Buscar modelo..." id="listado-search" oninput="renderListado()">
+      <input type="text" placeholder="Buscar modelo..." id="stock-search" oninput="renderStock()">
     </div>
-    <div id="listado-summary" style="margin-bottom:10px"></div>
-    <div id="listado-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
+    <div id="stock-summary" style="margin-bottom:10px"></div>
+    <div id="stock-content"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
   </div>
 
   <!-- VENTAS -->
@@ -373,13 +350,9 @@
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
     Inicio
   </button>
-  <button onclick="showView('comprado',this)">
+  <button onclick="showView('stock',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M12 5V3M12 21v-2M5 12H3M21 12h-2"/></svg>
-    Comprado
-  </button>
-  <button onclick="showView('listado',this)">
-    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2"/></svg>
-    Publicado
+    Stock
   </button>
   <button onclick="showView('ventas',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -421,14 +394,19 @@
   <div class="modal" id="aport-content"></div>
 </div>
 
+<!-- EDIT SALE MODAL -->
+<div class="modal-overlay" id="edit-sale-overlay" onclick="closeOverlay('edit-sale-overlay',event)">
+  <div class="modal" id="edit-sale-content"></div>
+</div>
+
 <script>
 const SURL='https://ocgzwbnuesjuagwbohtf.supabase.co';
 const SKEY='sb_publishable_H70ojBN_dEsaBzicie13Kg_2JzTDFJD';
 const H={'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json','Prefer':'return=representation'};
 
 let ops=[], socios=[], movs=[];
-let compradoSort='fecha';
-let listadoSort='fecha';
+let stockFilter='todos';
+let stockSort='fecha';
 
 /* ── HTTP helpers ── */
 async function q(ep,opt={}){
@@ -457,7 +435,7 @@ async function loadAll(){
       q('movimientos?order=fecha.desc')
     ]);
     document.getElementById('sync-status').textContent='✓ '+new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
-    renderDash(); renderComprado(); renderListado(); renderVentas(); renderStats(); renderSocios();
+    renderDash(); renderStock(); renderVentas(); renderStats(); renderSocios();
     populateVentasFilters();
   }catch(e){
     document.getElementById('sync-status').textContent='Error';
@@ -472,7 +450,7 @@ function showView(name,btn){
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   if(btn) btn.classList.add('active');
-  const t={dashboard:'Dashboard',comprado:'Comprado',listado:'Publicado',ventas:'Historial ventas',stats:'Estadísticas',add:'Nuevo reloj',socios:'Socios & Capital'};
+  const t={dashboard:'Dashboard',stock:'Stock',ventas:'Historial ventas',stats:'Estadísticas',add:'Nuevo reloj',socios:'Socios & Capital'};
   document.getElementById('header-sub').textContent=t[name]||'';
   if(name==='add') fillCurrentPcts();
 }
@@ -579,108 +557,60 @@ function renderDash(){
       </div>`).join('')}`;
 }
 
-/* ── COMPRADO ── */
-function setCompradoSort(s,btn){
-  compradoSort=s;
-  document.querySelectorAll('#view-comprado .stab').forEach(b=>b.classList.remove('active'));
+/* ── STOCK ── */
+function setStockFilter(f,btn){
+  stockFilter=f;
+  document.querySelectorAll('#view-stock .ftab').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
-  renderComprado();
+  renderStock();
 }
 
-function renderComprado(){
-  const sq=(document.getElementById('comprado-search')?.value||'').toLowerCase();
-  const cuentaF=document.getElementById('comprado-cuenta-filter')?.value||'';
-  const ageF=document.getElementById('comprado-age-filter')?.value||'';
-  let list=ops.filter(o=>o.estado==='activo');
+function setStockSort(s,btn){
+  stockSort=s;
+  document.querySelectorAll('#view-stock .stab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderStock();
+}
+
+function renderStock(){
+  const sq=(document.getElementById('stock-search')?.value||'').toLowerCase();
+  const cuentaF=document.getElementById('stock-cuenta-filter')?.value||'';
+  const estados=stockFilter==='todos'?['activo','publicado','devuelto']:[stockFilter];
+  let list=ops.filter(o=>estados.includes(o.estado));
   if(sq) list=list.filter(o=>(o.modelo||'').toLowerCase().includes(sq));
   if(cuentaF) list=list.filter(o=>o.cuenta===cuentaF);
-  if(ageF){
-    list=list.filter(o=>{
-      const d=daysFromNow(o.fecha_compra);
-      if(ageF==='lt30') return d<30;
-      if(ageF==='30-60') return d>=30&&d<=60;
-      if(ageF==='gt60') return d>60;
-      return true;
-    });
-  }
-  if(compradoSort==='coste') list=[...list].sort((a,b)=>(b.coste_total_gbp||0)-(a.coste_total_gbp||0));
-  else if(compradoSort==='dias') list=[...list].sort((a,b)=>daysFromNow(a.fecha_compra)-daysFromNow(b.fecha_compra));
+  if(stockSort==='coste') list=[...list].sort((a,b)=>(b.coste_total_gbp||0)-(a.coste_total_gbp||0));
+  else if(stockSort==='dias') list=[...list].sort((a,b)=>daysFromNow(a.fecha_compra)-daysFromNow(b.fecha_compra));
   else list=[...list].sort((a,b)=>(b.fecha_compra||'').localeCompare(a.fecha_compra||''));
 
   const totalCoste=list.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  document.getElementById('comprado-summary').innerHTML=list.length?`
+  const activos=list.filter(o=>o.estado==='activo').length;
+  const publicados=list.filter(o=>o.estado==='publicado').length;
+  document.getElementById('stock-summary').innerHTML=list.length?`
     <div style="font-size:12px;color:var(--text2);margin-bottom:6px">
-      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> · Invertido: <span style="color:var(--gold2)">&pound;${fmt(totalCoste)}</span>
+      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span>
+      ${stockFilter==='todos'?` · <span style="color:var(--gold2)">${activos} comprado${activos!==1?'s':''}</span> / <span style="color:var(--blue)">${publicados} publicado${publicados!==1?'s':''}</span>`:''}
+      · Invertido: <span style="color:var(--gold2)">&pound;${fmt(totalCoste)}</span>
     </div>`:''
 
   if(!list.length){
-    document.getElementById('comprado-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes comprados</p></div>`;
+    document.getElementById('stock-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes en stock</p></div>`;
     return;
   }
-  document.getElementById('comprado-content').innerHTML=list.map(o=>{
+  const badgeCls={activo:'b-gold',publicado:'b-blue',devuelto:'b-orange'};
+  document.getElementById('stock-content').innerHTML=list.map(o=>{
     const dias=daysFromNow(o.fecha_compra);
     const aCls=agingClass(dias);
     return `
     <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
       <div style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center">
         <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}">● ${o.cuenta||'Carlos'}</span>
-        <span class="badge b-gold">Comprado</span>
+        <span class="badge ${badgeCls[o.estado]||'b-gold'}">${estadoLabel(o.estado)}</span>
       </div>
       <div class="model">${o.modelo}</div>
       <div style="margin:6px 0;display:flex;align-items:center;gap:8px">
         <span class="price">&pound;${fmt(o.coste_total_gbp)}</span>
-      </div>
-      <div class="meta">
-        <span>${o.plataforma_compra||'—'}</span>
-        <span>${o.fecha_compra||''}</span>
-        <span style="display:flex;align-items:center;gap:3px"><span class="aging-dot ${aCls}" style="display:inline-block"></span>${dias}d</span>
-        <span>${reparto(o)}</span>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-/* ── LISTADO ── */
-function setListadoSort(s,btn){
-  listadoSort=s;
-  document.querySelectorAll('#view-listado .stab').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderListado();
-}
-
-function renderListado(){
-  const sq=(document.getElementById('listado-search')?.value||'').toLowerCase();
-  const cuentaF=document.getElementById('listado-cuenta-filter')?.value||'';
-  let list=ops.filter(o=>o.estado==='publicado');
-  if(sq) list=list.filter(o=>(o.modelo||'').toLowerCase().includes(sq));
-  if(cuentaF) list=list.filter(o=>o.cuenta===cuentaF);
-  if(listadoSort==='coste') list=[...list].sort((a,b)=>(b.coste_total_gbp||0)-(a.coste_total_gbp||0));
-  else if(listadoSort==='dias') list=[...list].sort((a,b)=>daysFromNow(a.fecha_compra)-daysFromNow(b.fecha_compra));
-  else list=[...list].sort((a,b)=>(b.fecha_compra||'').localeCompare(a.fecha_compra||''));
-
-  const totalCoste=list.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  document.getElementById('listado-summary').innerHTML=list.length?`
-    <div style="font-size:12px;color:var(--text2);margin-bottom:6px">
-      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> · Invertido: <span style="color:var(--gold2)">&pound;${fmt(totalCoste)}</span>
-    </div>`:''
-
-  if(!list.length){
-    document.getElementById('listado-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes publicados</p></div>`;
-    return;
-  }
-  document.getElementById('listado-content').innerHTML=list.map(o=>{
-    const dias=daysFromNow(o.fecha_compra);
-    const aCls=agingClass(dias);
-    return `
-    <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
-      <div style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center">
-        <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}">● ${o.cuenta||'Carlos'}</span>
-        <span class="badge b-blue">Publicado</span>
-      </div>
-      <div class="model">${o.modelo}</div>
-      <div style="margin:6px 0;display:flex;align-items:center;gap:8px">
-        <span class="price">&pound;${fmt(o.coste_total_gbp)}</span>
-        ${o.precio_listado_gbp?`<span style="font-size:12px;color:var(--text2)">→ &pound;${fmt(o.precio_listado_gbp)}</span>`:''}
+        ${o.precio_listado_gbp&&o.estado==='publicado'?`<span style="font-size:12px;color:var(--text2)">→ &pound;${fmt(o.precio_listado_gbp)}</span>`:''}
       </div>
       <div class="meta">
         <span>${o.plataforma_compra||'—'}</span>
@@ -734,18 +664,19 @@ function renderVentas(){
     </div>
     <p class="sec-title">Historial (${v.length})</p>
     ${v.map(o=>`
-      <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
-        <div class="row">
+      <div class="watch-card ${cardClass(o)}">
+        <div class="row" onclick="openDetail(${o.id})" style="cursor:pointer">
           <div class="model">${o.modelo}</div>
-          <span class="${profCls(o.beneficio_neto_gbp)}" style="font-size:15px">&pound;${fmt(o.beneficio_neto_gbp)}</span>
+          <span class="${o.ingreso_neto_gbp!=null?profCls(o.beneficio_neto_gbp):'p-neg'}" style="font-size:15px">${o.ingreso_neto_gbp!=null?'&pound;'+fmt(o.beneficio_neto_gbp):'Sin precio'}</span>
         </div>
-        <div class="meta">
+        <div class="meta" onclick="openDetail(${o.id})" style="cursor:pointer;margin-bottom:8px">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
-          <span>${o.fecha_venta||'—'}</span>
+          <span>${o.fecha_venta||'Sin fecha'}</span>
           <span>${o.plataforma_venta||'—'}</span>
-          <span>ROI ${pct(o.roi_pct)}</span>
-          <span>${o.dias_posesion!=null?o.dias_posesion+'d':'?d'}</span>
+          ${o.ingreso_neto_gbp!=null?`<span>ROI ${pct(o.roi_pct)}</span>`:''}
+          <span>${o.dias_posesion!=null?o.dias_posesion+'d':'—'}</span>
         </div>
+        <button class="btn btn-outline btn-sm" onclick="openEditSaleModal(${o.id},event)" style="font-size:11px;padding:5px 14px">&#9999;&#65039; Editar venta</button>
       </div>`).join('')}`;
 }
 
@@ -1103,7 +1034,7 @@ function openDetail(id){
 function openEditFromDetail(id){
   document.getElementById('detail-overlay').classList.remove('open');
   setTimeout(()=>{
-    showView('add', document.querySelectorAll('nav button')[6]);
+    showView('add', document.querySelectorAll('nav button')[5]);
     switchAddTab('editar');
     setTimeout(()=>loadEditForm(id),100);
   },200);
@@ -1114,18 +1045,18 @@ let sellSelectedId=null;
 
 function openSellModal(preselectedId){
   sellSelectedId=preselectedId||null;
-  const available=ops.filter(o=>o.estado!=='vendido'&&o.estado!=='devuelto');
+  const available=ops.filter(o=>o.estado==='publicado');
   document.getElementById('sell-content').innerHTML=`
     <button class="modal-close" onclick="document.getElementById('sell-overlay').classList.remove('open')">✕</button>
     <h2>Registrar venta</h2>
     ${!preselectedId?`
-    <p class="sec-title">Selecciona el reloj</p>
+    <p class="sec-title">Relojes publicados</p>
     <div id="sell-list">
-      ${available.map(o=>`
+      ${available.length?available.map(o=>`
         <div class="sell-item si-${(o.cuenta||'carlos').toLowerCase()}" id="si-${o.id}" onclick="selectSellItem(${o.id})">
           <div class="si-model">${o.modelo}</div>
-          <div class="si-meta"><span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta}</span> &pound;${fmt(o.coste_total_gbp)} · ${estadoLabel(o.estado)}</div>
-        </div>`).join('')}
+          <div class="si-meta"><span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta}</span> &pound;${fmt(o.coste_total_gbp)} · Publicado</div>
+        </div>`).join(''):'<div class="empty" style="padding:20px"><p>No hay relojes publicados</p></div>'}
     </div>
     <div class="divider"></div>`:''}
     <div id="sell-form-wrap" style="${preselectedId?'':'display:none'}">
@@ -1156,10 +1087,11 @@ function renderSellForm(id){
   return `
     <p class="sec-title">${o.modelo}</p>
     <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">&pound;${fmt(o.coste_total_gbp)}</strong></div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:12px">Puedes guardar con solo la fecha, solo el dinero, o ambos. Podrás completar lo que falte más tarde.</div>
     <div class="form-row">
       <div class="form-group">
-        <label>Precio recibido (&pound;) *</label>
-        <input type="number" id="sell-precio" step="0.01" placeholder="0.00" oninput="previewBen(${id})">
+        <label>Dinero recibido (&pound;)</label>
+        <input type="number" id="sell-precio" step="0.01" placeholder="opcional" oninput="previewBen(${id})">
       </div>
       <div class="form-group">
         <label>Fecha venta</label>
@@ -1193,29 +1125,115 @@ function previewBen(id){
 
 async function confirmSell(id){
   const o=ops.find(x=>x.id===id);
-  const precio=parseFloat(document.getElementById('sell-precio')?.value)||0;
-  if(!precio){showToast('⚠️ Introduce el precio recibido');return;}
-  const fecha=document.getElementById('sell-fecha')?.value||today();
+  const precioRaw=document.getElementById('sell-precio')?.value;
+  const precio=precioRaw&&precioRaw!==''?parseFloat(precioRaw):null;
+  const fecha=document.getElementById('sell-fecha')?.value||null;
   const plataforma=document.getElementById('sell-plataforma')?.value||null;
-  const coste=o.coste_total_gbp||0;
-  const beneficio=precio-coste;
-  const roi=coste?beneficio/coste:0;
-  const diasPos=o.fecha_compra?daysDiff(o.fecha_compra,fecha):null;
-  const body={
-    estado:'vendido',fecha_venta:fecha,ingreso_neto_gbp:precio,
-    beneficio_neto_gbp:parseFloat(beneficio.toFixed(2)),
-    roi_pct:parseFloat(roi.toFixed(4)),
-    dias_posesion:diasPos,plataforma_venta:plataforma,
-    beneficio_carlos:parseFloat((beneficio*(o.pct_carlos||1)).toFixed(2)),
-    beneficio_marta:parseFloat((beneficio*(o.pct_marta||0)).toFixed(2)),
-    beneficio_dom:parseFloat((beneficio*(o.pct_dom||0)).toFixed(2))
-  };
+  const body={estado:'vendido'};
+  if(fecha) body.fecha_venta=fecha;
+  if(plataforma) body.plataforma_venta=plataforma;
+  if(precio!=null){
+    const coste=o.coste_total_gbp||0;
+    const beneficio=precio-coste;
+    const roi=coste?beneficio/coste:0;
+    const diasPos=(o.fecha_compra&&fecha)?daysDiff(o.fecha_compra,fecha):null;
+    body.ingreso_neto_gbp=precio;
+    body.beneficio_neto_gbp=parseFloat(beneficio.toFixed(2));
+    body.roi_pct=parseFloat(roi.toFixed(4));
+    if(diasPos!=null) body.dias_posesion=diasPos;
+    body.beneficio_carlos=parseFloat((beneficio*(o.pct_carlos||1)).toFixed(2));
+    body.beneficio_marta=parseFloat((beneficio*(o.pct_marta||0)).toFixed(2));
+    body.beneficio_dom=parseFloat((beneficio*(o.pct_dom||0)).toFixed(2));
+  }
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
-    await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
+    if(precio!=null) await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
     document.getElementById('sell-overlay').classList.remove('open');
     await loadAll();
-    showToast('✅ Venta registrada — &pound;'+fmt(beneficio));
+    showToast(precio!=null?'✅ Venta registrada — &pound;'+fmt(body.beneficio_neto_gbp):'✅ Venta guardada (precio pendiente)');
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+}
+
+/* ── EDIT SALE MODAL ── */
+function openEditSaleModal(id,evt){
+  if(evt) evt.stopPropagation();
+  const o=ops.find(x=>x.id===id);
+  if(!o) return;
+  document.getElementById('edit-sale-content').innerHTML=`
+    <button class="modal-close" onclick="document.getElementById('edit-sale-overlay').classList.remove('open')">✕</button>
+    <h2>Editar venta</h2>
+    <p class="sec-title">${o.modelo}</p>
+    <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">&pound;${fmt(o.coste_total_gbp)}</strong></div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:12px">Ambos campos son opcionales. Guarda solo lo que tengas ahora.</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Dinero recibido (&pound;)</label>
+        <input type="number" id="es-precio" step="0.01" placeholder="opcional" value="${o.ingreso_neto_gbp!=null?o.ingreso_neto_gbp:''}" oninput="previewEditSale(${id})">
+      </div>
+      <div class="form-group">
+        <label>Fecha venta</label>
+        <input type="date" id="es-fecha" value="${o.fecha_venta||''}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Plataforma venta</label>
+      <select id="es-plataforma">
+        <option value="">— Seleccionar —</option>
+        ${['Chrono24','eBay','Vinted','Catawiki','Reddit','Otro'].map(p=>`<option${(o.plataforma_venta||'')===p?' selected':''}>${p}</option>`).join('')}
+      </select>
+    </div>
+    <div id="es-ben-preview" style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:14px;${o.ingreso_neto_gbp!=null?'':'display:none'}">
+      ${o.ingreso_neto_gbp!=null?`Beneficio: <strong class="${profCls(o.beneficio_neto_gbp)}">&pound;${fmt(o.beneficio_neto_gbp)}</strong> · ROI: <strong>${pct(o.roi_pct)}</strong>`:''}
+    </div>
+    <button class="btn btn-gold" onclick="saveEditSale(${id})">Guardar cambios</button>`;
+  document.getElementById('edit-sale-overlay').classList.add('open');
+}
+
+function previewEditSale(id){
+  const o=ops.find(x=>x.id===id);
+  const precio=parseFloat(document.getElementById('es-precio')?.value)||0;
+  const preview=document.getElementById('es-ben-preview');
+  if(!precio||!o){if(preview)preview.style.display='none';return;}
+  const ben=precio-(o.coste_total_gbp||0);
+  const roi=o.coste_total_gbp?ben/o.coste_total_gbp:0;
+  if(preview){
+    preview.style.display='block';
+    preview.innerHTML=`Beneficio: <strong class="${profCls(ben)}">&pound;${fmt(ben)}</strong> · ROI: <strong class="${profCls(roi)}">${(roi*100).toFixed(1)}%</strong>`;
+  }
+}
+
+async function saveEditSale(id){
+  const o=ops.find(x=>x.id===id);
+  const precioRaw=document.getElementById('es-precio')?.value;
+  const precio=precioRaw&&precioRaw!==''?parseFloat(precioRaw):null;
+  const fecha=document.getElementById('es-fecha')?.value||null;
+  const plataforma=document.getElementById('es-plataforma')?.value||null;
+  const body={};
+  if(fecha) body.fecha_venta=fecha;
+  if(plataforma) body.plataforma_venta=plataforma;
+  if(precio!=null){
+    const coste=o.coste_total_gbp||0;
+    const beneficio=precio-coste;
+    const roi=coste?beneficio/coste:0;
+    const fv=fecha||o.fecha_venta||null;
+    const diasPos=(o.fecha_compra&&fv)?daysDiff(o.fecha_compra,fv):null;
+    body.ingreso_neto_gbp=precio;
+    body.beneficio_neto_gbp=parseFloat(beneficio.toFixed(2));
+    body.roi_pct=parseFloat(roi.toFixed(4));
+    if(diasPos!=null) body.dias_posesion=diasPos;
+    body.beneficio_carlos=parseFloat((beneficio*(o.pct_carlos||1)).toFixed(2));
+    body.beneficio_marta=parseFloat((beneficio*(o.pct_marta||0)).toFixed(2));
+    body.beneficio_dom=parseFloat((beneficio*(o.pct_dom||0)).toFixed(2));
+  }
+  if(!Object.keys(body).length){showToast('⚠️ Sin cambios que guardar');return;}
+  try{
+    await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
+    if(precio!=null&&o.ingreso_neto_gbp==null){
+      await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
+    }
+    document.getElementById('edit-sale-overlay').classList.remove('open');
+    await loadAll();
+    showToast('✅ Venta actualizada');
   }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
@@ -1410,7 +1428,7 @@ async function addWatch(e){
       if(el) el.value=i===0?100:0;
     });
     document.getElementById('coste-preview').textContent='&pound;0';
-    showView('comprado',document.querySelectorAll('nav button')[1]);
+    showView('stock',document.querySelectorAll('nav button')[1]);
   }catch(er){showToast('❌ '+er.message.substring(0,60));}
   btn.textContent='Añadir reloj';btn.disabled=false;
 }
