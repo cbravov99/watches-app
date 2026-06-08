@@ -281,7 +281,7 @@
             <input type="date" name="fecha_compra">
           </div>
         </div>
-        <p class="sec-title">Costes (£)</p>
+        <p class="sec-title">Costes (&pound;)</p>
         <div class="card">
           <div class="form-row">
             <div class="form-group">
@@ -304,7 +304,7 @@
             </div>
           </div>
           <div style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2)">
-            Coste total: <strong id="coste-preview" style="color:var(--gold2)">£0</strong>
+            Coste total: <strong id="coste-preview" style="color:var(--gold2)">&pound;0</strong>
           </div>
         </div>
         <p class="sec-title">Venta</p>
@@ -318,7 +318,7 @@
               <label>Estado</label>
               <select name="estado">
                 <option value="activo">Comprado</option>
-                <option value="listado">Listado</option>
+                <option value="publicado">Publicado</option>
                 <option value="devuelto">Devuelto</option>
                 <option value="vendido">Vendido</option>
               </select>
@@ -379,7 +379,7 @@
   </button>
   <button onclick="showView('listado',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2"/></svg>
-    Listado
+    Publicado
   </button>
   <button onclick="showView('ventas',this)">
     <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -472,7 +472,7 @@ function showView(name,btn){
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   if(btn) btn.classList.add('active');
-  const t={dashboard:'Dashboard',comprado:'Comprado',listado:'Listado',ventas:'Historial ventas',stats:'Estadísticas',add:'Nuevo reloj',socios:'Socios & Capital'};
+  const t={dashboard:'Dashboard',comprado:'Comprado',listado:'Publicado',ventas:'Historial ventas',stats:'Estadísticas',add:'Nuevo reloj',socios:'Socios & Capital'};
   document.getElementById('header-sub').textContent=t[name]||'';
   if(name==='add') fillCurrentPcts();
 }
@@ -504,13 +504,13 @@ const daysDiff=(d1,d2)=>Math.round((new Date(d2)-new Date(d1))/(864e5));
 const daysFromNow=d=>d?Math.round((new Date()-new Date(d))/(864e5)):0;
 
 function estadoBadge(e){
-  const m={'vendido':'b-green','listado':'b-blue','activo':'b-gold','devuelto':'b-orange'};
+  const m={'vendido':'b-green','publicado':'b-blue','activo':'b-gold','devuelto':'b-orange'};
   return m[e]||'b-gold';
 }
 function estadoLabel(e){
   if(e==='activo') return 'Comprado';
   if(e==='vendido') return 'Vendido';
-  if(e==='listado') return 'Listado';
+  if(e==='publicado') return 'Publicado';
   if(e==='devuelto') return 'Devuelto';
   return e;
 }
@@ -537,15 +537,15 @@ function agingClass(days){
 
 /* ── DASHBOARD ── */
 function renderDash(){
-  const enstock=ops.filter(o=>['activo','listado','devuelto'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','publicado','devuelto'].includes(o.estado));
   const comprados=ops.filter(o=>o.estado==='activo');
-  const listados=ops.filter(o=>o.estado==='listado');
+  const listados=ops.filter(o=>o.estado==='publicado');
   
   const devueltos=ops.filter(o=>o.estado==='devuelto');
   const vendidos=ops.filter(o=>o.estado==='vendido');
   const vendidosConPrecio=vendidos.filter(o=>o.ingreso_neto_gbp!=null);
   const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  const capitalRiesgo=ops.filter(o=>['activo','listado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  const capitalRiesgo=ops.filter(o=>['activo','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const benTotal=vendidosConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
   const avgROI=vendidosConPrecio.length?vendidosConPrecio.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidosConPrecio.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
@@ -554,13 +554,13 @@ function renderDash(){
   document.getElementById('dash-content').innerHTML=`
     <div class="stats">
       <div class="stat"><div class="lbl">Comprado</div><div class="val">${comprados.length}</div><div class="sub">en posesión</div></div>
-      <div class="stat"><div class="lbl">Listado</div><div class="val">${listados.length}</div><div class="sub">publicados</div></div>
-      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">£${fmt(capitalRiesgo)}</div><div class="sub">comprados + listados</div></div>
-      <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">£${fmt(benTotal)}</div><div class="sub">ROI medio ${pct(avgROI)}</div></div>
+      <div class="stat"><div class="lbl">Publicado</div><div class="val">${listados.length}</div><div class="sub">publicados</div></div>
+      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprados + listados</div></div>
+      <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">&pound;${fmt(benTotal)}</div><div class="sub">ROI medio ${pct(avgROI)}</div></div>
     </div>
     <div class="card" style="margin-bottom:14px">
       <div class="sec-title" style="margin-bottom:8px">Capital total</div>
-      <div style="font-size:26px;font-weight:800;color:var(--gold2)">£${fmt(capTotal)}</div>
+      <div style="font-size:26px;font-weight:800;color:var(--gold2)">&pound;${fmt(capTotal)}</div>
       <div style="font-size:11px;color:var(--text2);margin-top:3px">${socios.map(s=>`${s.nombre} ${pct2(s.porcentaje_actual)}`).join(' · ')}</div>
     </div>
     <p class="sec-title">Actividad reciente</p>
@@ -572,8 +572,8 @@ function renderDash(){
         </div>
         <div class="meta">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
-          <span>£${fmt(o.coste_total_gbp)}</span>
-          ${o.estado==='vendido'?`<span class="${profCls(o.beneficio_neto_gbp)}">+£${fmt(o.beneficio_neto_gbp)}</span>`:''}
+          <span>&pound;${fmt(o.coste_total_gbp)}</span>
+          ${o.estado==='vendido'?`<span class="${profCls(o.beneficio_neto_gbp)}">+&pound;${fmt(o.beneficio_neto_gbp)}</span>`:''}
           <span>${o.fecha_compra||''}</span>
         </div>
       </div>`).join('')}`;
@@ -610,7 +610,7 @@ function renderComprado(){
   const totalCoste=list.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   document.getElementById('comprado-summary').innerHTML=list.length?`
     <div style="font-size:12px;color:var(--text2);margin-bottom:6px">
-      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> · Invertido: <span style="color:var(--gold2)">£${fmt(totalCoste)}</span>
+      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> · Invertido: <span style="color:var(--gold2)">&pound;${fmt(totalCoste)}</span>
     </div>`:''
 
   if(!list.length){
@@ -628,7 +628,7 @@ function renderComprado(){
       </div>
       <div class="model">${o.modelo}</div>
       <div style="margin:6px 0;display:flex;align-items:center;gap:8px">
-        <span class="price">£${fmt(o.coste_total_gbp)}</span>
+        <span class="price">&pound;${fmt(o.coste_total_gbp)}</span>
       </div>
       <div class="meta">
         <span>${o.plataforma_compra||'—'}</span>
@@ -651,7 +651,7 @@ function setListadoSort(s,btn){
 function renderListado(){
   const sq=(document.getElementById('listado-search')?.value||'').toLowerCase();
   const cuentaF=document.getElementById('listado-cuenta-filter')?.value||'';
-  let list=ops.filter(o=>o.estado==='listado');
+  let list=ops.filter(o=>o.estado==='publicado');
   if(sq) list=list.filter(o=>(o.modelo||'').toLowerCase().includes(sq));
   if(cuentaF) list=list.filter(o=>o.cuenta===cuentaF);
   if(listadoSort==='coste') list=[...list].sort((a,b)=>(b.coste_total_gbp||0)-(a.coste_total_gbp||0));
@@ -661,11 +661,11 @@ function renderListado(){
   const totalCoste=list.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   document.getElementById('listado-summary').innerHTML=list.length?`
     <div style="font-size:12px;color:var(--text2);margin-bottom:6px">
-      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> · Invertido: <span style="color:var(--gold2)">£${fmt(totalCoste)}</span>
+      <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span> · Invertido: <span style="color:var(--gold2)">&pound;${fmt(totalCoste)}</span>
     </div>`:''
 
   if(!list.length){
-    document.getElementById('listado-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes listados</p></div>`;
+    document.getElementById('listado-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes publicados</p></div>`;
     return;
   }
   document.getElementById('listado-content').innerHTML=list.map(o=>{
@@ -675,12 +675,12 @@ function renderListado(){
     <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
       <div style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center">
         <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}">● ${o.cuenta||'Carlos'}</span>
-        <span class="badge b-blue">Listado</span>
+        <span class="badge b-blue">Publicado</span>
       </div>
       <div class="model">${o.modelo}</div>
       <div style="margin:6px 0;display:flex;align-items:center;gap:8px">
-        <span class="price">£${fmt(o.coste_total_gbp)}</span>
-        ${o.precio_listado_gbp?`<span style="font-size:12px;color:var(--text2)">→ £${fmt(o.precio_listado_gbp)}</span>`:''}
+        <span class="price">&pound;${fmt(o.coste_total_gbp)}</span>
+        ${o.precio_listado_gbp?`<span style="font-size:12px;color:var(--text2)">→ &pound;${fmt(o.precio_listado_gbp)}</span>`:''}
       </div>
       <div class="meta">
         <span>${o.plataforma_compra||'—'}</span>
@@ -727,8 +727,8 @@ function renderVentas(){
   document.getElementById('ventas-content').innerHTML=`
     <div class="card" style="margin-bottom:14px">
       <div class="sum-row"><span class="k">Operaciones</span><span class="v">${v.length}</span></div>
-      <div class="sum-row"><span class="k">Ingresos totales</span><span class="v">£${fmt(totIng)}</span></div>
-      <div class="sum-row"><span class="k">Beneficio total</span><span class="v ${profCls(totBen)}">£${fmt(totBen)}</span></div>
+      <div class="sum-row"><span class="k">Ingresos totales</span><span class="v">&pound;${fmt(totIng)}</span></div>
+      <div class="sum-row"><span class="k">Beneficio total</span><span class="v ${profCls(totBen)}">&pound;${fmt(totBen)}</span></div>
       <div class="sum-row"><span class="k">ROI medio</span><span class="v">${pct(avgRoi)}</span></div>
       <div class="sum-row"><span class="k">Días medio posesión</span><span class="v">${avgDias.toFixed(0)}d</span></div>
     </div>
@@ -737,7 +737,7 @@ function renderVentas(){
       <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
         <div class="row">
           <div class="model">${o.modelo}</div>
-          <span class="${profCls(o.beneficio_neto_gbp)}" style="font-size:15px">£${fmt(o.beneficio_neto_gbp)}</span>
+          <span class="${profCls(o.beneficio_neto_gbp)}" style="font-size:15px">&pound;${fmt(o.beneficio_neto_gbp)}</span>
         </div>
         <div class="meta">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
@@ -752,7 +752,7 @@ function renderVentas(){
 /* ── ESTADÍSTICAS ── */
 function renderStats(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
-  const enstock=ops.filter(o=>['activo','listado','devuelto'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','publicado','devuelto'].includes(o.estado));
   const todayD=new Date();
 
   if(!ops.length){
@@ -821,7 +821,7 @@ function renderStats(){
   const tasaDev=totalOps>0?numDev/totalOps*100:0;
 
   // 7. Capital en riesgo
-  const capitalRiesgo=ops.filter(o=>['activo','listado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  const capitalRiesgo=ops.filter(o=>['activo','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
 
   // 8. Stock aging
   const aging=enstock.filter(o=>o.fecha_compra).map(o=>({...o,days:daysFromNow(o.fecha_compra)})).sort((a,b)=>b.days-a.days);
@@ -830,7 +830,7 @@ function renderStats(){
     <p class="sec-title">Resumen global</p>
     <div class="stats" style="margin-bottom:14px">
       <div class="stat"><div class="lbl">Total ops</div><div class="val">${totalOps}</div><div class="sub">${vendidos.length} vendidas</div></div>
-      <div class="stat"><div class="lbl">Capital riesgo</div><div class="val">£${fmt(capitalRiesgo)}</div><div class="sub">comprado+listado</div></div>
+      <div class="stat"><div class="lbl">Capital riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprado+listado</div></div>
       <div class="stat"><div class="lbl">Tasa devolución</div><div class="val">${tasaDev.toFixed(1)}%</div><div class="sub">${numDev} devueltos</div></div>
       <div class="stat"><div class="lbl">Días medio venta</div><div class="val">${avgDias.toFixed(0)}d</div><div class="sub">${vendConDias.length} ops</div></div>
     </div>
@@ -847,7 +847,7 @@ function renderStats(){
             <span class="range-label">${r.l}</span>
             <div class="range-bar-wrap"><div class="range-bar-fill" style="width:${Math.round(r.count/maxRange*100)}%"></div></div>
             <span class="range-count">${r.count}</span>
-            <span style="font-size:11px;color:var(--text2);width:60px;text-align:right;flex-shrink:0">ø£${fmt(r.avgBen)}</span>
+            <span style="font-size:11px;color:var(--text2);width:60px;text-align:right;flex-shrink:0">ø&pound;${fmt(r.avgBen)}</span>
           </div>`).join('')}
         <div style="font-size:11px;color:var(--text2);margin-top:6px">${vendConDias.length} relojes vendidos con fecha</div>
       </div>
@@ -869,7 +869,7 @@ function renderStats(){
             <span>${p}</span>
             <span style="text-align:center;color:var(--gold2)">${v.n}</span>
             <span style="text-align:right;color:var(--green)">${pct(v.roi/v.n)}</span>
-            <span style="text-align:right;color:var(--text)">£${fmt(v.ben)}</span>`).join('')}
+            <span style="text-align:right;color:var(--text)">&pound;${fmt(v.ben)}</span>`).join('')}
         </div>
       </div>
     </div>
@@ -886,7 +886,7 @@ function renderStats(){
             <div class="bar-row">
               <span class="bar-label">${m.substring(5)}'${m.substring(2,4)}</span>
               <div class="bar-track"><div class="bar-fill" style="width:${Math.round(Math.abs(v)/maxBen*100)}%;background:${v>=0?'linear-gradient(90deg,var(--gold),var(--gold2))':'linear-gradient(90deg,var(--red),#fca5a5)'}"></div></div>
-              <span class="bar-val ${profCls(v)}">£${fmt(v)}</span>
+              <span class="bar-val ${profCls(v)}">&pound;${fmt(v)}</span>
             </div>`).join('')}
         </div>
       </div>
@@ -903,7 +903,7 @@ function renderStats(){
           <div style="padding:8px 0;border-bottom:1px solid var(--border)">
             <div style="display:flex;justify-content:space-between;margin-bottom:4px">
               <span style="font-size:12px;font-weight:600">${i+1}. ${m.substring(0,32)}</span>
-              <span class="p-pos" style="font-size:12px">£${fmt(v.ben)}</span>
+              <span class="p-pos" style="font-size:12px">&pound;${fmt(v.ben)}</span>
             </div>
             <div class="bar-track" style="height:8px"><div class="bar-fill" style="width:${Math.round(v.ben/maxTop*100)}%"></div></div>
             <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} · ROI ø ${pct(v.roi/v.n)}</div>
@@ -927,7 +927,7 @@ function renderStats(){
             <span>${p}</span>
             <span style="text-align:center;color:var(--gold2)">${v.n}</span>
             <span style="text-align:right;color:var(--text2)">${(v.dias/v.n).toFixed(0)}d</span>
-            <span style="text-align:right" class="${profCls(v.ben)}">£${fmt(v.ben)}</span>`).join('')}
+            <span style="text-align:right" class="${profCls(v.ben)}">&pound;${fmt(v.ben)}</span>`).join('')}
         </div>
       </div>
     </div>
@@ -963,7 +963,7 @@ function toggleStat(id){
 /* ── SOCIOS ── */
 function renderSocios(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
-  const enstock=ops.filter(o=>['activo','listado'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','publicado'].includes(o.estado));
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   const dynPct=s=>capTotal>0?s.capital_actual/capTotal*100:0;
 
@@ -992,7 +992,7 @@ function renderSocios(){
 
   document.getElementById('socios-content').innerHTML=`
     <div class="card" style="margin-bottom:14px">
-      <div class="sum-row"><span class="k">Capital total</span><span class="v">£${fmt(capTotal)}</span></div>
+      <div class="sum-row"><span class="k">Capital total</span><span class="v">&pound;${fmt(capTotal)}</span></div>
       <div class="sum-row"><span class="k">Operaciones vendidas</span><span class="v">${vendidos.length}</span></div>
     </div>
     ${socios.map(s=>{
@@ -1010,10 +1010,10 @@ function renderSocios(){
           <div class="name">${s.nombre}</div>
           <span class="badge ${cuentaBadge(s.nombre)}">${pctDyn.toFixed(1)}%</span>
         </div>
-        <div class="sum-row"><span class="k">Capital actual</span><span class="v">£${fmt(s.capital_actual)}</span></div>
-        <div class="sum-row"><span class="k">Aportaciones netas</span><span class="v">£${fmt(ap)}</span></div>
-        <div class="sum-row"><span class="k">Beneficio realizado</span><span class="v ${profCls(ben)}">£${fmt(ben)}</span></div>
-        <div class="sum-row"><span class="k">Capital en stock</span><span class="v" style="color:var(--text2)">£${fmt(Math.abs(noReal))}</span></div>
+        <div class="sum-row"><span class="k">Capital actual</span><span class="v">&pound;${fmt(s.capital_actual)}</span></div>
+        <div class="sum-row"><span class="k">Aportaciones netas</span><span class="v">&pound;${fmt(ap)}</span></div>
+        <div class="sum-row"><span class="k">Beneficio realizado</span><span class="v ${profCls(ben)}">&pound;${fmt(ben)}</span></div>
+        <div class="sum-row"><span class="k">Capital en stock</span><span class="v" style="color:var(--text2)">&pound;${fmt(Math.abs(noReal))}</span></div>
         <div class="sum-row"><span class="k">ROI realizado</span><span class="v ${profCls(roi)}">${(roi*100).toFixed(1)}%</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:${Math.min(Math.max(pctDyn,0),100)}%"></div></div>
         ${misMovs.length?`
@@ -1030,7 +1030,7 @@ function renderSocios(){
               </div>
               <div style="display:flex;align-items:center;gap:8px">
                 <span class="${m.tipo==='Retirada'||m.tipo==='Pérdida'?'p-neg':'p-pos'}" style="font-size:13px">
-                  ${m.tipo==='Retirada'||m.tipo==='Pérdida'?'-':'+'}£${fmt(Math.abs(m.importe))}
+                  ${m.tipo==='Retirada'||m.tipo==='Pérdida'?'-':'+'}&pound;${fmt(Math.abs(m.importe))}
                 </span>
                 <button class="mov-del" onclick="deleteMov(${m.id},event)" title="Eliminar">✕</button>
               </div>
@@ -1066,30 +1066,30 @@ function openDetail(id){
     <p class="sec-title">Compra</p>
     <div class="sum-row"><span class="k">Plataforma</span><span class="v">${o.plataforma_compra||'—'}</span></div>
     <div class="sum-row"><span class="k">Fecha</span><span class="v">${o.fecha_compra||'—'}</span></div>
-    <div class="sum-row"><span class="k">Precio</span><span class="v">£${fmt(o.precio_gbp)}</span></div>
-    <div class="sum-row"><span class="k">Envío</span><span class="v">£${fmt(o.gastos_envio_gbp)}</span></div>
-    <div class="sum-row"><span class="k">Reparación</span><span class="v">£${fmt(o.reparacion_gbp)}</span></div>
-    <div class="sum-row"><span class="k">Forwarder</span><span class="v">£${fmt(o.gastos_forwarder_gbp)}</span></div>
-    <div class="sum-row"><span class="k" style="font-weight:700;color:var(--text)">Coste total</span><span class="v" style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Precio</span><span class="v">&pound;${fmt(o.precio_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Envío</span><span class="v">&pound;${fmt(o.gastos_envio_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Reparación</span><span class="v">&pound;${fmt(o.reparacion_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Forwarder</span><span class="v">&pound;${fmt(o.gastos_forwarder_gbp)}</span></div>
+    <div class="sum-row"><span class="k" style="font-weight:700;color:var(--text)">Coste total</span><span class="v" style="color:var(--gold2)">&pound;${fmt(o.coste_total_gbp)}</span></div>
     ${o.estado!=='vendido'&&dias!=null?`<div class="sum-row"><span class="k">En posesión</span><span class="v"><span class="aging-dot ${agingClass(dias)}" style="display:inline-block;margin-right:4px"></span>${dias} días</span></div>`:''}
     <p class="sec-title" style="margin-top:12px">Venta</p>
-    <div class="sum-row"><span class="k">Precio listado</span><span class="v">${o.precio_listado_gbp?'£'+fmt(o.precio_listado_gbp):'—'}</span></div>
+    <div class="sum-row"><span class="k">Precio listado</span><span class="v">${o.precio_listado_gbp?'&pound;'+fmt(o.precio_listado_gbp):'—'}</span></div>
     <div class="sum-row"><span class="k">Plataforma venta</span><span class="v">${o.plataforma_venta||'—'}</span></div>
-    <div class="sum-row"><span class="k">Precio recibido</span><span class="v">${o.ingreso_neto_gbp!=null?'£'+fmt(o.ingreso_neto_gbp):'—'}</span></div>
+    <div class="sum-row"><span class="k">Precio recibido</span><span class="v">${o.ingreso_neto_gbp!=null?'&pound;'+fmt(o.ingreso_neto_gbp):'—'}</span></div>
     <div class="sum-row"><span class="k">Fecha venta</span><span class="v">${o.fecha_venta||'—'}</span></div>
     <div class="sum-row"><span class="k">Días en posesión</span><span class="v">${o.dias_posesion!=null?o.dias_posesion+'d':'—'}</span></div>
     ${o.estado==='devuelto'?`
     <p class="sec-title" style="margin-top:12px">Devolución</p>
-    <div class="sum-row"><span class="k">Reembolso recibido</span><span class="v">${o.importe_reembolso!=null?'£'+fmt(o.importe_reembolso):'—'}</span></div>
-    <div class="sum-row"><span class="k">Gastos retorno</span><span class="v">${o.gastos_retorno!=null?'£'+fmt(o.gastos_retorno):'—'}</span></div>
-    <div class="sum-row"><span class="k">Resultado devolución</span><span class="v ${profCls(o.beneficio_neto_gbp)}">£${fmt(o.beneficio_neto_gbp)}</span></div>`:''}
+    <div class="sum-row"><span class="k">Reembolso recibido</span><span class="v">${o.importe_reembolso!=null?'&pound;'+fmt(o.importe_reembolso):'—'}</span></div>
+    <div class="sum-row"><span class="k">Gastos retorno</span><span class="v">${o.gastos_retorno!=null?'&pound;'+fmt(o.gastos_retorno):'—'}</span></div>
+    <div class="sum-row"><span class="k">Resultado devolución</span><span class="v ${profCls(o.beneficio_neto_gbp)}">&pound;${fmt(o.beneficio_neto_gbp)}</span></div>`:''}
     ${o.estado==='vendido'?`
     <p class="sec-title" style="margin-top:12px">Resultado</p>
-    <div class="sum-row"><span class="k">Beneficio neto</span><span class="v ${profCls(o.beneficio_neto_gbp)}">£${fmt(o.beneficio_neto_gbp)}</span></div>
+    <div class="sum-row"><span class="k">Beneficio neto</span><span class="v ${profCls(o.beneficio_neto_gbp)}">&pound;${fmt(o.beneficio_neto_gbp)}</span></div>
     <div class="sum-row"><span class="k">ROI</span><span class="v ${profCls(o.roi_pct)}">${pct(o.roi_pct)}</span></div>
-    <div class="sum-row"><span class="k">Carlos (${Math.round((o.pct_carlos||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_carlos)}</span></div>
-    <div class="sum-row"><span class="k">Marta (${Math.round((o.pct_marta||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_marta)}</span></div>
-    <div class="sum-row"><span class="k">Dom (${Math.round((o.pct_dom||0)*100)}%)</span><span class="v">£${fmt(o.beneficio_dom||0)}</span></div>`:''}
+    <div class="sum-row"><span class="k">Carlos (${Math.round((o.pct_carlos||0)*100)}%)</span><span class="v">&pound;${fmt(o.beneficio_carlos)}</span></div>
+    <div class="sum-row"><span class="k">Marta (${Math.round((o.pct_marta||0)*100)}%)</span><span class="v">&pound;${fmt(o.beneficio_marta)}</span></div>
+    <div class="sum-row"><span class="k">Dom (${Math.round((o.pct_dom||0)*100)}%)</span><span class="v">&pound;${fmt(o.beneficio_dom||0)}</span></div>`:''}
     ${o.notas?`<div class="divider"></div><div style="font-size:12px;color:var(--text2);padding:4px 0">${o.notas}</div>`:''}
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
       ${o.estado!=='vendido'?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
@@ -1124,7 +1124,7 @@ function openSellModal(preselectedId){
       ${available.map(o=>`
         <div class="sell-item si-${(o.cuenta||'carlos').toLowerCase()}" id="si-${o.id}" onclick="selectSellItem(${o.id})">
           <div class="si-model">${o.modelo}</div>
-          <div class="si-meta"><span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta}</span> £${fmt(o.coste_total_gbp)} · ${estadoLabel(o.estado)}</div>
+          <div class="si-meta"><span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta}</span> &pound;${fmt(o.coste_total_gbp)} · ${estadoLabel(o.estado)}</div>
         </div>`).join('')}
     </div>
     <div class="divider"></div>`:''}
@@ -1155,10 +1155,10 @@ function renderSellForm(id){
   if(!o) return '';
   return `
     <p class="sec-title">${o.modelo}</p>
-    <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong></div>
+    <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">&pound;${fmt(o.coste_total_gbp)}</strong></div>
     <div class="form-row">
       <div class="form-group">
-        <label>Precio recibido (£) *</label>
+        <label>Precio recibido (&pound;) *</label>
         <input type="number" id="sell-precio" step="0.01" placeholder="0.00" oninput="previewBen(${id})">
       </div>
       <div class="form-group">
@@ -1187,7 +1187,7 @@ function previewBen(id){
   const ben=precio-(o.coste_total_gbp||0);
   const roi=o.coste_total_gbp?ben/o.coste_total_gbp:0;
   document.getElementById('ben-preview').style.display='block';
-  document.getElementById('ben-val').innerHTML=`<span class="${profCls(ben)}">£${fmt(ben)}</span>`;
+  document.getElementById('ben-val').innerHTML=`<span class="${profCls(ben)}">&pound;${fmt(ben)}</span>`;
   document.getElementById('roi-val').innerHTML=`<span class="${profCls(roi)}">${(roi*100).toFixed(1)}%</span>`;
 }
 
@@ -1215,7 +1215,7 @@ async function confirmSell(id){
     await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
     document.getElementById('sell-overlay').classList.remove('open');
     await loadAll();
-    showToast('✅ Venta registrada — £'+fmt(beneficio));
+    showToast('✅ Venta registrada — &pound;'+fmt(beneficio));
   }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
@@ -1229,14 +1229,14 @@ function openDevueltoModal(id){
       <button class="modal-close" onclick="document.getElementById('dev-overlay').classList.remove('open')">✕</button>
       <h2>Registrar devolución</h2>
       <p class="sec-title">${o.modelo}</p>
-      <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong></div>
+      <div style="margin-bottom:12px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">&pound;${fmt(o.coste_total_gbp)}</strong></div>
       <div class="form-row">
         <div class="form-group">
-          <label>Reembolso recibido (£)</label>
+          <label>Reembolso recibido (&pound;)</label>
           <input type="number" id="dev-reembolso" step="0.01" placeholder="0.00" oninput="previewDevuelto(${id})">
         </div>
         <div class="form-group">
-          <label>Gastos retorno (£)</label>
+          <label>Gastos retorno (&pound;)</label>
           <input type="number" id="dev-gastos" step="0.01" placeholder="0.00" oninput="previewDevuelto(${id})">
         </div>
       </div>
@@ -1258,7 +1258,7 @@ function previewDevuelto(id){
   const resultado=reembolso-coste-gastos;
   const dp=document.getElementById('dev-preview');
   dp.style.display='block';
-  dp.innerHTML=`Resultado: <strong class="${profCls(resultado)}">£${fmt(resultado)}</strong> · Reembolso-Coste-Gastos`;
+  dp.innerHTML=`Resultado: <strong class="${profCls(resultado)}">&pound;${fmt(resultado)}</strong> · Reembolso-Coste-Gastos`;
 }
 
 async function confirmDevuelto(id){
@@ -1286,7 +1286,7 @@ async function confirmDevuelto(id){
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     document.getElementById('dev-overlay').classList.remove('open');
     await loadAll();
-    showToast('↩️ Devolución registrada — £'+fmt(resultado));
+    showToast('↩️ Devolución registrada — &pound;'+fmt(resultado));
   }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
@@ -1314,7 +1314,7 @@ function openAportacionModal(){
       <select id="ap-socio"><option>Carlos</option><option>Marta</option><option>Dom</option></select>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>Importe (£)</label>
+      <div class="form-group"><label>Importe (&pound;)</label>
         <input type="number" id="ap-importe" step="0.01" placeholder="0.00">
       </div>
       <div class="form-group"><label>Fecha</label>
@@ -1353,7 +1353,7 @@ async function saveAportacion(){
     }
     document.getElementById('aport-overlay').classList.remove('open');
     await loadAll();
-    showToast('✅ '+tipo+' — £'+fmt(Math.abs(importe)));
+    showToast('✅ '+tipo+' — &pound;'+fmt(Math.abs(importe)));
   }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
@@ -1362,7 +1362,7 @@ function calcCoste(){
   const f=document.getElementById('add-form');
   const c=['precio_gbp','gastos_envio_gbp','reparacion_gbp','gastos_forwarder_gbp']
     .reduce((s,n)=>s+(parseFloat(f.querySelector('[name='+n+']')?.value)||0),0);
-  document.getElementById('coste-preview').textContent='£'+fmt(c);
+  document.getElementById('coste-preview').textContent='&pound;'+fmt(c);
 }
 function checkPct(){
   const f=document.getElementById('add-form');
@@ -1409,7 +1409,7 @@ async function addWatch(e){
       const el=e.target.querySelector('[name='+n+']');
       if(el) el.value=i===0?100:0;
     });
-    document.getElementById('coste-preview').textContent='£0';
+    document.getElementById('coste-preview').textContent='&pound;0';
     showView('comprado',document.querySelectorAll('nav button')[1]);
   }catch(er){showToast('❌ '+er.message.substring(0,60));}
   btn.textContent='Añadir reloj';btn.disabled=false;
@@ -1435,7 +1435,7 @@ function renderEditList(){
         <div class="si-meta">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
           <span class="badge ${estadoBadge(o.estado)}">${estadoLabel(o.estado)}</span>
-          £${fmt(o.coste_total_gbp)} · ${o.fecha_compra||''}
+          &pound;${fmt(o.coste_total_gbp)} · ${o.fecha_compra||''}
         </div>
       </div>`).join('')
     :'<div class="empty"><p>Sin relojes</p></div>';
@@ -1471,7 +1471,7 @@ function loadEditForm(id){
         <input type="date" id="ef-fecha" value="${o.fecha_compra||''}">
       </div>
     </div>
-    <p class="sec-title">Costes (£)</p>
+    <p class="sec-title">Costes (&pound;)</p>
     <div class="card">
       <div class="form-row">
         <div class="form-group"><label>Precio compra</label>
@@ -1490,7 +1490,7 @@ function loadEditForm(id){
         </div>
       </div>
       <div style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2)">
-        Coste total: <strong id="ef-coste" style="color:var(--gold2)">£${fmt(o.coste_total_gbp)}</strong>
+        Coste total: <strong id="ef-coste" style="color:var(--gold2)">&pound;${fmt(o.coste_total_gbp)}</strong>
       </div>
     </div>
     <p class="sec-title">Estado y venta</p>
@@ -1501,7 +1501,7 @@ function loadEditForm(id){
         </div>
         <div class="form-group"><label>Estado</label>
           <select id="ef-estado" onchange="onEditEstadoChange(${id})">
-            ${[['activo','Comprado'],['listado','Listado'],['devuelto','Devuelto'],['vendido','Vendido']].map(([v,l])=>`<option value="${v}"${o.estado===v?' selected':''}>${l}</option>`).join('')}
+            ${[['activo','Comprado'],['publicado','Publicado'],['devuelto','Devuelto'],['vendido','Vendido']].map(([v,l])=>`<option value="${v}"${o.estado===v?' selected':''}>${l}</option>`).join('')}
           </select>
         </div>
       </div>
@@ -1511,7 +1511,7 @@ function loadEditForm(id){
       <!-- Venta fields (shown when vendido) -->
       <div id="ef-venta-fields" style="${o.estado==='vendido'?'':'display:none'}">
         <div class="form-row">
-          <div class="form-group"><label>Ingreso neto (£)</label>
+          <div class="form-group"><label>Ingreso neto (&pound;)</label>
             <input type="number" id="ef-ingreso" step="0.01" value="${o.ingreso_neto_gbp||0}">
           </div>
           <div class="form-group"><label>Fecha venta</label>
@@ -1527,10 +1527,10 @@ function loadEditForm(id){
       <!-- Devuelto fields -->
       <div id="ef-dev-fields" style="${o.estado==='devuelto'?'':'display:none'}">
         <div class="form-row">
-          <div class="form-group"><label>Reembolso (£)</label>
+          <div class="form-group"><label>Reembolso (&pound;)</label>
             <input type="number" id="ef-reembolso" step="0.01" value="${o.importe_reembolso||0}">
           </div>
-          <div class="form-group"><label>Gastos retorno (£)</label>
+          <div class="form-group"><label>Gastos retorno (&pound;)</label>
             <input type="number" id="ef-gastos-ret" step="0.01" value="${o.gastos_retorno||0}">
           </div>
         </div>
@@ -1563,7 +1563,7 @@ function loadEditForm(id){
 function onEditEstadoChange(id){
   const estado=document.getElementById('ef-estado')?.value;
   const fpub=document.getElementById('ef-fpub');
-  if(estado==='listado'&&fpub&&!fpub.value) fpub.value=today();
+  if(estado==='publicado'&&fpub&&!fpub.value) fpub.value=today();
   const ventaFields=document.getElementById('ef-venta-fields');
   const devFields=document.getElementById('ef-dev-fields');
   if(ventaFields) ventaFields.style.display=estado==='vendido'?'block':'none';
@@ -1574,7 +1574,7 @@ function calcEditCoste(){
   const c=['ef-precio','ef-envio','ef-rep','ef-fwd']
     .reduce((s,i)=>s+(parseFloat(document.getElementById(i)?.value)||0),0);
   const el=document.getElementById('ef-coste');
-  if(el) el.textContent='£'+fmt(c);
+  if(el) el.textContent='&pound;'+fmt(c);
 }
 
 async function saveEdit(id){
