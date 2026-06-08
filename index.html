@@ -180,7 +180,7 @@
     <div class="filter-tabs">
       <button class="ftab active" onclick="setStockFilter('todos',this)">Todos</button>
       <button class="ftab" onclick="setStockFilter('activo',this)">Comprado</button>
-      <button class="ftab" onclick="setStockFilter('listado',this)">Publicado</button>
+      <button class="ftab" onclick="setStockFilter('publicado',this)">Publicado</button>
       <button class="ftab" onclick="setStockFilter('devuelto',this)">Devuelto</button>
     </div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
@@ -298,7 +298,7 @@
               <label>Estado</label>
               <select name="estado">
                 <option value="activo">Comprado</option>
-                <option value="listado">Publicado</option>
+                <option value="publicado">Publicado</option>
                 <option value="devuelto">Devuelto</option>
                 <option value="vendido">Vendido</option>
               </select>
@@ -490,13 +490,13 @@ const daysDiff=(d1,d2)=>Math.round((new Date(d2)-new Date(d1))/(864e5));
 const daysFromNow=d=>d?Math.round((new Date()-new Date(d))/(864e5)):0;
 
 function estadoBadge(e){
-  const m={'vendido':'b-green','listado':'b-blue','publicado':'b-blue','activo':'b-gold','devuelto':'b-orange'};
+  const m={'vendido':'b-green','publicado':'b-blue','activo':'b-gold','devuelto':'b-orange'};
   return m[e]||'b-gold';
 }
 function estadoLabel(e){
   if(e==='activo') return 'Comprado';
   if(e==='vendido') return 'Vendido';
-  if(e==='listado'||e==='publicado') return 'Publicado';
+  if(e==='publicado') return 'Publicado';
   if(e==='devuelto') return 'Devuelto';
   return e;
 }
@@ -523,15 +523,15 @@ function agingClass(days){
 
 /* ── DASHBOARD ── */
 function renderDash(){
-  const enstock=ops.filter(o=>['activo','listado','publicado','devuelto'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','publicado','devuelto'].includes(o.estado));
   const comprados=ops.filter(o=>o.estado==='activo');
-  const listados=ops.filter(o=>o.estado==='listado'||o.estado==='publicado');
+  const listados=ops.filter(o=>o.estado==='publicado');
   
   const devueltos=ops.filter(o=>o.estado==='devuelto');
   const vendidos=ops.filter(o=>o.estado==='vendido');
   const vendidosConPrecio=vendidos.filter(o=>o.ingreso_neto_gbp!=null);
   const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  const capitalRiesgo=ops.filter(o=>['activo','listado','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  const capitalRiesgo=ops.filter(o=>['activo','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const benTotal=vendidosConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
   const avgROI=vendidosConPrecio.length?vendidosConPrecio.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidosConPrecio.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
@@ -583,8 +583,8 @@ function setStockSort(s,btn){
 function renderStock(){
   const sq=(document.getElementById('stock-search')?.value||'').toLowerCase();
   const cuentaF=document.getElementById('stock-cuenta-filter')?.value||'';
-  const estadosFiltro = stockFilter==='listado' ? ['listado','publicado'] : [stockFilter];
-  const estados=stockFilter==='todos'?['activo','listado','publicado','devuelto']:estadosFiltro;
+  
+  const estados=stockFilter==='todos'?['activo','publicado','devuelto']:[stockFilter];
   let list=ops.filter(o=>estados.includes(o.estado));
   if(sq) list=list.filter(o=>(o.modelo||'').toLowerCase().includes(sq));
   if(cuentaF) list=list.filter(o=>o.cuenta===cuentaF);
@@ -606,7 +606,7 @@ function renderStock(){
     document.getElementById('stock-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes en stock</p></div>`;
     return;
   }
-  const badgeCls={activo:'b-gold',listado:'b-blue',publicado:'b-blue',devuelto:'b-orange'};
+  const badgeCls={activo:'b-gold',publicado:'b-blue',devuelto:'b-orange'};
   document.getElementById('stock-content').innerHTML=list.map(o=>{
     const dias=daysFromNow(o.fecha_compra);
     const aCls=agingClass(dias);
@@ -619,7 +619,7 @@ function renderStock(){
       <div class="model">${o.modelo}</div>
       <div style="margin:6px 0;display:flex;align-items:center;gap:8px">
         <span class="price">&pound;${fmt(o.coste_total_gbp)}</span>
-        ${o.precio_listado_gbp&&(o.estado==='listado'||o.estado==='publicado')?`<span style="font-size:12px;color:var(--text2)">→ &pound;${fmt(o.precio_listado_gbp)}</span>`:''}
+        ${o.precio_listado_gbp&&(o.estado==='publicado')?`<span style="font-size:12px;color:var(--text2)">→ &pound;${fmt(o.precio_listado_gbp)}</span>`:''}
       </div>
       <div class="meta">
         <span>${o.plataforma_compra||'—'}</span>
@@ -692,7 +692,7 @@ function renderVentas(){
 /* ── ESTADÍSTICAS ── */
 function renderStats(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
-  const enstock=ops.filter(o=>['activo','listado','publicado','devuelto'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','publicado','devuelto'].includes(o.estado));
   const todayD=new Date();
 
   if(!ops.length){
@@ -761,7 +761,7 @@ function renderStats(){
   const tasaDev=totalOps>0?numDev/totalOps*100:0;
 
   // 7. Capital en riesgo
-  const capitalRiesgo=ops.filter(o=>['activo','listado','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  const capitalRiesgo=ops.filter(o=>['activo','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
 
   // 8. Stock aging
   const aging=enstock.filter(o=>o.fecha_compra).map(o=>({...o,days:daysFromNow(o.fecha_compra)})).sort((a,b)=>b.days-a.days);
@@ -903,7 +903,7 @@ function toggleStat(id){
 /* ── SOCIOS ── */
 function renderSocios(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
-  const enstock=ops.filter(o=>['activo','listado','publicado'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','publicado'].includes(o.estado));
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   const dynPct=s=>capTotal>0?s.capital_actual/capTotal*100:0;
 
@@ -1033,7 +1033,7 @@ function openDetail(id){
     ${o.notas?`<div class="divider"></div><div style="font-size:12px;color:var(--text2);padding:4px 0">${o.notas}</div>`:''}
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
       ${o.estado==='activo'?`<button class="btn btn-blue btn-sm" onclick="openPublicarModal(${o.id})">Marcar publicado</button>`:''}
-      ${(o.estado==='listado'||o.estado==='publicado')?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
+      ${(o.estado==='publicado')?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
       ${o.estado!=='vendido'&&o.estado!=='devuelto'?`<button class="btn btn-orange btn-sm" onclick="openDevueltoModal(${o.id})">Marcar devuelto</button>`:''}
       <button class="btn btn-outline btn-sm" onclick="openEditFromDetail(${o.id})">Editar</button>
       <button class="btn btn-red btn-sm" onclick="deleteWatch(${o.id})">Eliminar</button>
@@ -1055,7 +1055,7 @@ let sellSelectedId=null;
 
 function openSellModal(preselectedId){
   sellSelectedId=preselectedId||null;
-  const available=ops.filter(o=>o.estado==='listado'||o.estado==='publicado');
+  const available=ops.filter(o=>o.estado==='publicado');
   document.getElementById('sell-content').innerHTML=`
     <button class="modal-close" onclick="document.getElementById('sell-overlay').classList.remove('open')">✕</button>
     <h2>Registrar venta</h2>
@@ -1103,7 +1103,7 @@ function openPublicarModal(id){
 async function confirmPublicar(id){
   const fecha=document.getElementById('pub-fecha')?.value||today();
   const precioListado=parseFloat(document.getElementById('pub-precio-listado')?.value)||null;
-  const body={estado:'listado',fecha_publicacion:fecha};
+  const body={estado:'publicado',fecha_publicacion:fecha};
   if(precioListado) body.precio_listado_gbp=precioListado;
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
@@ -1566,7 +1566,7 @@ function loadEditForm(id){
         </div>
         <div class="form-group"><label>Estado</label>
           <select id="ef-estado" onchange="onEditEstadoChange(${id})">
-            ${[['activo','Comprado'],['listado','Publicado'],['devuelto','Devuelto'],['vendido','Vendido']].map(([v,l])=>`<option value="${v}"${(o.estado===v||(v==='listado'&&o.estado==='publicado'))?' selected':''}>${l}</option>`).join('')}
+            ${[['activo','Comprado'],['publicado','Publicado'],['devuelto','Devuelto'],['vendido','Vendido']].map(([v,l])=>`<option value="${v}"${o.estado===v?' selected':''}>${l}</option>`).join('')}
           </select>
         </div>
       </div>
@@ -1628,7 +1628,7 @@ function loadEditForm(id){
 function onEditEstadoChange(id){
   const estado=document.getElementById('ef-estado')?.value;
   const fpub=document.getElementById('ef-fpub');
-  if((estado==='listado'||estado==='publicado')&&fpub&&!fpub.value) fpub.value=today();
+  if((estado==='publicado')&&fpub&&!fpub.value) fpub.value=today();
   const ventaFields=document.getElementById('ef-venta-fields');
   const devFields=document.getElementById('ef-dev-fields');
   if(ventaFields) ventaFields.style.display=estado==='vendido'?'block':'none';
