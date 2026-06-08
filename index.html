@@ -529,7 +529,7 @@ function renderDash(){
   
   const devueltos=ops.filter(o=>o.estado==='devuelto');
   const vendidos=ops.filter(o=>o.estado==='vendido');
-  const vendidosConPrecio=vendidos.filter(o=>o.ingreso_neto_gbp!=null);
+  const vendidosConPrecio=vendidos.filter(o=>o.ingreso_neto_gbp);
   const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const capitalRiesgo=ops.filter(o=>['activo','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const benTotal=vendidosConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
@@ -559,7 +559,7 @@ function renderDash(){
         <div class="meta">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
           <span>&pound;${fmt(o.coste_total_gbp)}</span>
-          ${o.estado==='vendido'&&o.ingreso_neto_gbp!=null?`<span class="${profCls(o.beneficio_neto_gbp)}">+&pound;${fmt(o.beneficio_neto_gbp)}</span>`:o.estado==='vendido'?`<span style="color:var(--text2);font-size:11px">Precio pendiente</span>`:''}
+          ${o.estado==='vendido'&&o.ingreso_neto_gbp?`<span class="${profCls(o.beneficio_neto_gbp)}">+&pound;${fmt(o.beneficio_neto_gbp)}</span>`:o.estado==='vendido'?`<span style="color:var(--text2);font-size:11px">Precio pendiente</span>`:''}
           <span>${o.fecha_compra||''}</span>
         </div>
       </div>`).join('')}`;
@@ -656,7 +656,7 @@ function renderVentas(){
   let v=ops.filter(o=>o.estado==='vendido').sort((a,b)=>(b.fecha_venta||'').localeCompare(a.fecha_venta||''));
   if(mesF) v=v.filter(o=>(o.fecha_venta||'').startsWith(mesF));
   if(platF) v=v.filter(o=>o.plataforma_venta===platF);
-  const vConPrecio=v.filter(o=>o.ingreso_neto_gbp!=null);
+  const vConPrecio=v.filter(o=>o.ingreso_neto_gbp);
   const totBen=vConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
   const totIng=vConPrecio.reduce((s,o)=>s+(o.ingreso_neto_gbp||0),0);
   const avgRoi=vConPrecio.length?vConPrecio.reduce((s,o)=>s+(o.roi_pct||0),0)/vConPrecio.length:0;
@@ -676,7 +676,7 @@ function renderVentas(){
       <div class="watch-card ${cardClass(o)}">
         <div class="row" onclick="openDetail(${o.id})" style="cursor:pointer">
           <div class="model">${o.modelo}</div>
-          <span class="${o.ingreso_neto_gbp!=null?profCls(o.beneficio_neto_gbp):'p-neg'}" style="font-size:15px">${o.ingreso_neto_gbp!=null?'&pound;'+fmt(o.beneficio_neto_gbp):'Sin precio'}</span>
+          <span class="${o.ingreso_neto_gbp?profCls(o.beneficio_neto_gbp):'p-neg'}" style="font-size:15px">${o.ingreso_neto_gbp?'&pound;'+fmt(o.beneficio_neto_gbp):'Precio pendiente'}</span>
         </div>
         <div class="meta" onclick="openDetail(${o.id})" style="cursor:pointer;margin-bottom:8px">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
@@ -691,7 +691,7 @@ function renderVentas(){
 
 /* ── ESTADÍSTICAS ── */
 function renderStats(){
-  const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
+  const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp);
   const enstock=ops.filter(o=>['activo','publicado','devuelto'].includes(o.estado));
   const todayD=new Date();
 
@@ -902,7 +902,7 @@ function toggleStat(id){
 
 /* ── SOCIOS ── */
 function renderSocios(){
-  const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp!=null);
+  const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp);
   const enstock=ops.filter(o=>['activo','publicado'].includes(o.estado));
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   const dynPct=s=>capTotal>0?s.capital_actual/capTotal*100:0;
