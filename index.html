@@ -78,6 +78,7 @@
     .btn-red{background:rgba(248,113,113,.2);color:var(--red);border:1px solid rgba(248,113,113,.3)}
     .btn-orange{background:rgba(251,146,60,.2);color:var(--orange);border:1px solid rgba(251,146,60,.3)}
     .btn-sm{width:auto;padding:7px 16px;font-size:13px;border-radius:9px}
+    .btn-blue{background:rgba(96,165,250,.2);color:var(--blue);border:1px solid rgba(96,165,250,.3)}
     .socio-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:8px}
     .socio-card .name{font-size:16px;font-weight:700;margin-bottom:10px}
     .sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
@@ -121,8 +122,10 @@
     .stat-card-header:active{opacity:.8}
     .stat-card-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px}
     .stat-card-value{font-size:18px;font-weight:800;color:var(--gold2)}
-    .stat-card-chevron{color:var(--text2);font-size:16px;transition:transform .2s}
+    .stat-card-chevron{color:var(--text2);transition:transform .2s;flex-shrink:0}
     .stat-card.open .stat-card-chevron{transform:rotate(180deg)}
+    .tog-chev{color:var(--text2);transition:transform .2s;display:inline-block;flex-shrink:0}
+    .tog-chev.open{transform:rotate(180deg)}
     .stat-card-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border)}
     .stat-card.open .stat-card-body{display:block}
     .range-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
@@ -392,6 +395,11 @@
 <!-- APORTACIÓN MODAL -->
 <div class="modal-overlay" id="aport-overlay" onclick="closeOverlay('aport-overlay',event)">
   <div class="modal" id="aport-content"></div>
+</div>
+
+<!-- PUBLICAR MODAL -->
+<div class="modal-overlay" id="publicar-overlay" onclick="closeOverlay('publicar-overlay',event)">
+  <div class="modal" id="publicar-content"></div>
 </div>
 
 <!-- EDIT SALE MODAL -->
@@ -771,7 +779,7 @@ function renderStats(){
     <div class="stat-card" id="sc-dias">
       <div class="stat-card-header" onclick="toggleStat('sc-dias')">
         <div><div class="stat-card-title">Días compra → venta (tramos)</div><div class="stat-card-value">${avgDias.toFixed(0)}d media</div></div>
-        <span class="stat-card-chevron">▾</span>
+        <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
         ${rangeData.map(r=>`
@@ -789,7 +797,7 @@ function renderStats(){
     <div class="stat-card" id="sc-platcompra">
       <div class="stat-card-header" onclick="toggleStat('sc-platcompra')">
         <div><div class="stat-card-title">ROI por plataforma de compra</div><div class="stat-card-value">${platCompraRows.length} plat.</div></div>
-        <span class="stat-card-chevron">▾</span>
+        <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
         <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
@@ -810,7 +818,7 @@ function renderStats(){
     <div class="stat-card" id="sc-mesben">
       <div class="stat-card-header" onclick="toggleStat('sc-mesben')">
         <div><div class="stat-card-title">Beneficio por mes</div><div class="stat-card-value">${benMesRows.length} meses</div></div>
-        <span class="stat-card-chevron">▾</span>
+        <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
         <div class="bar-chart">
@@ -828,7 +836,7 @@ function renderStats(){
     <div class="stat-card" id="sc-top5">
       <div class="stat-card-header" onclick="toggleStat('sc-top5')">
         <div><div class="stat-card-title">Top 5 modelos rentables</div><div class="stat-card-value">${top5.length>0?top5[0][0].substring(0,18):'—'}</div></div>
-        <span class="stat-card-chevron">▾</span>
+        <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
         ${top5.map(([m,v],i)=>`
@@ -847,7 +855,7 @@ function renderStats(){
     <div class="stat-card" id="sc-platventa">
       <div class="stat-card-header" onclick="toggleStat('sc-platventa')">
         <div><div class="stat-card-title">Velocidad por plataforma venta</div><div class="stat-card-value">${platVentaRows.length} plat.</div></div>
-        <span class="stat-card-chevron">▾</span>
+        <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
         <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
@@ -868,7 +876,7 @@ function renderStats(){
     <div class="stat-card" id="sc-aging">
       <div class="stat-card-header" onclick="toggleStat('sc-aging')">
         <div><div class="stat-card-title">Stock por antigüedad</div><div class="stat-card-value">${aging.length} relojes</div></div>
-        <span class="stat-card-chevron">▾</span>
+        <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
         ${aging.map(o=>`
@@ -951,7 +959,7 @@ function renderSocios(){
         ${misMovs.length?`
         <div class="toggle-section" onclick="toggleMovs('${socioMovsId}')">
           <span style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.7px">Movimientos (${misMovs.length})</span>
-          <span style="color:var(--text2);font-size:14px" id="${socioMovsId}-chev">▾</span>
+          <svg class="tog-chev" id="${socioMovsId}-chev" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <div class="toggle-section-body" id="${socioMovsId}">
           ${misMovs.map(m=>`
@@ -980,7 +988,7 @@ function toggleMovs(id){
   const chev=document.getElementById(id+'-chev');
   if(!body) return;
   const open=body.classList.toggle('open');
-  if(chev) chev.textContent=open?'▴':'▾';
+  if(chev) chev.classList.toggle('open', open);
 }
 
 /* ── DETAIL MODAL ── */
@@ -1024,7 +1032,8 @@ function openDetail(id){
     <div class="sum-row"><span class="k">Dom (${Math.round((o.pct_dom||0)*100)}%)</span><span class="v">&pound;${fmt(o.beneficio_dom||0)}</span></div>`:''}
     ${o.notas?`<div class="divider"></div><div style="font-size:12px;color:var(--text2);padding:4px 0">${o.notas}</div>`:''}
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-      ${o.estado!=='vendido'?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
+      ${o.estado==='activo'?`<button class="btn btn-blue btn-sm" onclick="openPublicarModal(${o.id})">Marcar publicado</button>`:''}
+      ${(o.estado==='listado'||o.estado==='publicado')?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
       ${o.estado!=='vendido'&&o.estado!=='devuelto'?`<button class="btn btn-orange btn-sm" onclick="openDevueltoModal(${o.id})">Marcar devuelto</button>`:''}
       <button class="btn btn-outline btn-sm" onclick="openEditFromDetail(${o.id})">Editar</button>
       <button class="btn btn-red btn-sm" onclick="deleteWatch(${o.id})">Eliminar</button>
@@ -1065,6 +1074,43 @@ function openSellModal(preselectedId){
     </div>`;
   if(preselectedId) sellSelectedId=preselectedId;
   document.getElementById('sell-overlay').classList.add('open');
+}
+
+/* ── PUBLICAR MODAL ── */
+function openPublicarModal(id){
+  const o=ops.find(x=>x.id===id);
+  if(!o) return;
+  document.getElementById('detail-overlay').classList.remove('open');
+  setTimeout(()=>{
+    document.getElementById('publicar-content').innerHTML=`
+      <button class="modal-close" onclick="document.getElementById('publicar-overlay').classList.remove('open')">✕</button>
+      <h2>Marcar como publicado</h2>
+      <p class="sec-title">${o.modelo}</p>
+      <div style="margin-bottom:14px;font-size:13px;color:var(--text2)">Coste total: <strong style="color:var(--gold2)">&pound;${fmt(o.coste_total_gbp)}</strong></div>
+      <div class="form-group">
+        <label>Fecha de publicación</label>
+        <input type="date" id="pub-fecha" value="${today()}">
+      </div>
+      <div class="form-group">
+        <label>Precio listado (&pound;)</label>
+        <input type="number" id="pub-precio-listado" step="0.01" placeholder="opcional" value="${o.precio_listado_gbp||''}">
+      </div>
+      <button class="btn btn-blue" onclick="confirmPublicar(${o.id})" style="background:rgba(96,165,250,.2);color:var(--blue);border:1px solid rgba(96,165,250,.3)">Confirmar publicación</button>`;
+    document.getElementById('publicar-overlay').classList.add('open');
+  },200);
+}
+
+async function confirmPublicar(id){
+  const fecha=document.getElementById('pub-fecha')?.value||today();
+  const precioListado=parseFloat(document.getElementById('pub-precio-listado')?.value)||null;
+  const body={estado:'listado',fecha_publicacion:fecha};
+  if(precioListado) body.precio_listado_gbp=precioListado;
+  try{
+    await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
+    document.getElementById('publicar-overlay').classList.remove('open');
+    await loadAll();
+    showToast('✅ Reloj publicado');
+  }catch(e){showToast('❌ '+e.message.substring(0,60));}
 }
 
 function openSellFromDetail(id){
