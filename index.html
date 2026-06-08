@@ -415,6 +415,7 @@ const H={'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'applicatio
 let ops=[], socios=[], movs=[];
 let stockFilter='todos';
 let stockSort='fecha';
+let benMesYear=new Date().getFullYear();
 
 /* ── HTTP helpers ── */
 async function q(ep,opt={}){
@@ -613,7 +614,7 @@ function renderStock(){
     return `
     <div class="watch-card ${cardClass(o)}" onclick="openDetail(${o.id})">
       <div style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center">
-        <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}">● ${o.cuenta||'Carlos'}</span>
+        <span class="cuenta-label cuenta-${(o.cuenta||'carlos').toLowerCase()}"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:4px;vertical-align:middle;flex-shrink:0"></span>${o.cuenta||'Carlos'}</span>
         <span class="badge ${badgeCls[o.estado]||'b-gold'}">${estadoLabel(o.estado)}</span>
       </div>
       <div class="model">${o.modelo}</div>
@@ -722,15 +723,9 @@ function renderStats(){
   });
   const platCompraRows=Object.entries(platCompraMap).sort((a,b)=>b[1].ben-a[1].ben);
 
-  // 3. Beneficio por mes
-  const benMes={};
-  vendidos.filter(o=>o.fecha_venta).forEach(o=>{
-    const m=o.fecha_venta.substring(0,7);
-    if(!benMes[m]) benMes[m]=0;
-    benMes[m]+=(o.beneficio_neto_gbp||0);
-  });
-  const benMesRows=Object.entries(benMes).sort((a,b)=>a[0].localeCompare(b[0])).slice(-12);
-  const maxBen=Math.max(...benMesRows.map(([,v])=>Math.abs(v)),1);
+  // 3. Beneficio por mes — años disponibles
+  const benAnios=[...new Set(vendidos.filter(o=>o.fecha_venta).map(o=>parseInt(o.fecha_venta.substring(0,4))))].sort().reverse();
+  if(benAnios.length&&!benAnios.includes(benMesYear)) benMesYear=benAnios[0];
 
   // 4. Top 5 modelos rentables
   const modelMap={};
@@ -744,10 +739,10 @@ function renderStats(){
   const top5=Object.entries(modelMap).sort((a,b)=>b[1].ben-a[1].ben).slice(0,5);
   const maxTop=Math.max(...top5.map(([,v])=>v.ben),1);
 
-  // 5. Velocidad venta por plataforma venta
+  // 5. Velocidad venta por plataforma+cuenta
   const platVentaMap={};
   vendidos.filter(o=>o.dias_posesion!=null).forEach(o=>{
-    const p=o.plataforma_venta||'Otro';
+    const p=(o.plataforma_venta||'Otro')+' · '+(o.cuenta||'Carlos');
     if(!platVentaMap[p]) platVentaMap[p]={n:0,dias:0,ben:0};
     platVentaMap[p].n++;
     platVentaMap[p].dias+=(o.dias_posesion||0);
@@ -778,7 +773,7 @@ function renderStats(){
     <!-- Días por tramos -->
     <div class="stat-card" id="sc-dias">
       <div class="stat-card-header" onclick="toggleStat('sc-dias')">
-        <div><div class="stat-card-title">Días compra → venta (tramos)</div><div class="stat-card-value">${avgDias.toFixed(0)}d media</div></div>
+        <div><div class="stat-card-title">Dias compra - venta (tramos)</div><div class="stat-card-value">${avgDias.toFixed(0)}d media</div></div>
         <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
@@ -787,7 +782,7 @@ function renderStats(){
             <span class="range-label">${r.l}</span>
             <div class="range-bar-wrap"><div class="range-bar-fill" style="width:${Math.round(r.count/maxRange*100)}%"></div></div>
             <span class="range-count">${r.count}</span>
-            <span style="font-size:11px;color:var(--text2);width:60px;text-align:right;flex-shrink:0">ø&pound;${fmt(r.avgBen)}</span>
+            <span style="font-size:11px;color:var(--text2);width:60px;text-align:right;flex-shrink:0">med.&pound;${fmt(r.avgBen)}</span>
           </div>`).join('')}
         <div style="font-size:11px;color:var(--text2);margin-top:6px">${vendConDias.length} relojes vendidos con fecha</div>
       </div>
@@ -803,7 +798,7 @@ function renderStats(){
         <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
           <span style="color:var(--text2);font-weight:700">Plataforma</span>
           <span style="color:var(--text2);font-weight:700;text-align:center">Ops</span>
-          <span style="color:var(--text2);font-weight:700;text-align:right">ROI ø</span>
+          <span style="color:var(--text2);font-weight:700;text-align:right">ROI med.</span>
           <span style="color:var(--text2);font-weight:700;text-align:right">Ben.</span>
           ${platCompraRows.map(([p,v])=>`
             <span>${p}</span>
@@ -817,18 +812,14 @@ function renderStats(){
     <!-- Beneficio por mes -->
     <div class="stat-card" id="sc-mesben">
       <div class="stat-card-header" onclick="toggleStat('sc-mesben')">
-        <div><div class="stat-card-title">Beneficio por mes</div><div class="stat-card-value">${benMesRows.length} meses</div></div>
+        <div><div class="stat-card-title">Beneficio por mes</div><div class="stat-card-value" id="ben-mes-title">${benMesYear}</div></div>
         <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
-        <div class="bar-chart">
-          ${benMesRows.map(([m,v])=>`
-            <div class="bar-row">
-              <span class="bar-label">${m.substring(5)}'${m.substring(2,4)}</span>
-              <div class="bar-track"><div class="bar-fill" style="width:${Math.round(Math.abs(v)/maxBen*100)}%;background:${v>=0?'linear-gradient(90deg,var(--gold),var(--gold2))':'linear-gradient(90deg,var(--red),#fca5a5)'}"></div></div>
-              <span class="bar-val ${profCls(v)}">&pound;${fmt(v)}</span>
-            </div>`).join('')}
+        <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+          ${benAnios.map(y=>`<button onclick="setBenMesYear(${y})" id="bmy-${y}" style="padding:4px 12px;border-radius:16px;border:1px solid ${y===benMesYear?'var(--gold)':'var(--border)'};background:${y===benMesYear?'var(--gold)':'transparent'};color:${y===benMesYear?'#000':'var(--text2)'};font-size:12px;font-weight:600;cursor:pointer">${y}</button>`).join('')}
         </div>
+        <div class="bar-chart" id="ben-mes-chart"></div>
       </div>
     </div>
 
@@ -846,7 +837,7 @@ function renderStats(){
               <span class="p-pos" style="font-size:12px">&pound;${fmt(v.ben)}</span>
             </div>
             <div class="bar-track" style="height:8px"><div class="bar-fill" style="width:${Math.round(v.ben/maxTop*100)}%"></div></div>
-            <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} · ROI ø ${pct(v.roi/v.n)}</div>
+            <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} · ROI med. ${pct(v.roi/v.n)}</div>
           </div>`).join('')}
       </div>
     </div>
@@ -861,12 +852,12 @@ function renderStats(){
         <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
           <span style="color:var(--text2);font-weight:700">Plataforma</span>
           <span style="color:var(--text2);font-weight:700;text-align:center">Ventas</span>
-          <span style="color:var(--text2);font-weight:700;text-align:right">ø días</span>
+          <span style="color:var(--text2);font-weight:700;text-align:right">dias med.</span>
           <span style="color:var(--text2);font-weight:700;text-align:right">Beneficio</span>
           ${platVentaRows.map(([p,v])=>`
             <span>${p}</span>
             <span style="text-align:center;color:var(--gold2)">${v.n}</span>
-            <span style="text-align:right;color:var(--text2)">${(v.dias/v.n).toFixed(0)}d</span>
+            <span style="text-align:right;color:var(--text2)">${(v.dias/v.n).toFixed(0)}d med.</span>
             <span style="text-align:right" class="${profCls(v.ben)}">&pound;${fmt(v.ben)}</span>`).join('')}
         </div>
       </div>
@@ -894,10 +885,42 @@ function renderStats(){
         </div>
       </div>
     </div>`;
+  // Render the monthly chart after DOM is ready
+  setTimeout(()=>setBenMesYear(benMesYear),0);
 }
 
 function toggleStat(id){
   document.getElementById(id)?.classList.toggle('open');
+}
+
+function setBenMesYear(y){
+  benMesYear=y;
+  const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp);
+  const meses=['01','02','03','04','05','06','07','08','09','10','11','12'];
+  const benMes={};
+  meses.forEach(m=>{benMes[y+'-'+m]=0;});
+  vendidos.filter(o=>o.fecha_venta&&o.fecha_venta.startsWith(y+'')).forEach(o=>{
+    const m=o.fecha_venta.substring(0,7);
+    if(benMes.hasOwnProperty(m)) benMes[m]+=(o.beneficio_neto_gbp||0);
+  });
+  const rows=Object.entries(benMes);
+  const maxB=Math.max(...rows.map(([,v])=>Math.abs(v)),1);
+  const chart=document.getElementById('ben-mes-chart');
+  if(chart) chart.innerHTML=rows.map(([m,v])=>`
+    <div class="bar-row">
+      <span class="bar-label">${m.substring(5)}'${m.substring(2,4)}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(Math.abs(v)/maxB*100)}%;background:${v>0?'linear-gradient(90deg,var(--gold),var(--gold2))':'linear-gradient(90deg,var(--red),#fca5a5)'}"></div></div>
+      <span class="bar-val ${profCls(v)}">&pound;${fmt(v)}</span>
+    </div>`).join('');
+  const title=document.getElementById('ben-mes-title');
+  if(title) title.textContent=y;
+  // Update year buttons style
+  document.querySelectorAll('[id^="bmy-"]').forEach(btn=>{
+    const active=btn.id==='bmy-'+y;
+    btn.style.borderColor=active?'var(--gold)':'var(--border)';
+    btn.style.background=active?'var(--gold)':'transparent';
+    btn.style.color=active?'#000':'var(--text2)';
+  });
 }
 
 /* ── SOCIOS ── */
