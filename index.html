@@ -715,7 +715,7 @@ function renderStats(){
   // 2. ROI por plataforma compra
   const platCompraMap={};
   vendidos.forEach(o=>{
-    const p=(o.plataforma_compra||'Otro').split(' ')[0];
+    const p=o.plataforma_compra||'Otro';
     if(!platCompraMap[p]) platCompraMap[p]={n:0,roi:0,ben:0};
     platCompraMap[p].n++;
     platCompraMap[p].roi+=(o.roi_pct||0);
@@ -742,7 +742,7 @@ function renderStats(){
   // 5. Velocidad venta por plataforma+cuenta
   const platVentaMap={};
   vendidos.filter(o=>o.dias_posesion!=null).forEach(o=>{
-    const p=(o.plataforma_venta||'Otro')+' · '+(o.cuenta||'Carlos');
+    const p=o.plataforma_venta||'Otro';
     if(!platVentaMap[p]) platVentaMap[p]={n:0,dias:0,ben:0};
     platVentaMap[p].n++;
     platVentaMap[p].dias+=(o.dias_posesion||0);
@@ -759,7 +759,7 @@ function renderStats(){
   const capitalRiesgo=ops.filter(o=>['activo','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
 
   // 8. Stock aging
-  const aging=enstock.filter(o=>o.fecha_compra).map(o=>({...o,days:daysFromNow(o.fecha_compra)})).sort((a,b)=>b.days-a.days);
+  const aging=ops.filter(o=>['activo','publicado'].includes(o.estado)&&o.fecha_compra).map(o=>({...o,days:daysFromNow(o.fecha_compra)})).sort((a,b)=>b.days-a.days);
 
   document.getElementById('stats-content').innerHTML=`
     <p class="sec-title">Resumen global</p>
