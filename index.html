@@ -559,7 +559,7 @@ function renderDash(){
         <div class="meta">
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
           <span>&pound;${fmt(o.coste_total_gbp)}</span>
-          ${o.estado==='vendido'?`<span class="${profCls(o.beneficio_neto_gbp)}">+&pound;${fmt(o.beneficio_neto_gbp)}</span>`:''}
+          ${o.estado==='vendido'&&o.ingreso_neto_gbp!=null?`<span class="${profCls(o.beneficio_neto_gbp)}">+&pound;${fmt(o.beneficio_neto_gbp)}</span>`:o.estado==='vendido'?`<span style="color:var(--text2);font-size:11px">Precio pendiente</span>`:''}
           <span>${o.fecha_compra||''}</span>
         </div>
       </div>`).join('')}`;
@@ -1176,7 +1176,7 @@ async function confirmSell(id){
   const precio=precioRaw&&precioRaw!==''?parseFloat(precioRaw):null;
   const fecha=document.getElementById('sell-fecha')?.value||null;
   const plataforma=document.getElementById('sell-plataforma')?.value||null;
-  const body={estado:'vendido'};
+  const body={estado:'vendido',beneficio_neto_gbp:null,roi_pct:null,ingreso_neto_gbp:null,dias_posesion:null};
   if(fecha) body.fecha_venta=fecha;
   if(plataforma) body.plataforma_venta=plataforma;
   if(precio!=null){
@@ -1255,7 +1255,7 @@ async function saveEditSale(id){
   const precio=precioRaw&&precioRaw!==''?parseFloat(precioRaw):null;
   const fecha=document.getElementById('es-fecha')?.value||null;
   const plataforma=document.getElementById('es-plataforma')?.value||null;
-  const body={};
+  const body={beneficio_neto_gbp:null,roi_pct:null,ingreso_neto_gbp:null};
   if(fecha) body.fecha_venta=fecha;
   if(plataforma) body.plataforma_venta=plataforma;
   if(precio!=null){
