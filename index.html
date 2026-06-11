@@ -516,9 +516,9 @@ function cuentaBadge(c){
 }
 function reparto(o){
   const p=[];
-  if(o.pct_carlos) p.push('C '+Math.round(o.pct_carlos*100)+'%');
-  if(o.pct_marta)  p.push('M '+Math.round(o.pct_marta*100)+'%');
-  if(o.pct_dom)    p.push('D '+Math.round(o.pct_dom*100)+'%');
+  if(o.pct_carlos) p.push('C '+(o.pct_carlos*100).toFixed(0)+'%');
+  if(o.pct_marta)  p.push('M '+(o.pct_marta*100).toFixed(0)+'%');
+  if(o.pct_dom)    p.push('D '+(o.pct_dom*100).toFixed(0)+'%');
   return p.join(' / ');
 }
 function agingClass(days){
@@ -536,12 +536,13 @@ function renderDash(){
   const listados=ops.filter(o=>o.estado==='publicado');
 
   const devueltos=ops.filter(o=>o.estado==='devuelto');
-  const vendidos=ops.filter(o=>o.estado==='vendido');
-  const vendidosConPrecio=vendidos.filter(o=>o.ingreso_neto_gbp);
+  const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp);
+  const devueltosConIngreso=ops.filter(o=>o.estado==='devuelto'&&o.ingreso_neto_gbp);
+  const cerradas=[...vendidos,...devueltosConIngreso];
   const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const capitalRiesgo=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  const benTotal=vendidosConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
-  const avgROI=vendidosConPrecio.length?vendidosConPrecio.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidosConPrecio.length:0;
+  const benTotal=cerradas.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
+  const avgROI=vendidos.length?vendidos.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidos.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   const recientes=ops.slice(0,5);
 
@@ -939,7 +940,8 @@ function renderSocios(){
   const dynPct=s=>capTotal>0?s.capital_actual/capTotal*100:0;
 
   const benOps={Carlos:0,Marta:0,Dom:0};
-  vendidos.forEach(o=>{
+  // Incluye vendidos Y devueltos con ingreso (pérdidas de devoluciones por socio)
+  ops.filter(o=>['vendido','devuelto'].includes(o.estado)&&o.ingreso_neto_gbp).forEach(o=>{
     benOps.Carlos+=(o.beneficio_carlos||0);
     benOps.Marta+=(o.beneficio_marta||0);
     benOps.Dom+=(o.beneficio_dom||0);
