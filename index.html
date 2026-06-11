@@ -970,7 +970,7 @@ function renderSocios(){
     </div>
     ${socios.map(s=>{
       const pctDyn=dynPct(s);
-      const ben=s.beneficio_total||benOps[s.nombre]||0;
+      const ben=benOps[s.nombre]||0; // siempre calculado desde operaciones
       const ap=aport[s.nombre]||0;
       const roi=ap>0?ben/ap:0;
       const noReal=benNoReal[s.nombre]||0;
