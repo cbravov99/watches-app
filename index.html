@@ -487,8 +487,9 @@ function fillCurrentPcts(){
 /* ── Helpers ── */
 const fmt=n=>(n||0).toLocaleString('en-GB',{minimumFractionDigits:0,maximumFractionDigits:0});
 const fmtD=n=>(n||0).toFixed(0);
-const pct=n=>((n||0)*100).toFixed(2)+'%';
-const pct2=n=>(n||0).toFixed(2)+'%';
+/* ── FORMATEO OFICIAL DE PORCENTAJES (única función de toda la app)
+   Recibe fracción decimal 0.0–1.0 → devuelve "XX.XX%"            */
+function formatPct(n){ return ((n||0)*100).toFixed(2)+'%'; }
 const profCls=n=>n>=0?'p-pos':'p-neg';
 const today=()=>new Date().toISOString().split('T')[0];
 const daysDiff=(d1,d2)=>Math.round((new Date(d2)-new Date(d1))/(864e5));
@@ -516,9 +517,9 @@ function cuentaBadge(c){
 }
 function reparto(o){
   const p=[];
-  if(o.pct_carlos) p.push('C '+(o.pct_carlos*100).toFixed(2)+'%');
-  if(o.pct_marta)  p.push('M '+(o.pct_marta*100).toFixed(2)+'%');
-  if(o.pct_dom)    p.push('D '+(o.pct_dom*100).toFixed(2)+'%');
+  if(o.pct_carlos) p.push('C '+formatPct(o.pct_carlos));
+  if(o.pct_marta)  p.push('M '+formatPct(o.pct_marta));
+  if(o.pct_dom)    p.push('D '+formatPct(o.pct_dom));
   return p.join(' / ');
 }
 function agingClass(days){
@@ -551,12 +552,12 @@ function renderDash(){
       <div class="stat"><div class="lbl">Comprado</div><div class="val">${comprados.length}</div><div class="sub">${forwarded.length} forwarded</div></div>
       <div class="stat"><div class="lbl">Publicado</div><div class="val">${listados.length}</div><div class="sub">publicados</div></div>
       <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprado+fwd+listado</div></div>
-      <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">&pound;${fmt(benTotal)}</div><div class="sub">ROI medio ${pct(avgROI)}</div></div>
+      <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">&pound;${fmt(benTotal)}</div><div class="sub">ROI medio ${formatPct(avgROI)}</div></div>
     </div>
     <div class="card" style="margin-bottom:14px">
       <div class="sec-title" style="margin-bottom:8px">Capital total</div>
       <div style="font-size:26px;font-weight:800;color:var(--gold2)">&pound;${fmt(capTotal)}</div>
-      <div style="font-size:11px;color:var(--text2);margin-top:3px">${socios.map(s=>`${s.nombre} ${pct2(s.porcentaje_actual)}`).join(' · ')}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:3px">${socios.map(s=>`${s.nombre} ${formatPct(s.porcentaje_actual)}`).join(' · ')}</div>
     </div>
     <p class="sec-title">Actividad reciente</p>
     ${recientes.map(o=>`
@@ -678,7 +679,7 @@ function renderVentas(){
       <div class="sum-row"><span class="k">Operaciones</span><span class="v">${v.length}</span></div>
       <div class="sum-row"><span class="k">Ingresos totales</span><span class="v">&pound;${fmt(totIng)}</span></div>
       <div class="sum-row"><span class="k">Beneficio total</span><span class="v ${profCls(totBen)}">&pound;${fmt(totBen)}</span></div>
-      <div class="sum-row"><span class="k">ROI medio</span><span class="v">${pct(avgRoi)}</span></div>
+      <div class="sum-row"><span class="k">ROI medio</span><span class="v">${formatPct(avgRoi)}</span></div>
       <div class="sum-row"><span class="k">Días medio posesión</span><span class="v">${avgDias.toFixed(0)}d</span></div>
     </div>
     <p class="sec-title">Historial (${v.length})</p>
@@ -692,7 +693,7 @@ function renderVentas(){
           <span class="badge ${cuentaBadge(o.cuenta)}">${o.cuenta||'—'}</span>
           <span>${o.fecha_venta||'Sin fecha'}</span>
           <span>${o.plataforma_venta||'—'}</span>
-          ${o.ingreso_neto_gbp!=null?`<span>ROI ${pct(o.roi_pct)}</span>`:''}
+          ${o.ingreso_neto_gbp!=null?`<span>ROI ${formatPct(o.roi_pct)}</span>`:''}
           <span>${o.dias_posesion!=null?o.dias_posesion+'d':'—'}</span>
         </div>
         <button class="btn btn-outline btn-sm" onclick="openEditSaleModal(${o.id},event)" style="font-size:11px;padding:5px 14px">&#9999;&#65039; Editar venta</button>
@@ -775,7 +776,7 @@ function renderStats(){
     <div class="stats" style="margin-bottom:14px">
       <div class="stat"><div class="lbl">Total ops</div><div class="val">${totalOps}</div><div class="sub">${vendidos.length} vendidas</div></div>
       <div class="stat"><div class="lbl">Capital riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprado+listado</div></div>
-      <div class="stat"><div class="lbl">Tasa devolución</div><div class="val">${tasaDev.toFixed(2)}%</div><div class="sub">${numDev} devueltos</div></div>
+      <div class="stat"><div class="lbl">Tasa devolución</div><div class="val">${formatPct(numDev/totalOps)}</div><div class="sub">${numDev} devueltos</div></div>
       <div class="stat"><div class="lbl">Días medio venta</div><div class="val">${avgDias.toFixed(0)}d</div><div class="sub">${vendConDias.length} ops</div></div>
     </div>
 
@@ -812,7 +813,7 @@ function renderStats(){
           ${platCompraRows.map(([p,v])=>`
             <span>${p}</span>
             <span style="text-align:center;color:var(--gold2)">${v.n}</span>
-            <span style="text-align:right;color:var(--green)">${pct(v.roi/v.n)}</span>
+            <span style="text-align:right;color:var(--green)">${formatPct(v.roi/v.n)}</span>
             <span style="text-align:right;color:var(--text)">&pound;${fmt(v.ben)}</span>`).join('')}
         </div>
       </div>
@@ -846,7 +847,7 @@ function renderStats(){
               <span class="p-pos" style="font-size:12px">&pound;${fmt(v.ben)}</span>
             </div>
             <div class="bar-track" style="height:8px"><div class="bar-fill" style="width:${Math.round(v.ben/maxTop*100)}%"></div></div>
-            <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} · ROI med. ${pct(v.roi/v.n)}</div>
+            <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} · ROI med. ${formatPct(v.roi/v.n)}</div>
           </div>`).join('')}
       </div>
     </div>
@@ -937,7 +938,7 @@ function renderSocios(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp);
   const enstock=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado));
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
-  const dynPct=s=>capTotal>0?s.capital_actual/capTotal*100:0;
+  const dynPct=s=>capTotal>0?s.capital_actual/capTotal:0; // fracción 0–1 → usar con formatPct
 
   const benOps={Carlos:0,Marta:0,Dom:0};
   // Incluye vendidos Y devueltos con ingreso (pérdidas de devoluciones por socio)
@@ -981,13 +982,13 @@ function renderSocios(){
       <div class="socio-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <div class="name">${s.nombre}</div>
-          <span class="badge ${cuentaBadge(s.nombre)}">${pctDyn.toFixed(2)}%</span>
+          <span class="badge ${cuentaBadge(s.nombre)}">${formatPct(pctDyn)}</span>
         </div>
         <div class="sum-row"><span class="k">Capital actual</span><span class="v">&pound;${fmt(s.capital_actual)}</span></div>
         <div class="sum-row"><span class="k">Aportaciones netas</span><span class="v">&pound;${fmt(ap)}</span></div>
         <div class="sum-row"><span class="k">Beneficio realizado</span><span class="v ${profCls(ben)}">&pound;${fmt(ben)}</span></div>
         <div class="sum-row"><span class="k">Capital en stock</span><span class="v" style="color:var(--text2)">&pound;${fmt(Math.abs(noReal))}</span></div>
-        <div class="sum-row"><span class="k">ROI realizado</span><span class="v ${profCls(roi)}">${(roi*100).toFixed(2)}%</span></div>
+        <div class="sum-row"><span class="k">ROI realizado</span><span class="v ${profCls(roi)}">${formatPct(roi)}</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:${Math.min(Math.max(pctDyn,0),100)}%"></div></div>
         ${misMovs.length?`
         <div class="toggle-section" onclick="toggleMovs('${socioMovsId}')">
@@ -1059,10 +1060,10 @@ function openDetail(id){
     ${o.estado==='vendido'?`
     <p class="sec-title" style="margin-top:12px">Resultado</p>
     <div class="sum-row"><span class="k">Beneficio neto</span><span class="v ${profCls(o.beneficio_neto_gbp)}">&pound;${fmt(o.beneficio_neto_gbp)}</span></div>
-    <div class="sum-row"><span class="k">ROI</span><span class="v ${profCls(o.roi_pct)}">${pct(o.roi_pct)}</span></div>
-    <div class="sum-row"><span class="k">Carlos (${Math.round((o.pct_carlos||0)*100)}%)</span><span class="v">&pound;${fmt(o.beneficio_carlos)}</span></div>
-    <div class="sum-row"><span class="k">Marta (${Math.round((o.pct_marta||0)*100)}%)</span><span class="v">&pound;${fmt(o.beneficio_marta)}</span></div>
-    <div class="sum-row"><span class="k">Dom (${Math.round((o.pct_dom||0)*100)}%)</span><span class="v">&pound;${fmt(o.beneficio_dom||0)}</span></div>`:''}
+    <div class="sum-row"><span class="k">ROI</span><span class="v ${profCls(o.roi_pct)}">${formatPct(o.roi_pct)}</span></div>
+    <div class="sum-row"><span class="k">Carlos (${formatPct(o.pct_carlos||0)})</span><span class="v">&pound;${fmt(o.beneficio_carlos)}</span></div>
+    <div class="sum-row"><span class="k">Marta (${formatPct(o.pct_marta||0)})</span><span class="v">&pound;${fmt(o.beneficio_marta)}</span></div>
+    <div class="sum-row"><span class="k">Dom (${formatPct(o.pct_dom||0)})</span><span class="v">&pound;${fmt(o.beneficio_dom||0)}</span></div>`:''}
     ${o.notas?`<div class="divider"></div><div style="font-size:12px;color:var(--text2);padding:4px 0">${o.notas}</div>`:''}
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
       ${(o.estado==='activo'||o.estado==='forwarded')?`<button class="btn btn-blue btn-sm" onclick="openPublicarModal(${o.id})">Marcar publicado</button>`:''}
@@ -1201,7 +1202,7 @@ function previewBen(id){
   const roi=o.coste_total_gbp?ben/o.coste_total_gbp:0;
   document.getElementById('ben-preview').style.display='block';
   document.getElementById('ben-val').innerHTML=`<span class="${profCls(ben)}">&pound;${fmt(ben)}</span>`;
-  document.getElementById('roi-val').innerHTML=`<span class="${profCls(roi)}">${(roi*100).toFixed(2)}%</span>`;
+  document.getElementById('roi-val').innerHTML=`<span class="${profCls(roi)}">${formatPct(roi)}</span>`;
 }
 
 async function confirmSell(id){
@@ -1280,7 +1281,7 @@ function previewEditSale(id){
   const roi=o.coste_total_gbp?ben/o.coste_total_gbp:0;
   if(preview){
     preview.style.display='block';
-    preview.innerHTML=`Beneficio: <strong class="${profCls(ben)}">&pound;${fmt(ben)}</strong> · ROI: <strong class="${profCls(roi)}">${(roi*100).toFixed(2)}%</strong>`;
+    preview.innerHTML=`Beneficio: <strong class="${profCls(ben)}">&pound;${fmt(ben)}</strong> · ROI: <strong class="${profCls(roi)}">${formatPct(roi)}</strong>`;
   }
 }
 
@@ -1402,7 +1403,7 @@ async function updateSociosCapital(benMap){
   });
   const total=Object.values(newCaps).reduce((s,v)=>s+v.capital_actual,0);
   await Promise.all(fresh.map(s=>{
-    const vals={...newCaps[s.nombre],porcentaje_actual:total>0?+(newCaps[s.nombre].capital_actual/total*100).toFixed(4):0};
+    const vals={...newCaps[s.nombre],porcentaje_actual:total>0?+(newCaps[s.nombre].capital_actual/total).toFixed(6):0};
     return q('socios?nombre=eq.'+encodeURIComponent(s.nombre),{method:'PATCH',body:JSON.stringify(vals)});
   }));
 }
@@ -1453,8 +1454,8 @@ async function saveAportacion(){
         const total=tempSocios.reduce((acc,x)=>acc+(x.capital_actual||0),0);
         await Promise.all(tempSocios.map(x=>{
           const patch=x.nombre===socio
-            ?{capital_actual:newCap,porcentaje_actual:total>0?+(newCap/total*100).toFixed(4):0}
-            :{porcentaje_actual:total>0?+(x.capital_actual/total*100).toFixed(4):0};
+            ?{capital_actual:newCap,porcentaje_actual:total>0?+(newCap/total).toFixed(6):0}
+            :{porcentaje_actual:total>0?+(x.capital_actual/total).toFixed(6):0};
           return q('socios?nombre=eq.'+encodeURIComponent(x.nombre),{method:'PATCH',body:JSON.stringify(patch)});
         }));
       }
