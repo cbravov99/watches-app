@@ -15,7 +15,7 @@
       --bg:#0a0a0a; --bg2:#141414; --bg3:#1e1e1e; --border:#2a2a2a;
       --gold:#c9a84c; --gold2:#e8c97a; --text:#f0f0f0; --text2:#888;
       --green:#4ade80; --red:#f87171; --blue:#60a5fa; --purple:#c084fc;
-      --orange:#fb923c;
+      --orange:#fb923c; --teal:#2dd4bf;
       --nav-h:68px; --safe-bot:env(safe-area-inset-bottom,0px);
     }
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -47,6 +47,8 @@
     .b-red{background:rgba(248,113,113,.15);color:var(--red)}
     .b-purple{background:rgba(192,132,252,.15);color:var(--purple)}
     .b-orange{background:rgba(251,146,60,.18);color:var(--orange)}
+    .b-teal{background:rgba(45,212,191,.15);color:var(--teal)}
+    .watch-card.card-forwarded{border-left:4px solid var(--teal)}
     .watch-card.card-devuelto{border-left:4px solid var(--orange) !important;opacity:.9}
     .c-carlos{background:rgba(96,165,250,.18);color:var(--blue);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
     .c-marta{background:rgba(192,132,252,.18);color:var(--purple);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
@@ -180,6 +182,7 @@
     <div class="filter-tabs">
       <button class="ftab active" onclick="setStockFilter('todos',this)">Todos</button>
       <button class="ftab" onclick="setStockFilter('activo',this)">Comprado</button>
+      <button class="ftab" onclick="setStockFilter('forwarded',this)">Forwarded</button>
       <button class="ftab" onclick="setStockFilter('publicado',this)">Publicado</button>
       <button class="ftab" onclick="setStockFilter('devuelto',this)">Devuelto</button>
     </div>
@@ -298,6 +301,7 @@
               <label>Estado</label>
               <select name="estado">
                 <option value="activo">Comprado</option>
+                <option value="forwarded">Forwarded</option>
                 <option value="publicado">Publicado</option>
                 <option value="devuelto">Devuelto</option>
                 <option value="vendido">Vendido</option>
@@ -483,15 +487,15 @@ function fillCurrentPcts(){
 /* ── Helpers ── */
 const fmt=n=>(n||0).toLocaleString('en-GB',{minimumFractionDigits:0,maximumFractionDigits:0});
 const fmtD=n=>(n||0).toFixed(0);
-const pct=n=>((n||0)*100).toFixed(1)+'%';
-const pct2=n=>(n||0).toFixed(1)+'%';
+const pct=n=>((n||0)*100).toFixed(2)+'%';
+const pct2=n=>(n||0).toFixed(2)+'%';
 const profCls=n=>n>=0?'p-pos':'p-neg';
 const today=()=>new Date().toISOString().split('T')[0];
 const daysDiff=(d1,d2)=>Math.round((new Date(d2)-new Date(d1))/(864e5));
 const daysFromNow=d=>d?Math.round((new Date()-new Date(d))/(864e5)):0;
 
 function estadoBadge(e){
-  const m={'vendido':'b-green','publicado':'b-blue','activo':'b-gold','devuelto':'b-orange'};
+  const m={'vendido':'b-green','publicado':'b-blue','activo':'b-gold','devuelto':'b-orange','forwarded':'b-teal'};
   return m[e]||'b-gold';
 }
 function estadoLabel(e){
@@ -499,10 +503,12 @@ function estadoLabel(e){
   if(e==='vendido') return 'Vendido';
   if(e==='publicado') return 'Publicado';
   if(e==='devuelto') return 'Devuelto';
+  if(e==='forwarded') return 'Forwarded';
   return e;
 }
 function cardClass(o){
   if(o.estado==='devuelto') return 'card-devuelto';
+  if(o.estado==='forwarded') return 'card-forwarded';
   return 'card-'+(o.cuenta||'carlos').toLowerCase();
 }
 function cuentaBadge(c){
@@ -524,15 +530,16 @@ function agingClass(days){
 
 /* ── DASHBOARD ── */
 function renderDash(){
-  const enstock=ops.filter(o=>['activo','publicado','devuelto'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','forwarded','publicado','devuelto'].includes(o.estado));
   const comprados=ops.filter(o=>o.estado==='activo');
+  const forwarded=ops.filter(o=>o.estado==='forwarded');
   const listados=ops.filter(o=>o.estado==='publicado');
-  
+
   const devueltos=ops.filter(o=>o.estado==='devuelto');
   const vendidos=ops.filter(o=>o.estado==='vendido');
   const vendidosConPrecio=vendidos.filter(o=>o.ingreso_neto_gbp);
   const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  const capitalRiesgo=ops.filter(o=>['activo','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  const capitalRiesgo=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const benTotal=vendidosConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
   const avgROI=vendidosConPrecio.length?vendidosConPrecio.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidosConPrecio.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
@@ -540,9 +547,9 @@ function renderDash(){
 
   document.getElementById('dash-content').innerHTML=`
     <div class="stats">
-      <div class="stat"><div class="lbl">Comprado</div><div class="val">${comprados.length}</div><div class="sub">en posesión</div></div>
+      <div class="stat"><div class="lbl">Comprado</div><div class="val">${comprados.length}</div><div class="sub">${forwarded.length} forwarded</div></div>
       <div class="stat"><div class="lbl">Publicado</div><div class="val">${listados.length}</div><div class="sub">publicados</div></div>
-      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprados + listados</div></div>
+      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprado+fwd+listado</div></div>
       <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">&pound;${fmt(benTotal)}</div><div class="sub">ROI medio ${pct(avgROI)}</div></div>
     </div>
     <div class="card" style="margin-bottom:14px">
@@ -585,7 +592,7 @@ function renderStock(){
   const sq=(document.getElementById('stock-search')?.value||'').toLowerCase();
   const cuentaF=document.getElementById('stock-cuenta-filter')?.value||'';
   
-  const estados=stockFilter==='todos'?['activo','publicado','devuelto']:[stockFilter];
+  const estados=stockFilter==='todos'?['activo','forwarded','publicado','devuelto']:[stockFilter];
   let list=ops.filter(o=>estados.includes(o.estado));
   if(sq) list=list.filter(o=>(o.modelo||'').toLowerCase().includes(sq));
   if(cuentaF) list=list.filter(o=>o.cuenta===cuentaF);
@@ -595,11 +602,12 @@ function renderStock(){
 
   const totalCoste=list.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const activos=list.filter(o=>o.estado==='activo').length;
+  const fwdCount=list.filter(o=>o.estado==='forwarded').length;
   const publicados=list.filter(o=>o.estado==='publicado').length;
   document.getElementById('stock-summary').innerHTML=list.length?`
     <div style="font-size:12px;color:var(--text2);margin-bottom:6px">
       <span style="color:var(--text)">${list.length} reloj${list.length!==1?'es':''}</span>
-      ${stockFilter==='todos'?` · <span style="color:var(--gold2)">${activos} comprado${activos!==1?'s':''}</span> / <span style="color:var(--blue)">${publicados} publicado${publicados!==1?'s':''}</span>`:''}
+      ${stockFilter==='todos'?` · <span style="color:var(--gold2)">${activos} comprado${activos!==1?'s':''}</span>${fwdCount?` / <span style="color:var(--teal)">${fwdCount} forwarded</span>`:''} / <span style="color:var(--blue)">${publicados} publicado${publicados!==1?'s':''}</span>`:''}
       · Invertido: <span style="color:var(--gold2)">&pound;${fmt(totalCoste)}</span>
     </div>`:''
 
@@ -607,7 +615,7 @@ function renderStock(){
     document.getElementById('stock-content').innerHTML=`<div class="empty"><div class="icon">⌚</div><p>Sin relojes en stock</p></div>`;
     return;
   }
-  const badgeCls={activo:'b-gold',publicado:'b-blue',devuelto:'b-orange'};
+  const badgeCls={activo:'b-gold',forwarded:'b-teal',publicado:'b-blue',devuelto:'b-orange'};
   document.getElementById('stock-content').innerHTML=list.map(o=>{
     const dias=daysFromNow(o.fecha_compra);
     const aCls=agingClass(dias);
@@ -693,7 +701,7 @@ function renderVentas(){
 /* ── ESTADÍSTICAS ── */
 function renderStats(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp);
-  const enstock=ops.filter(o=>['activo','publicado','devuelto'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','forwarded','publicado','devuelto'].includes(o.estado));
   const todayD=new Date();
 
   if(!ops.length){
@@ -756,17 +764,17 @@ function renderStats(){
   const tasaDev=totalOps>0?numDev/totalOps*100:0;
 
   // 7. Capital en riesgo
-  const capitalRiesgo=ops.filter(o=>['activo','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  const capitalRiesgo=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
 
   // 8. Stock aging
-  const aging=ops.filter(o=>['activo','publicado'].includes(o.estado)&&o.fecha_compra).map(o=>({...o,days:daysFromNow(o.fecha_compra)})).sort((a,b)=>b.days-a.days);
+  const aging=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado)&&o.fecha_compra).map(o=>({...o,days:daysFromNow(o.fecha_compra)})).sort((a,b)=>b.days-a.days);
 
   document.getElementById('stats-content').innerHTML=`
     <p class="sec-title">Resumen global</p>
     <div class="stats" style="margin-bottom:14px">
       <div class="stat"><div class="lbl">Total ops</div><div class="val">${totalOps}</div><div class="sub">${vendidos.length} vendidas</div></div>
       <div class="stat"><div class="lbl">Capital riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprado+listado</div></div>
-      <div class="stat"><div class="lbl">Tasa devolución</div><div class="val">${tasaDev.toFixed(1)}%</div><div class="sub">${numDev} devueltos</div></div>
+      <div class="stat"><div class="lbl">Tasa devolución</div><div class="val">${tasaDev.toFixed(2)}%</div><div class="sub">${numDev} devueltos</div></div>
       <div class="stat"><div class="lbl">Días medio venta</div><div class="val">${avgDias.toFixed(0)}d</div><div class="sub">${vendConDias.length} ops</div></div>
     </div>
 
@@ -926,7 +934,7 @@ function setBenMesYear(y){
 /* ── SOCIOS ── */
 function renderSocios(){
   const vendidos=ops.filter(o=>o.estado==='vendido'&&o.ingreso_neto_gbp);
-  const enstock=ops.filter(o=>['activo','publicado'].includes(o.estado));
+  const enstock=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado));
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   const dynPct=s=>capTotal>0?s.capital_actual/capTotal*100:0;
 
@@ -971,13 +979,13 @@ function renderSocios(){
       <div class="socio-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <div class="name">${s.nombre}</div>
-          <span class="badge ${cuentaBadge(s.nombre)}">${pctDyn.toFixed(1)}%</span>
+          <span class="badge ${cuentaBadge(s.nombre)}">${pctDyn.toFixed(2)}%</span>
         </div>
         <div class="sum-row"><span class="k">Capital actual</span><span class="v">&pound;${fmt(s.capital_actual)}</span></div>
         <div class="sum-row"><span class="k">Aportaciones netas</span><span class="v">&pound;${fmt(ap)}</span></div>
         <div class="sum-row"><span class="k">Beneficio realizado</span><span class="v ${profCls(ben)}">&pound;${fmt(ben)}</span></div>
         <div class="sum-row"><span class="k">Capital en stock</span><span class="v" style="color:var(--text2)">&pound;${fmt(Math.abs(noReal))}</span></div>
-        <div class="sum-row"><span class="k">ROI realizado</span><span class="v ${profCls(roi)}">${(roi*100).toFixed(1)}%</span></div>
+        <div class="sum-row"><span class="k">ROI realizado</span><span class="v ${profCls(roi)}">${(roi*100).toFixed(2)}%</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:${Math.min(Math.max(pctDyn,0),100)}%"></div></div>
         ${misMovs.length?`
         <div class="toggle-section" onclick="toggleMovs('${socioMovsId}')">
@@ -1055,7 +1063,7 @@ function openDetail(id){
     <div class="sum-row"><span class="k">Dom (${Math.round((o.pct_dom||0)*100)}%)</span><span class="v">&pound;${fmt(o.beneficio_dom||0)}</span></div>`:''}
     ${o.notas?`<div class="divider"></div><div style="font-size:12px;color:var(--text2);padding:4px 0">${o.notas}</div>`:''}
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-      ${o.estado==='activo'?`<button class="btn btn-blue btn-sm" onclick="openPublicarModal(${o.id})">Marcar publicado</button>`:''}
+      ${(o.estado==='activo'||o.estado==='forwarded')?`<button class="btn btn-blue btn-sm" onclick="openPublicarModal(${o.id})">Marcar publicado</button>`:''}
       ${(o.estado==='publicado')?`<button class="btn btn-gold btn-sm" onclick="openSellFromDetail(${o.id})">Marcar vendido</button>`:''}
       ${o.estado!=='vendido'&&o.estado!=='devuelto'?`<button class="btn btn-orange btn-sm" onclick="openDevueltoModal(${o.id})">Marcar devuelto</button>`:''}
       <button class="btn btn-outline btn-sm" onclick="openEditFromDetail(${o.id})">Editar</button>
@@ -1128,12 +1136,13 @@ async function confirmPublicar(id){
   const precioListado=parseFloat(document.getElementById('pub-precio-listado')?.value)||null;
   const body={estado:'publicado',fecha_publicacion:fecha};
   if(precioListado) body.precio_listado_gbp=precioListado;
+  showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     document.getElementById('publicar-overlay').classList.remove('open');
     await loadAll();
     showToast('✅ Reloj publicado');
-  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+  }catch(e){showToast('❌ Error al guardar: '+e.message,true);}
 }
 
 function openSellFromDetail(id){
@@ -1190,7 +1199,7 @@ function previewBen(id){
   const roi=o.coste_total_gbp?ben/o.coste_total_gbp:0;
   document.getElementById('ben-preview').style.display='block';
   document.getElementById('ben-val').innerHTML=`<span class="${profCls(ben)}">&pound;${fmt(ben)}</span>`;
-  document.getElementById('roi-val').innerHTML=`<span class="${profCls(roi)}">${(roi*100).toFixed(1)}%</span>`;
+  document.getElementById('roi-val').innerHTML=`<span class="${profCls(roi)}">${(roi*100).toFixed(2)}%</span>`;
 }
 
 async function confirmSell(id){
@@ -1215,13 +1224,14 @@ async function confirmSell(id){
     body.beneficio_marta=parseFloat((beneficio*(o.pct_marta||0)).toFixed(2));
     body.beneficio_dom=parseFloat((beneficio*(o.pct_dom||0)).toFixed(2));
   }
+  showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     if(precio!=null) await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
     document.getElementById('sell-overlay').classList.remove('open');
     await loadAll();
     showToast(precio!=null?'✅ Venta registrada — &pound;'+fmt(body.beneficio_neto_gbp):'✅ Venta guardada (precio pendiente)');
-  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+  }catch(e){showToast('❌ Error al guardar: '+e.message,true);}
 }
 
 /* ── EDIT SALE MODAL ── */
@@ -1268,7 +1278,7 @@ function previewEditSale(id){
   const roi=o.coste_total_gbp?ben/o.coste_total_gbp:0;
   if(preview){
     preview.style.display='block';
-    preview.innerHTML=`Beneficio: <strong class="${profCls(ben)}">&pound;${fmt(ben)}</strong> · ROI: <strong class="${profCls(roi)}">${(roi*100).toFixed(1)}%</strong>`;
+    preview.innerHTML=`Beneficio: <strong class="${profCls(ben)}">&pound;${fmt(ben)}</strong> · ROI: <strong class="${profCls(roi)}">${(roi*100).toFixed(2)}%</strong>`;
   }
 }
 
@@ -1296,6 +1306,7 @@ async function saveEditSale(id){
     body.beneficio_dom=parseFloat((beneficio*(o.pct_dom||0)).toFixed(2));
   }
   if(!Object.keys(body).length){showToast('⚠️ Sin cambios que guardar');return;}
+  showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     if(precio!=null&&o.ingreso_neto_gbp==null){
@@ -1304,7 +1315,7 @@ async function saveEditSale(id){
     document.getElementById('edit-sale-overlay').classList.remove('open');
     await loadAll();
     showToast('✅ Venta actualizada');
-  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+  }catch(e){showToast('❌ Error al guardar: '+e.message,true);}
 }
 
 /* ── DEVUELTO MODAL ── */
@@ -1370,12 +1381,13 @@ async function confirmDevuelto(id){
     beneficio_marta:parseFloat((resultado*pM).toFixed(2)),
     beneficio_dom:parseFloat((resultado*pD).toFixed(2))
   };
+  showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     document.getElementById('dev-overlay').classList.remove('open');
     await loadAll();
     showToast('↩️ Devolución registrada — &pound;'+fmt(resultado));
-  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+  }catch(e){showToast('❌ Error al guardar: '+e.message,true);}
 }
 
 /* ── updateSociosCapital ── */
@@ -1427,22 +1439,28 @@ async function saveAportacion(){
   const notas=document.getElementById('ap-notas')?.value||null;
   if(!importe||!fecha){showToast('⚠️ Rellena importe y fecha');return;}
   const importeSigno=tipo==='Retirada'?-Math.abs(importe):Math.abs(importe);
+  showSaving();
   try{
     await qPost('movimientos',{fecha,tipo,socio,importe:importeSigno,notas});
     if(tipo==='Aportación'||tipo==='Retirada'){
       const s=socios.find(x=>x.nombre===socio);
       if(s){
         const newCap=+(s.capital_actual+importeSigno).toFixed(2);
-        await q('socios?nombre=eq.'+encodeURIComponent(socio),{method:'PATCH',body:JSON.stringify({capital_actual:newCap})});
-        const fresh=await q('socios?order=nombre');
-        const total=fresh.reduce((s,x)=>s+(x.capital_actual||0),0);
-        await Promise.all(fresh.map(x=>q('socios?nombre=eq.'+encodeURIComponent(x.nombre),{method:'PATCH',body:JSON.stringify({porcentaje_actual:total>0?+(x.capital_actual/total*100).toFixed(4):0})})));
+        // Actualizar capital del socio y recalcular porcentajes en paralelo
+        const tempSocios=socios.map(x=>x.nombre===socio?{...x,capital_actual:newCap}:x);
+        const total=tempSocios.reduce((acc,x)=>acc+(x.capital_actual||0),0);
+        await Promise.all(tempSocios.map(x=>{
+          const patch=x.nombre===socio
+            ?{capital_actual:newCap,porcentaje_actual:total>0?+(newCap/total*100).toFixed(4):0}
+            :{porcentaje_actual:total>0?+(x.capital_actual/total*100).toFixed(4):0};
+          return q('socios?nombre=eq.'+encodeURIComponent(x.nombre),{method:'PATCH',body:JSON.stringify(patch)});
+        }));
       }
     }
     document.getElementById('aport-overlay').classList.remove('open');
     await loadAll();
     showToast('✅ '+tipo+' — &pound;'+fmt(Math.abs(importe)));
-  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+  }catch(e){showToast('❌ Error al guardar: '+e.message,true);}
 }
 
 /* ── ADD WATCH ── */
@@ -1450,7 +1468,7 @@ function calcCoste(){
   const f=document.getElementById('add-form');
   const c=['precio_gbp','gastos_envio_gbp','reparacion_gbp','gastos_forwarder_gbp']
     .reduce((s,n)=>s+(parseFloat(f.querySelector('[name='+n+']')?.value)||0),0);
-  document.getElementById('coste-preview').textContent='&pound;'+fmt(c);
+  document.getElementById('coste-preview').textContent='£'+fmt(c);
 }
 function checkPct(){
   const f=document.getElementById('add-form');
@@ -1488,6 +1506,9 @@ async function addWatch(e){
     cuenta:d.cuenta||'Carlos',
     notas:d.notas||null
   };
+  // Auto-transición: Comprado → Forwarded si hay coste de forwarder
+  if(body.estado==='activo'&&fwd>0) body.estado='forwarded';
+  showSaving();
   try{
     await qPost('operaciones',body);
     await loadAll();
@@ -1497,9 +1518,9 @@ async function addWatch(e){
       const el=e.target.querySelector('[name='+n+']');
       if(el) el.value=i===0?100:0;
     });
-    document.getElementById('coste-preview').textContent='&pound;0';
+    document.getElementById('coste-preview').textContent='£0';
     showView('stock',document.querySelectorAll('nav button')[1]);
-  }catch(er){showToast('❌ '+er.message.substring(0,60));}
+  }catch(er){showToast('❌ Error al guardar: '+er.message,true);}
   btn.textContent='Añadir reloj';btn.disabled=false;
 }
 
@@ -1589,7 +1610,7 @@ function loadEditForm(id){
         </div>
         <div class="form-group"><label>Estado</label>
           <select id="ef-estado" onchange="onEditEstadoChange(${id})">
-            ${[['activo','Comprado'],['publicado','Publicado'],['devuelto','Devuelto'],['vendido','Vendido']].map(([v,l])=>`<option value="${v}"${o.estado===v?' selected':''}>${l}</option>`).join('')}
+            ${[['activo','Comprado'],['forwarded','Forwarded'],['publicado','Publicado'],['devuelto','Devuelto'],['vendido','Vendido']].map(([v,l])=>`<option value="${v}"${o.estado===v?' selected':''}>${l}</option>`).join('')}
           </select>
         </div>
       </div>
@@ -1662,7 +1683,7 @@ function calcEditCoste(){
   const c=['ef-precio','ef-envio','ef-rep','ef-fwd']
     .reduce((s,i)=>s+(parseFloat(document.getElementById(i)?.value)||0),0);
   const el=document.getElementById('ef-coste');
-  if(el) el.textContent='&pound;'+fmt(c);
+  if(el) el.textContent='£'+fmt(c);
 }
 
 async function saveEdit(id){
@@ -1715,15 +1736,18 @@ async function saveEdit(id){
     body={...body,beneficio_neto_gbp:-coste,
       beneficio_carlos:+(-coste*pC).toFixed(2),beneficio_marta:+(-coste*pM).toFixed(2),
       beneficio_dom:+(-coste*pD).toFixed(2)};
+    // Auto-transición: Comprado → Forwarded si hay coste de forwarder
+    if(body.estado==='activo'&&fwd>0) body.estado='forwarded';
   }
 
+  showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     await loadAll();
     showToast('✅ Reloj actualizado');
     document.getElementById('edit-form-wrap').style.display='none';
     renderEditList();
-  }catch(e){showToast('❌ '+e.message.substring(0,60));}
+  }catch(e){showToast('❌ Error al guardar: '+e.message,true);}
 }
 
 /* ── DELETE WATCH ── */
@@ -1753,11 +1777,26 @@ function closeOverlay(id,e){
   if(e.target.id===id) document.getElementById(id).classList.remove('open');
 }
 
-/* ── TOAST ── */
-function showToast(msg){
+/* ── TOAST & SAVING ── */
+let _savingTimer=null;
+function showSaving(){
   const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+  if(_savingTimer){clearTimeout(_savingTimer);_savingTimer=null;}
+  t.innerHTML='<span style="opacity:.7">⏳</span> Guardando...';
+  t.style.borderColor='var(--gold)';
+  t.classList.add('show');
+}
+function hideSaving(){
+  const t=document.getElementById('toast');
+  t.style.borderColor='';
+  t.classList.remove('show');
+}
+function showToast(msg,isError){
+  const t=document.getElementById('toast');
+  if(_savingTimer) clearTimeout(_savingTimer);
+  t.style.borderColor=isError?'var(--red)':'';
+  t.innerHTML=msg;t.classList.add('show');
+  _savingTimer=setTimeout(()=>{t.classList.remove('show');t.style.borderColor='';},3500);
 }
 
 /* ── INIT ── */
