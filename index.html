@@ -314,15 +314,15 @@
           <div class="form-row-3">
             <div class="form-group">
               <label>Carlos</label>
-              <input type="number" name="pct_carlos" step="1" min="0" max="100" value="100" oninput="checkPct()">
+              <input type="number" name="pct_carlos" step="0.01" min="0" max="100" value="100" oninput="checkPct()">
             </div>
             <div class="form-group">
               <label>Marta</label>
-              <input type="number" name="pct_marta" step="1" min="0" max="100" value="0" oninput="checkPct()">
+              <input type="number" name="pct_marta" step="0.01" min="0" max="100" value="0" oninput="checkPct()">
             </div>
             <div class="form-group">
               <label>Dom</label>
-              <input type="number" name="pct_dom" step="1" min="0" max="100" value="0" oninput="checkPct()">
+              <input type="number" name="pct_dom" step="0.01" min="0" max="100" value="0" oninput="checkPct()">
             </div>
           </div>
           <div id="pct-warn" style="font-size:11px;color:var(--red);display:none">⚠ Los % deben sumar 100</div>
@@ -476,9 +476,9 @@ function fillCurrentPcts(){
   if(!capTotal||!socios.length) return;
   const get=n=>socios.find(s=>s.nombre===n);
   const pC=get('Carlos'),pM=get('Marta'),pD=get('Dom');
-  const pc=pC?Math.round(pC.capital_actual/capTotal*100):0;
-  const pm=pM?Math.round(pM.capital_actual/capTotal*100):0;
-  const pd=pD?Math.round(pD.capital_actual/capTotal*100):0;
+  const pc=pC?+((pC.capital_actual/capTotal)*100).toFixed(2):0;
+  const pm=pM?+((pM.capital_actual/capTotal)*100).toFixed(2):0;
+  const pd=pD?+((pD.capital_actual/capTotal)*100).toFixed(2):0;
   const f=document.getElementById('add-form');
   if(!f) return;
   ['pct_carlos','pct_marta','pct_dom'].forEach((n,i)=>{
@@ -1748,13 +1748,13 @@ function loadEditForm(id){
     <div class="card">
       <div class="form-row-3">
         <div class="form-group"><label>Carlos</label>
-          <input type="number" id="ef-pc" step="1" min="0" max="100" value="${Math.round((o.pct_carlos||0)*100)}">
+          <input type="number" id="ef-pc" step="0.01" min="0" max="100" value="${+((o.pct_carlos||0)*100).toFixed(2)}">
         </div>
         <div class="form-group"><label>Marta</label>
-          <input type="number" id="ef-pm" step="1" min="0" max="100" value="${Math.round((o.pct_marta||0)*100)}">
+          <input type="number" id="ef-pm" step="0.01" min="0" max="100" value="${+((o.pct_marta||0)*100).toFixed(2)}">
         </div>
         <div class="form-group"><label>Dom</label>
-          <input type="number" id="ef-pd" step="1" min="0" max="100" value="${Math.round((o.pct_dom||0)*100)}">
+          <input type="number" id="ef-pd" step="0.01" min="0" max="100" value="${+((o.pct_dom||0)*100).toFixed(2)}">
         </div>
       </div>
     </div>
