@@ -1230,7 +1230,10 @@ async function confirmSell(id){
   showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
-    if(precio!=null) await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
+    if(precio!=null){
+      await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
+      await crearMovimientosCierre({Carlos:body.beneficio_carlos,Marta:body.beneficio_marta,Dom:body.beneficio_dom}, body.fecha_venta, o.modelo);
+    }
     document.getElementById('sell-overlay').classList.remove('open');
     await loadAll();
     showToast(precio!=null?'✅ Venta registrada — &pound;'+fmt(body.beneficio_neto_gbp):'✅ Venta guardada (precio pendiente)');
@@ -1314,6 +1317,7 @@ async function saveEditSale(id){
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
     if(precio!=null&&o.ingreso_neto_gbp==null){
       await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
+      await crearMovimientosCierre({Carlos:body.beneficio_carlos,Marta:body.beneficio_marta,Dom:body.beneficio_dom}, body.fecha_venta||o.fecha_venta, o.modelo);
     }
     document.getElementById('edit-sale-overlay').classList.remove('open');
     await loadAll();
@@ -1387,10 +1391,30 @@ async function confirmDevuelto(id){
   showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
+    await crearMovimientosCierre({Carlos:body.beneficio_carlos,Marta:body.beneficio_marta,Dom:body.beneficio_dom}, fecha, o.modelo);
     document.getElementById('dev-overlay').classList.remove('open');
     await loadAll();
     showToast('↩️ Devolución registrada — &pound;'+fmt(resultado));
   }catch(e){showToast('❌ Error al guardar: '+e.message,true);}
+}
+
+/* ── AUTO-CREAR MOVIMIENTOS al cerrar una operación ──
+   Se llama automáticamente en confirmSell, confirmDevuelto y saveEditSale.
+   Crea un movimiento Beneficio/Pérdida por cada socio con parte no nula. */
+async function crearMovimientosCierre(benMap, fecha, modelo){
+  const entradas=[
+    {socio:'Carlos', importe: Math.round(benMap.Carlos||0)},
+    {socio:'Marta',  importe: Math.round(benMap.Marta ||0)},
+    {socio:'Dom',    importe: Math.round(benMap.Dom   ||0)},
+  ].filter(e=>Math.abs(e.importe)>=1);
+  if(!entradas.length) return;
+  await Promise.all(entradas.map(e=>qPost('movimientos',{
+    fecha: fecha||today(),
+    tipo: e.importe>=0?'Beneficio':'Pérdida',
+    socio: e.socio,
+    importe: e.importe,
+    notas: (modelo||'').substring(0,80)
+  })));
 }
 
 /* ── updateSociosCapital ── */
