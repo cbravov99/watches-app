@@ -726,16 +726,18 @@ function renderStats(){
   });
   const maxRange=Math.max(...rangeData.map(r=>r.count),1);
 
-  // 2. ROI por plataforma compra
-  const platCompraMap={};
+  // 2. Beneficio por marca
+  const marcaMap={};
   vendidos.forEach(o=>{
-    const p=o.plataforma_compra||'Otro';
-    if(!platCompraMap[p]) platCompraMap[p]={n:0,roi:0,ben:0};
-    platCompraMap[p].n++;
-    platCompraMap[p].roi+=(o.roi_pct||0);
-    platCompraMap[p].ben+=(o.beneficio_neto_gbp||0);
+    const words=(o.modelo||'').trim().split(/\s+/);
+    let marca=words[0]||'Otro';
+    if(marca.toLowerCase()==='grand'&&words[1]) marca='Grand '+words[1];
+    if(!marcaMap[marca]) marcaMap[marca]={n:0,roi:0,ben:0};
+    marcaMap[marca].n++;
+    marcaMap[marca].roi+=(o.roi_pct||0);
+    marcaMap[marca].ben+=(o.beneficio_neto_gbp||0);
   });
-  const platCompraRows=Object.entries(platCompraMap).sort((a,b)=>b[1].ben-a[1].ben);
+  const marcaRows=Object.entries(marcaMap).sort((a,b)=>b[1].ben-a[1].ben);
 
   // 3. Beneficio por mes — años disponibles
   const benAnios=[...new Set(vendidos.filter(o=>o.fecha_venta).map(o=>parseInt(o.fecha_venta.substring(0,4))))].sort().reverse();
@@ -745,13 +747,17 @@ function renderStats(){
 
   // 5. Velocidad venta por plataforma (normalizada)
   function normPlatVenta(p){
-    const s=(p||'').toLowerCase().replace(/\s+/g,' ').trim();
-    if(s.includes('chrono24')) return 'Chrono24';
-    if(s.includes('ebay')||s.includes('ivey')) return 'eBay';
-    if(s.includes('vinted')) return 'Vinted';
-    if(s.includes('catawiki')) return 'Catawiki';
-    if(s.includes('reddit')) return 'Reddit';
-    return p||'Otro';
+    const s=(p||'').trim();
+    const l=s.toLowerCase();
+    let plat='';
+    if(l.includes('chrono24')) plat='Chrono24';
+    else if(l.includes('ebay')||l.includes('ivey')) plat='eBay';
+    else if(l.includes('vinted')) plat='Vinted';
+    else if(l.includes('catawiki')) plat='Catawiki';
+    else if(l.includes('reddit')) plat='Reddit';
+    else return s||'Otro';
+    const cuenta=l.includes('carlos')?' Carlos':l.includes('marta')?' Marta':'';
+    return plat+cuenta;
   }
   const platVentaMap={};
   vendidos.filter(o=>o.dias_posesion!=null).forEach(o=>{
@@ -801,23 +807,23 @@ function renderStats(){
       </div>
     </div>
 
-    <!-- ROI por plataforma compra -->
-    <div class="stat-card" id="sc-platcompra">
-      <div class="stat-card-header" onclick="toggleStat('sc-platcompra')">
-        <div><div class="stat-card-title">ROI por plataforma de compra</div><div class="stat-card-value">${platCompraRows.length} plat.</div></div>
+    <!-- Beneficio por marca -->
+    <div class="stat-card" id="sc-marca">
+      <div class="stat-card-header" onclick="toggleStat('sc-marca')">
+        <div><div class="stat-card-title">Beneficio por marca</div><div class="stat-card-value">${marcaRows.length} marcas</div></div>
         <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="stat-card-body">
         <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:4px 10px;font-size:11px;margin-top:8px">
-          <span style="color:var(--text2);font-weight:700">Plataforma</span>
+          <span style="color:var(--text2);font-weight:700">Marca</span>
           <span style="color:var(--text2);font-weight:700;text-align:center">Ops</span>
           <span style="color:var(--text2);font-weight:700;text-align:right">ROI med.</span>
           <span style="color:var(--text2);font-weight:700;text-align:right">Ben.</span>
-          ${platCompraRows.map(([p,v])=>`
-            <span>${p}</span>
+          ${marcaRows.map(([m,v])=>`
+            <span>${m}</span>
             <span style="text-align:center;color:var(--gold2)">${v.n}</span>
             <span style="text-align:right;color:var(--green)">${formatPct(v.roi/v.n)}</span>
-            <span style="text-align:right;color:var(--text)">&pound;${fmt(v.ben)}</span>`).join('')}
+            <span style="text-align:right" class="${profCls(v.ben)}">&pound;${fmt(v.ben)}</span>`).join('')}
         </div>
       </div>
     </div>
