@@ -397,6 +397,9 @@
 </div>
 
 <!-- APORTACIÓN MODAL -->
+<div class="modal-overlay" id="gasto-overlay" onclick="closeOverlay('gasto-overlay',event)">
+  <div class="modal"><div id="gasto-content"></div></div>
+</div>
 <div class="modal-overlay" id="aport-overlay" onclick="closeOverlay('aport-overlay',event)">
   <div class="modal" id="aport-content"></div>
 </div>
@@ -738,22 +741,21 @@ function renderStats(){
   const benAnios=[...new Set(vendidos.filter(o=>o.fecha_venta).map(o=>parseInt(o.fecha_venta.substring(0,4))))].sort().reverse();
   if(benAnios.length&&!benAnios.includes(benMesYear)) benMesYear=benAnios[0];
 
-  // 4. Top 5 modelos rentables
-  const modelMap={};
-  vendidos.forEach(o=>{
-    const m=o.modelo||'Desconocido';
-    if(!modelMap[m]) modelMap[m]={n:0,ben:0,roi:0};
-    modelMap[m].n++;
-    modelMap[m].ben+=(o.beneficio_neto_gbp||0);
-    modelMap[m].roi+=(o.roi_pct||0);
-  });
-  const top5=Object.entries(modelMap).sort((a,b)=>b[1].ben-a[1].ben).slice(0,5);
-  const maxTop=Math.max(...top5.map(([,v])=>v.ben),1);
+  // 4. (eliminado: Top 5 modelos — títulos no son homogéneos)
 
-  // 5. Velocidad venta por plataforma+cuenta
+  // 5. Velocidad venta por plataforma (normalizada)
+  function normPlatVenta(p){
+    const s=(p||'').toLowerCase().replace(/\s+/g,' ').trim();
+    if(s.includes('chrono24')) return 'Chrono24';
+    if(s.includes('ebay')||s.includes('ivey')) return 'eBay';
+    if(s.includes('vinted')) return 'Vinted';
+    if(s.includes('catawiki')) return 'Catawiki';
+    if(s.includes('reddit')) return 'Reddit';
+    return p||'Otro';
+  }
   const platVentaMap={};
   vendidos.filter(o=>o.dias_posesion!=null).forEach(o=>{
-    const p=o.plataforma_venta||'Otro';
+    const p=normPlatVenta(o.plataforma_venta);
     if(!platVentaMap[p]) platVentaMap[p]={n:0,dias:0,ben:0};
     platVentaMap[p].n++;
     platVentaMap[p].dias+=(o.dias_posesion||0);
@@ -831,25 +833,6 @@ function renderStats(){
           ${benAnios.map(y=>`<button onclick="setBenMesYear(${y})" id="bmy-${y}" style="padding:4px 12px;border-radius:16px;border:1px solid ${y===benMesYear?'var(--gold)':'var(--border)'};background:${y===benMesYear?'var(--gold)':'transparent'};color:${y===benMesYear?'#000':'var(--text2)'};font-size:12px;font-weight:600;cursor:pointer">${y}</button>`).join('')}
         </div>
         <div class="bar-chart" id="ben-mes-chart"></div>
-      </div>
-    </div>
-
-    <!-- Top 5 modelos -->
-    <div class="stat-card" id="sc-top5">
-      <div class="stat-card-header" onclick="toggleStat('sc-top5')">
-        <div><div class="stat-card-title">Top 5 modelos rentables</div><div class="stat-card-value">${top5.length>0?top5[0][0].substring(0,18):'—'}</div></div>
-        <svg class="stat-card-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-      </div>
-      <div class="stat-card-body">
-        ${top5.map(([m,v],i)=>`
-          <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-              <span style="font-size:12px;font-weight:600">${i+1}. ${m.substring(0,32)}</span>
-              <span class="p-pos" style="font-size:12px">&pound;${fmt(v.ben)}</span>
-            </div>
-            <div class="bar-track" style="height:8px"><div class="bar-fill" style="width:${Math.round(v.ben/maxTop*100)}%"></div></div>
-            <div style="font-size:10px;color:var(--text2);margin-top:3px">${v.n} venta${v.n!==1?'s':''} · ROI med. ${formatPct(v.roi/v.n)}</div>
-          </div>`).join('')}
       </div>
     </div>
 
@@ -1017,8 +1000,9 @@ function renderSocios(){
         </div>`:''}
       </div>`;
     }).join('')}
-    <div style="margin:16px 0 10px">
+    <div style="margin:16px 0 10px;display:flex;flex-direction:column;gap:10px">
       <button class="btn btn-gold" onclick="openAportacionModal()">+ Nueva aportación / retirada</button>
+      <button class="btn btn-outline" onclick="openGastoModal()">💸 Registrar gasto compartido</button>
     </div>`;
 }
 
@@ -1438,6 +1422,89 @@ async function updateSociosCapital(benMap){
 }
 
 /* ── Aportación modal ── */
+function openGastoModal(){
+  const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
+  const preview=socios.map(s=>{
+    const pct=capTotal>0?s.capital_actual/capTotal:0;
+    return `${s.nombre} (${formatPct(pct)})`;
+  }).join(' · ');
+  document.getElementById('gasto-content').innerHTML=`
+    <button class="modal-close" onclick="document.getElementById('gasto-overlay').classList.remove('open')">✕</button>
+    <h2>Gasto compartido</h2>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:14px">Se reparte automáticamente según el % de capital actual de cada socio.</p>
+    <div class="form-row">
+      <div class="form-group"><label>Importe total (&pound;)</label>
+        <input type="number" id="g-importe" step="0.01" placeholder="0.00" oninput="previewGasto()">
+      </div>
+      <div class="form-group"><label>Fecha</label>
+        <input type="date" id="g-fecha" value="${today()}">
+      </div>
+    </div>
+    <div class="form-group"><label>Descripción</label>
+      <input type="text" id="g-desc" placeholder="Ej: 4 links Omega Speedmaster">
+    </div>
+    <div id="g-preview" style="font-size:12px;color:var(--text2);margin-bottom:14px">${preview}</div>
+    <button class="btn btn-gold" onclick="saveGasto()">Guardar gasto</button>`;
+  document.getElementById('gasto-overlay').classList.add('open');
+}
+
+function previewGasto(){
+  const total=parseFloat(document.getElementById('g-importe')?.value)||0;
+  const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
+  const prev=document.getElementById('g-preview');
+  if(!prev) return;
+  if(!total){
+    prev.textContent=socios.map(s=>`${s.nombre} (${formatPct(capTotal>0?s.capital_actual/capTotal:0)})`).join(' · ');
+    return;
+  }
+  const parts=socios.map(s=>{
+    const pct=capTotal>0?s.capital_actual/capTotal:1/socios.length;
+    const share=Math.round(total*pct);
+    return `${s.nombre}: -£${fmt(share)}`;
+  });
+  prev.innerHTML=parts.join('<br>');
+}
+
+async function saveGasto(){
+  const total=parseFloat(document.getElementById('g-importe')?.value)||0;
+  const fecha=document.getElementById('g-fecha')?.value;
+  const desc=document.getElementById('g-desc')?.value||'Gasto compartido';
+  if(!total||!fecha){showToast('⚠️ Rellena importe y fecha');return;}
+  const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
+  // Calcular parte de cada socio (proporcional al capital, redondeo al entero más cercano)
+  let shares=socios.map(s=>{
+    const pct=capTotal>0?s.capital_actual/capTotal:1/socios.length;
+    return{socio:s.nombre,share:Math.round(total*pct)};
+  });
+  // Ajuste de redondeo: si la suma difiere del total, ajustar el mayor
+  const sumShares=shares.reduce((a,x)=>a+x.share,0);
+  if(sumShares!==Math.round(total)){
+    shares.sort((a,b)=>b.share-a.share);
+    shares[0].share+=Math.round(total)-sumShares;
+  }
+  showSaving();
+  try{
+    // Crear Pérdida en movimientos + actualizar capital y beneficio de cada socio
+    await Promise.all(shares.map(({socio,share})=>
+      qPost('movimientos',{fecha,tipo:'Pérdida',socio,importe:-share,notas:desc})
+    ));
+    await Promise.all(shares.map(({socio,share})=>{
+      const s=socios.find(x=>x.nombre===socio);
+      if(!s) return Promise.resolve();
+      return q('socios?nombre=eq.'+encodeURIComponent(socio),{
+        method:'PATCH',
+        body:JSON.stringify({
+          capital_actual:+(s.capital_actual-share).toFixed(2),
+          beneficio_total:+(s.beneficio_total-share).toFixed(2)
+        })
+      });
+    }));
+    document.getElementById('gasto-overlay').classList.remove('open');
+    await loadAll();
+    showToast('✅ Gasto registrado — £'+fmt(total));
+  }catch(e){showToast('❌ Error: '+e.message,true);}
+}
+
 function openAportacionModal(){
   document.getElementById('aport-content').innerHTML=`
     <button class="modal-close" onclick="document.getElementById('aport-overlay').classList.remove('open')">✕</button>
