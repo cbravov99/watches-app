@@ -1179,8 +1179,9 @@ function renderSellForm(id){
       <label>Plataforma venta</label>
       <select id="sell-plataforma">
         <option value="">— Seleccionar —</option>
-        <option>Chrono24</option><option>eBay</option><option>Vinted</option>
-        <option>Catawiki</option><option>Reddit</option><option>Otro</option>
+        <option>Chrono24 Carlos</option><option>Chrono24 Marta</option>
+        <option>eBay Carlos</option><option>eBay Marta</option>
+        <option>Vinted</option><option>Catawiki</option><option>Reddit</option><option>Otro</option>
       </select>
     </div>
     <div id="ben-preview" style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:14px;display:none">
@@ -1260,7 +1261,7 @@ function openEditSaleModal(id,evt){
       <label>Plataforma venta</label>
       <select id="es-plataforma">
         <option value="">— Seleccionar —</option>
-        ${['Chrono24','eBay','Vinted','Catawiki','Reddit','Otro'].map(p=>`<option${(o.plataforma_venta||'')===p?' selected':''}>${p}</option>`).join('')}
+        ${['Chrono24 Carlos','Chrono24 Marta','eBay Carlos','eBay Marta','Vinted','Catawiki','Reddit','Otro'].map(p=>`<option${(o.plataforma_venta||'')===p?' selected':''}>${p}</option>`).join('')}
       </select>
     </div>
     <div id="es-ben-preview" style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:14px;${o.ingreso_neto_gbp!=null?'':'display:none'}">
@@ -1386,6 +1387,7 @@ async function confirmDevuelto(id){
   showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
+    await updateSociosCapital({Carlos:body.beneficio_carlos,Marta:body.beneficio_marta,Dom:body.beneficio_dom});
     await crearMovimientosCierre({Carlos:body.beneficio_carlos,Marta:body.beneficio_marta,Dom:body.beneficio_dom}, fecha, o.modelo);
     document.getElementById('dev-overlay').classList.remove('open');
     await loadAll();
@@ -1619,10 +1621,8 @@ async function addWatch(e){
     await loadAll();
     showToast('✅ Reloj añadido');
     e.target.reset();
-    ['pct_carlos','pct_marta','pct_dom'].forEach((n,i)=>{
-      const el=e.target.querySelector('[name='+n+']');
-      if(el) el.value=i===0?100:0;
-    });
+    // Resetear % a los valores actuales de socios (no a 100/0/0)
+    updateAddFormDefaults();
     document.getElementById('coste-preview').textContent='£0';
     showView('stock',document.querySelectorAll('nav button')[1]);
   }catch(er){showToast('❌ Error al guardar: '+er.message,true);}
@@ -1734,7 +1734,7 @@ function loadEditForm(id){
         </div>
         <div class="form-group"><label>Plataforma venta</label>
           <select id="ef-platventa">
-            ${['','Chrono24','eBay','Vinted','Catawiki','Reddit','Otro'].map(p=>`<option${(o.plataforma_venta||'')===p?' selected':''}>${p}</option>`).join('')}
+            ${['','Chrono24 Carlos','Chrono24 Marta','eBay Carlos','eBay Marta','Vinted','Catawiki','Reddit','Otro'].map(p=>`<option${(o.plataforma_venta||'')===p?' selected':''}>${p}</option>`).join('')}
           </select>
         </div>
       </div>
@@ -1872,9 +1872,33 @@ async function deleteMov(id,evt){
   if(!confirm('¿Eliminar este movimiento?')) return;
   try{
     await q('movimientos?id=eq.'+id,{method:'DELETE'});
+    // Recalcular capital y beneficio de socios desde movimientos
+    await recalcSociosFromMovs();
     await loadAll();
     showToast('🗑️ Movimiento eliminado');
   }catch(e){showToast('❌ '+e.message.substring(0,60));}
+}
+
+async function recalcSociosFromMovs(){
+  const allMovs=await q('movimientos?order=fecha');
+  const tots={Carlos:{cap:0,ben:0},Marta:{cap:0,ben:0},Dom:{cap:0,ben:0}};
+  allMovs.forEach(m=>{
+    if(!tots[m.socio]) return;
+    if(m.tipo==='Aportación') tots[m.socio].cap+=m.importe;
+    else if(m.tipo==='Retirada') tots[m.socio].cap+=m.importe; // negativo
+    else if(m.tipo==='Beneficio'||m.tipo==='Pérdida'){
+      tots[m.socio].cap+=m.importe;
+      tots[m.socio].ben+=m.importe;
+    }
+  });
+  const total=Object.values(tots).reduce((s,v)=>s+v.cap,0);
+  await Promise.all(Object.entries(tots).map(([nombre,v])=>
+    q('socios?nombre=eq.'+encodeURIComponent(nombre),{method:'PATCH',body:JSON.stringify({
+      capital_actual:+v.cap.toFixed(2),
+      beneficio_total:+v.ben.toFixed(2),
+      porcentaje_actual:total>0?+(v.cap/total).toFixed(6):0
+    })})
+  ));
 }
 
 /* ── MODAL CLOSE ── */
