@@ -545,9 +545,11 @@ function renderDash(){
   const cerradas=[...vendidos,...devueltosConIngreso];
   const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const capitalRiesgo=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
+  const capitalDevuelto=devueltos.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const benTotal=socios.reduce((s,o)=>s+(o.beneficio_total||0),0);
   const avgROI=vendidos.length?vendidos.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidos.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
+  const capCash=capTotal-capitalRiesgo-capitalDevuelto;
   const recientes=ops.slice(0,5);
   const compradoFwdTotal=comprados.length+forwarded.length;
 
@@ -555,13 +557,14 @@ function renderDash(){
     <div class="stats">
       <div class="stat"><div class="lbl">Comprado</div><div class="val">${compradoFwdTotal}</div><div class="sub">${comprados.length} comprados · ${forwarded.length} forwarded</div></div>
       <div class="stat"><div class="lbl">Publicado</div><div class="val">${listados.length}</div><div class="sub">publicados</div></div>
-      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprado+fwd+listado</div></div>
+      <div class="stat"><div class="lbl">Capital en relojes</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">activo+fwd+pub · dev £${fmt(capitalDevuelto)}</div></div>
       <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">&pound;${fmt(benTotal)}</div><div class="sub">ROI medio ${formatPct(avgROI)}</div></div>
     </div>
     <div class="card" style="margin-bottom:14px">
       <div class="sec-title" style="margin-bottom:8px">Capital total</div>
       <div style="font-size:26px;font-weight:800;color:var(--gold2)">&pound;${fmt(capTotal)}</div>
-      <div style="font-size:11px;color:var(--text2);margin-top:3px">${socios.map(s=>`${s.nombre} ${formatPct(s.porcentaje_actual)}`).join(' · ')}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:3px">${socios.map(s=>`${s.nombre} ${formatPct(capTotal>0?s.capital_actual/capTotal:0)}`).join(' · ')}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:4px">Activo £${fmt(capitalRiesgo)} · Dev £${fmt(capitalDevuelto)} · Caja £${fmt(capCash)}</div>
     </div>
     <p class="sec-title">Actividad reciente</p>
     ${recientes.map(o=>`
