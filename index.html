@@ -542,7 +542,7 @@ function renderDash(){
   const cerradas=[...vendidos,...devueltosConIngreso];
   const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const capitalRiesgo=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  const benTotal=cerradas.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
+  const benTotal=socios.reduce((s,o)=>s+(o.beneficio_total||0),0);
   const avgROI=vendidos.length?vendidos.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidos.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   const recientes=ops.slice(0,5);
@@ -669,7 +669,7 @@ function renderVentas(){
   if(mesF) v=v.filter(o=>(o.fecha_venta||'').startsWith(mesF));
   if(platF) v=v.filter(o=>o.plataforma_venta===platF);
   const vConPrecio=v.filter(o=>o.ingreso_neto_gbp);
-  const totBen=vConPrecio.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
+  const totBen=socios.reduce((s,o)=>s+(o.beneficio_total||0),0);
   const totIng=vConPrecio.reduce((s,o)=>s+(o.ingreso_neto_gbp||0),0);
   const avgRoi=vConPrecio.length?vConPrecio.reduce((s,o)=>s+(o.roi_pct||0),0)/vConPrecio.length:0;
   const avgDias=vConPrecio.filter(o=>o.dias_posesion!=null).length
