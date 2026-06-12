@@ -976,7 +976,7 @@ function renderSocios(){
       const roi=ap>0?ben/ap:0;
       const noReal=benNoReal[s.nombre]||0;
       // Movimientos de este socio
-      const misMovs=movs.filter(m=>m.socio===s.nombre).slice(0,8);
+      const misMovs=movs.filter(m=>m.socio===s.nombre); // sin límite — ver todos
       const socioMovsId='sm-'+s.nombre;
       return `
       <div class="socio-card">
