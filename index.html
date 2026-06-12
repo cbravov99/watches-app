@@ -542,7 +542,7 @@ function renderDash(){
   const cerradas=[...vendidos,...devueltosConIngreso];
   const totalInv=enstock.reduce((s,o)=>s+(o.coste_total_gbp||0),0);
   const capitalRiesgo=ops.filter(o=>['activo','forwarded','publicado'].includes(o.estado)).reduce((s,o)=>s+(o.coste_total_gbp||0),0);
-  const benTotal=movs.reduce((s,m)=>s+((m.tipo==='Beneficio'||m.tipo==='Pérdida')?(m.importe||0):0),0);
+  const benTotal=cerradas.reduce((s,o)=>s+(o.beneficio_neto_gbp||0),0);
   const avgROI=vendidos.length?vendidos.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidos.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   const recientes=ops.slice(0,5);
