@@ -957,10 +957,14 @@ function renderSocios(){
   });
 
   const aport={Carlos:0,Marta:0,Dom:0};
+  const benMovs={Carlos:0,Marta:0,Dom:0};
   movs.forEach(m=>{
     if(aport.hasOwnProperty(m.socio)){
       if(m.tipo==='Aportación') aport[m.socio]+=(m.importe||0);
       if(m.tipo==='Retirada') aport[m.socio]-=Math.abs(m.importe||0);
+    }
+    if(benMovs.hasOwnProperty(m.socio)){
+      if(m.tipo==='Beneficio'||m.tipo==='Pérdida') benMovs[m.socio]+=(m.importe||0);
     }
   });
 
@@ -971,7 +975,7 @@ function renderSocios(){
     </div>
     ${socios.map(s=>{
       const pctDyn=dynPct(s);
-      const ben=benOps[s.nombre]||0; // siempre calculado desde operaciones
+      const ben=benMovs[s.nombre]||0; // calculado desde movimientos (incluye ajustes manuales)
       const ap=aport[s.nombre]||0;
       const roi=ap>0?ben/ap:0;
       const noReal=benNoReal[s.nombre]||0;
