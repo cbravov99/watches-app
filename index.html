@@ -1622,7 +1622,7 @@ async function addWatch(e){
     showToast('✅ Reloj añadido');
     e.target.reset();
     // Resetear % a los valores actuales de socios (no a 100/0/0)
-    updateAddFormDefaults();
+    fillCurrentPcts();
     document.getElementById('coste-preview').textContent='£0';
     showView('stock',document.querySelectorAll('nav button')[1]);
   }catch(er){showToast('❌ Error al guardar: '+er.message,true);}
