@@ -542,6 +542,7 @@ function renderDash(){
   const enstock=ops.filter(o=>['activo','forwarded','recibido','publicado','devuelto'].includes(o.estado));
   const comprados=ops.filter(o=>o.estado==='activo');
   const forwarded=ops.filter(o=>o.estado==='forwarded');
+  const recibidosDash=ops.filter(o=>o.estado==='recibido');
   const listados=ops.filter(o=>o.estado==='publicado');
 
   const devueltos=ops.filter(o=>o.estado==='devuelto');
@@ -554,13 +555,18 @@ function renderDash(){
   const avgROI=vendidos.length?vendidos.reduce((s,o)=>s+(o.roi_pct||0),0)/vendidos.length:0;
   const capTotal=socios.reduce((s,o)=>s+(o.capital_actual||0),0);
   const recientes=ops.slice(0,5);
-  const compradoFwdTotal=comprados.length+forwarded.length;
+  const enTransito=comprados.length+forwarded.length+recibidosDash.length;
+  const subTransito=[
+    comprados.length?`${comprados.length} comprado${comprados.length!==1?'s':''}`:null,
+    forwarded.length?`${forwarded.length} fwd`:null,
+    recibidosDash.length?`${recibidosDash.length} recibido${recibidosDash.length!==1?'s':''}`:null
+  ].filter(Boolean).join(' · ');
 
   document.getElementById('dash-content').innerHTML=`
     <div class="stats">
-      <div class="stat"><div class="lbl">Comprado</div><div class="val">${compradoFwdTotal}</div><div class="sub">${comprados.length} comprados · ${forwarded.length} forwarded</div></div>
+      <div class="stat"><div class="lbl">En tránsito</div><div class="val">${enTransito}</div><div class="sub">${subTransito||'ninguno'}</div></div>
       <div class="stat"><div class="lbl">Publicado</div><div class="val">${listados.length}</div><div class="sub">publicados</div></div>
-      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">comprado+fwd+recibido+pub</div></div>
+      <div class="stat"><div class="lbl">Capital en riesgo</div><div class="val">&pound;${fmt(capitalRiesgo)}</div><div class="sub">${enTransito+listados.length} relojes</div></div>
       <div class="stat"><div class="lbl">Beneficio</div><div class="val ${profCls(benTotal)}">&pound;${fmt(benTotal)}</div><div class="sub">ROI medio ${formatPct(avgROI)}</div></div>
     </div>
     <div class="card" style="margin-bottom:14px">
