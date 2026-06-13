@@ -1872,6 +1872,13 @@ async function saveEdit(id){
   showSaving();
   try{
     await q('operaciones?id=eq.'+id,{method:'PATCH',body:JSON.stringify(body)});
+    // Si se está marcando como vendido o devuelto por primera vez, actualizar socios
+    const wasOpen = !['vendido','devuelto'].includes(o.estado);
+    const nowClosed = ['vendido','devuelto'].includes(estado);
+    if(wasOpen && nowClosed && body.beneficio_carlos!=null){
+      await updateSociosCapital({Carlos:body.beneficio_carlos||0,Marta:body.beneficio_marta||0,Dom:body.beneficio_dom||0});
+      await crearMovimientosCierre({Carlos:body.beneficio_carlos,Marta:body.beneficio_marta,Dom:body.beneficio_dom}, body.fecha_venta||body.fecha_compra, body.modelo||o.modelo);
+    }
     await loadAll();
     showToast('✅ Reloj actualizado');
     document.getElementById('edit-form-wrap').style.display='none';
